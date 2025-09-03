@@ -4,6 +4,8 @@ import java.util.Scanner;
 import service.ArquivoUsuario;
 import service.ArquivoLista;
 import model.*;
+import arvore.*;
+import arvore.aed3.ArvoreBMais;
 
 
 
@@ -13,6 +15,8 @@ public class Main {
 	// Definir dados
 	private static ArquivoUsuario arqUsuario;
 	private static ArquivoLista arqLista;
+	static ArvoreBMais<ParUsuarioLista> tree;
+
 
     
 	public static void main(String[] args) throws Exception {
@@ -61,7 +65,7 @@ public class Main {
 
 	                usuarioLogado = arqUsuario.read(email);
 	                if (usuarioLogado != null && usuarioLogado.hashSenha == hashSenha) {
-	                    System.out.println("Usuário logado: " + usuarioLogado.nome);
+	                    System.out.println("Usuário logado: " + usuarioLogado.nome + "e id: " + usuarioLogado.id);
 	                } else {
 	                    System.out.println("Usuário ou senha inválidos.");
 	                }
@@ -89,8 +93,12 @@ public class Main {
 	                Lista lista = new Lista(0, idUsuario, nome, descricao, dataCriacao, dataLimite, codigoCompartilhavel);
 	                		
 	                int id = arqLista.create(lista);
+					tree.create(new ParUsuarioLista(usuarioLogado.getId(), lista.getId()));
+					
 	                
 	                System.out.println("Lista de numero " + id + " criada pelo usuario " + usuarioLogado.getEmail());
+
+					//tree.read(new ParUsuarioLista(usuarioLogado.getId(), lista.getId()));
 	                
 	            }
 
