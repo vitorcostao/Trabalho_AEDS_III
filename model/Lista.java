@@ -5,18 +5,15 @@ import java.io.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-/**
- * Classe para representar listas de presentes
- */
 public class Lista implements Entidade {
 
-    public int id;
-    public int idUsuario; // ID do usuário dono da lista
-    public String nome;
-    public String descricao;
-    public String dataCriacao;  
-    public String dataLimite;   
-    public String codigoCompartilhavel;
+    private int id;
+    private int idUsuario;
+    private String nome;
+    private String descricao;
+    private String dataCriacao;  
+    private String dataLimite;   
+    private String codigoCompartilhavel;
 
     public Lista() {
         this.id = -1;
@@ -46,6 +43,54 @@ public class Lista implements Entidade {
     @Override
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(int idUsuario) {
+        this.idUsuario = idUsuario;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public String getDataCriacao() {
+        return dataCriacao;
+    }
+
+    public void setDataCriacao(String dataCriacao) {
+        this.dataCriacao = dataCriacao;
+    }
+
+    public String getDataLimite() {
+        return dataLimite;
+    }
+
+    public void setDataLimite(String dataLimite) {
+        this.dataLimite = dataLimite;
+    }
+
+    public String getCodigoCompartilhavel() {
+        return codigoCompartilhavel;
+    }
+
+    public void setCodigoCompartilhavel(String codigoCompartilhavel) {
+        this.codigoCompartilhavel = codigoCompartilhavel;
     }
 
     @Override

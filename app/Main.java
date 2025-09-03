@@ -18,7 +18,8 @@ public class Main {
 	public static void main(String[] args) throws Exception {
 	    arqUsuario = new ArquivoUsuario();
 	    arqLista = new ArquivoLista();
-	    Usuario usuarioLogado;
+	    
+	    Usuario usuarioLogado = null;
 
 	    Scanner sc = new Scanner(System.in);
 	    char opcao;
@@ -27,6 +28,7 @@ public class Main {
 	        System.out.println("\nEscolha uma opção:");
 	        System.out.println("1 - Criar usuário");
 	        System.out.println("2 - Simular login");
+	        System.out.println("3 - Criar Lista");
 	        System.out.println("S - Sair");
 	        opcao = sc.nextLine().charAt(0);
 
@@ -60,25 +62,36 @@ public class Main {
 	                usuarioLogado = arqUsuario.read(email);
 	                if (usuarioLogado != null && usuarioLogado.hashSenha == hashSenha) {
 	                    System.out.println("Usuário logado: " + usuarioLogado.nome);
-
-	                    // Cadastrar lista para o usuário logado
-	                    System.out.print("Digite o nome da lista: ");
-	                    String nomeLista = sc.nextLine();
-	                    System.out.print("Digite a descrição da lista: ");
-	                    String descricao = sc.nextLine();
-	                    System.out.print("Digite a data de início (AAAA-MM-DD): ");
-	                    String dataInicio = sc.nextLine();
-	                    System.out.print("Digite a data de término (AAAA-MM-DD): ");
-	                    String dataFim = sc.nextLine();
-	                    System.out.print("Digite o código da lista: ");
-	                    String codigo = sc.nextLine();
-
-	                    Lista lista = new Lista(0, usuarioLogado.getId(), nomeLista, descricao, dataInicio, dataFim, codigo);
-	                    int idLista = arqLista.create(lista, usuarioLogado);
-	                    System.out.println("Lista criada com ID: " + idLista);
 	                } else {
 	                    System.out.println("Usuário ou senha inválidos.");
 	                }
+	            }
+	            
+	            case '3' -> {
+	            	
+	                int idUsuario = usuarioLogado.getId();
+
+	                System.out.print("Digite o nome da lista: ");
+	                String nome = sc.nextLine();
+
+	                System.out.print("Digite a descrição da lista: ");
+	                String descricao = sc.nextLine();
+
+	                System.out.print("Digite a data de criação (dd/mm/yyyy): ");
+	                String dataCriacao = sc.nextLine();
+
+	                System.out.print("Digite a data limite (dd/mm/yyyy): ");
+	                String dataLimite = sc.nextLine();
+
+	                System.out.print("Digite o código compartilhável: ");
+	                String codigoCompartilhavel = sc.nextLine();
+	                
+	                Lista lista = new Lista(0, idUsuario, nome, descricao, dataCriacao, dataLimite, codigoCompartilhavel);
+	                		
+	                int id = arqLista.create(lista);
+	                
+	                System.out.println("Lista de numero " + id + " criada pelo usuario " + usuarioLogado.getEmail());
+	                
 	            }
 
 	            case 'S', 's' -> System.out.println("Encerrando programa!");
@@ -89,7 +102,7 @@ public class Main {
 
 	    sc.close();
 	    arqUsuario.close();
-	    arqLista.close();
+	  
 	}
 
 }

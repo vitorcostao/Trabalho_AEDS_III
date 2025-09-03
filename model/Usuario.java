@@ -39,6 +39,18 @@ public class Usuario implements Entidade {
         this.respostaSecreta = respostaSecreta;
     }
 
+    public String getEmail() {
+
+        return this.email;
+    }
+
+    
+    public void setEmail(String email) {
+
+        this.email = email;
+    }
+
+    
     @Override
     public int getId() {
 
@@ -50,7 +62,7 @@ public class Usuario implements Entidade {
 
         this.id = id;
     }
-
+    
     @Override
     public byte[] toByteArray() throws Exception {
 
