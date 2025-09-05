@@ -1,5 +1,6 @@
 package app;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 import service.ArquivoUsuario;
 import service.ArquivoLista;
@@ -22,6 +23,8 @@ public class Main {
 	public static void main(String[] args) throws Exception {
 	    arqUsuario = new ArquivoUsuario();
 	    arqLista = new ArquivoLista();
+
+		tree = new ArvoreBMais<>(ParUsuarioLista.class.getConstructor(), 5, "arvoreBmais.db");
 	    
 	    Usuario usuarioLogado = null;
 
@@ -90,15 +93,19 @@ public class Main {
 	                System.out.print("Digite o código compartilhável: ");
 	                String codigoCompartilhavel = sc.nextLine();
 	                
-	                Lista lista = new Lista(0, idUsuario, nome, descricao, dataCriacao, dataLimite, codigoCompartilhavel);
-	                		
+	                Lista lista = new Lista(5, idUsuario, nome, descricao, dataCriacao, dataLimite, codigoCompartilhavel);
 	                int id = arqLista.create(lista);
-					tree.create(new ParUsuarioLista(usuarioLogado.getId(), lista.getId()));
+					lista.setId(id);
+
+					ParUsuarioLista par = new ParUsuarioLista(usuarioLogado.getId(), lista.getId());
+					tree.create(par);
+
+					System.out.println("Par Usuario: " + par.getIdUsuario() + "e endereço: " + par.getEnderecoLista());
 					
 	                
-	                System.out.println("Lista de numero " + id + " criada pelo usuario " + usuarioLogado.getEmail());
+	                System.out.println("Lista de numero " + lista.getId() + " criada pelo usuario " + usuarioLogado.getEmail());
 
-					//tree.read(new ParUsuarioLista(usuarioLogado.getId(), lista.getId()));
+					tree.print();
 	                
 	            }
 

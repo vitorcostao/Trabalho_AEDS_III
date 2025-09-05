@@ -76,8 +76,7 @@ public class ParUsuarioLista implements RegistroHashExtensivel<ParUsuarioLista>,
 
     @Override
     public int compareTo(ParUsuarioLista obj) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'compareTo'");
+        return Integer.compare(this.idUsuario, obj.idUsuario);
     }
 
     @Override
