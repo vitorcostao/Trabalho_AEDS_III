@@ -1,12 +1,10 @@
 package app;
 
-import java.util.ArrayList;
-import java.util.Scanner;
-import service.ArquivoUsuario;
-import service.ArquivoLista;
-import model.*;
 import arvore.*;
 import arvore.aed3.ArvoreBMais;
+import java.util.Scanner;
+import model.*;
+import service.ArquivoUsuario;
 
 
 
@@ -15,14 +13,14 @@ public class Main {
 	
 	// Definir dados
 	private static ArquivoUsuario arqUsuario;
-	private static ArquivoLista arqLista;
+	//private static ArquivoLista arqLista;
 	static ArvoreBMais<ParUsuarioLista> tree;
 
 
     
 	public static void main(String[] args) throws Exception {
 	    arqUsuario = new ArquivoUsuario();
-	    arqLista = new ArquivoLista();
+	    //arqLista = new ArquivoLista();
 
 		tree = new ArvoreBMais<>(ParUsuarioLista.class.getConstructor(), 5, "arvoreBmais.db");
 	    
@@ -72,41 +70,6 @@ public class Main {
 	                } else {
 	                    System.out.println("Usuário ou senha inválidos.");
 	                }
-	            }
-	            
-	            case '3' -> {
-	            	
-	                int idUsuario = usuarioLogado.getId();
-
-	                System.out.print("Digite o nome da lista: ");
-	                String nome = sc.nextLine();
-
-	                System.out.print("Digite a descrição da lista: ");
-	                String descricao = sc.nextLine();
-
-	                System.out.print("Digite a data de criação (dd/mm/yyyy): ");
-	                String dataCriacao = sc.nextLine();
-
-	                System.out.print("Digite a data limite (dd/mm/yyyy): ");
-	                String dataLimite = sc.nextLine();
-
-	                System.out.print("Digite o código compartilhável: ");
-	                String codigoCompartilhavel = sc.nextLine();
-	                
-	                Lista lista = new Lista(5, idUsuario, nome, descricao, dataCriacao, dataLimite, codigoCompartilhavel);
-	                int id = arqLista.create(lista);
-					lista.setId(id);
-
-					ParUsuarioLista par = new ParUsuarioLista(usuarioLogado.getId(), lista.getId());
-					tree.create(par);
-
-					System.out.println("Par Usuario: " + par.getIdUsuario() + "e endereço: " + par.getEnderecoLista());
-					
-	                
-	                System.out.println("Lista de numero " + lista.getId() + " criada pelo usuario " + usuarioLogado.getEmail());
-
-					tree.print();
-	                
 	            }
 
 	            case 'S', 's' -> System.out.println("Encerrando programa!");
