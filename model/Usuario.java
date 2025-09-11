@@ -12,15 +12,14 @@ import java.io.DataOutputStream;
 public class Usuario implements Entidade {
 
     // Definir dados
-    public int id;
-    public String nome;
-    public String email;
-    public int hashSenha;
-    public String perguntaSecreta;
-    public String respostaSecreta;
+    private int id;
+    private String nome;
+    private String email;
+    private int hashSenha;
+    private String perguntaSecreta;
+    private String respostaSecreta;
 
     public Usuario() {
-
         this.id = -1;
         this.nome = " ";
         this.email = " ";
@@ -30,7 +29,6 @@ public class Usuario implements Entidade {
     }
 
     public Usuario(int id, String nome, String email, int hashSenha, String perguntaSecreta, String respostaSecreta) throws Exception {
-
         this.id = id;
         this.nome = nome;
         this.email = email;
@@ -39,33 +37,59 @@ public class Usuario implements Entidade {
         this.respostaSecreta = respostaSecreta;
     }
 
-    public String getEmail() {
-
-        return this.email;
+    // Getters e Setters
+    public String getNome() {
+        return this.nome;
     }
 
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getEmail() {
+        return this.email;
+    }
     
     public void setEmail(String email) {
-
         this.email = email;
     }
 
-    
+    public int getHashSenha() {
+        return this.hashSenha;
+    }
+
+    public void setHashSenha(int hashSenha) {
+        this.hashSenha = hashSenha;
+    }
+
+    public String getPerguntaSecreta() {
+        return this.perguntaSecreta;
+    }
+
+    public void setPerguntaSecreta(String perguntaSecreta) {
+        this.perguntaSecreta = perguntaSecreta;
+    }
+
+    public String getRespostaSecreta() {
+        return this.respostaSecreta;
+    }
+
+    public void setRespostaSecreta(String respostaSecreta) {
+        this.respostaSecreta = respostaSecreta;
+    }
+
     @Override
     public int getId() {
-
         return this.id;
     }
 
     @Override
     public void setId(int id) {
-
         this.id = id;
     }
     
     @Override
     public byte[] toByteArray() throws Exception {
-
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         DataOutputStream dos = new DataOutputStream(baos);
 
@@ -81,7 +105,6 @@ public class Usuario implements Entidade {
 
     @Override
     public void fromByteArray(byte[] vb) throws Exception {
-        
         ByteArrayInputStream bis = new ByteArrayInputStream(vb);
         DataInputStream dis = new DataInputStream(bis);
 
@@ -92,5 +115,4 @@ public class Usuario implements Entidade {
         this.perguntaSecreta = dis.readUTF();
         this.respostaSecreta = dis.readUTF();
     }
-
 }
