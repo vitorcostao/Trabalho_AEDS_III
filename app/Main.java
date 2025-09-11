@@ -4,6 +4,7 @@ import arvore.*;
 import arvore.aed3.ArvoreBMais;
 import java.util.Scanner;
 import model.*;
+import service.ArquivoLista;
 import service.ArquivoUsuario;
 
 
@@ -13,15 +14,14 @@ public class Main {
 	
 	// Definir dados
 	private static ArquivoUsuario arqUsuario;
-	//private static ArquivoLista arqLista;
+	private static ArquivoLista arqLista;
 	static ArvoreBMais<ParUsuarioLista> tree;
 
 
     
 	public static void main(String[] args) throws Exception {
 	    arqUsuario = new ArquivoUsuario();
-	    //arqLista = new ArquivoLista();
-
+	    arqLista = new ArquivoLista();
 		tree = new ArvoreBMais<>(ParUsuarioLista.class.getConstructor(), 5, "arvoreBmais.db");
 	    
 	    Usuario usuarioLogado = null;

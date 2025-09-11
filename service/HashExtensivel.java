@@ -147,6 +147,7 @@ public class HashExtensivel<T extends RegistroHashExtensivel<T>> {
       return quantidade == quantidadeMaxima;
     }
 
+    @Override
     public String toString() {
       String s = "Profundidade Local: " + profundidadeLocal + "\nQuantidade: " + quantidade + "\n| ";
       int i = 0;
@@ -211,6 +212,7 @@ public class HashExtensivel<T extends RegistroHashExtensivel<T>> {
       }
     }
 
+    @Override
     public String toString() {
       String s = "\nProfundidade global: " + profundidadeGlobal;
       int i = 0;
@@ -289,7 +291,7 @@ public class HashExtensivel<T extends RegistroHashExtensivel<T>> {
 
   public boolean create(T elem) throws Exception {
 
-    // Carrega TODO o diretório para a memória
+    // Carrega todo o diretório para a memória
     byte[] bd = new byte[(int) arqDiretorio.length()];
     arqDiretorio.seek(0);
     arqDiretorio.read(bd);
@@ -448,6 +450,7 @@ public class HashExtensivel<T extends RegistroHashExtensivel<T>> {
     return true;
   }
 
+  @SuppressWarnings("CallToPrintStackTrace")
   public void print() {
     try {
       byte[] bd = new byte[(int) arqDiretorio.length()];

@@ -16,6 +16,7 @@ public class ParCodigoId implements interfaces.RegistroHashExtensivel<ParCodigoI
     this("", -1);
   }
 
+  @SuppressWarnings("CallToPrintStackTrace")
   public ParCodigoId(String codigo, int id) {
     try {
       this.codigo = codigo;
@@ -40,6 +41,24 @@ public class ParCodigoId implements interfaces.RegistroHashExtensivel<ParCodigoI
     return Math.abs(this.codigo.hashCode());
   }
 
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null || getClass() != obj.getClass())
+      return false;
+    ParCodigoId other = (ParCodigoId) obj;
+    if (id != other.id)
+      return false;
+    if (codigo == null) {
+      if (other.codigo != null)
+        return false;
+    } else if (!codigo.equals(other.codigo))
+      return false;
+    return true;
+  }
+
+  @Override
   public short size() {
     return this.TAMANHO;
   }

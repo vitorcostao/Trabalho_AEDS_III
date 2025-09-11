@@ -37,6 +37,7 @@ public class ParEmailID implements interfaces.RegistroHashExtensivel<ParEmailID>
     this("", -1);
   }
 
+  @SuppressWarnings("CallToPrintStackTrace")
   public ParEmailID(String e, int i) {
     try {
       this.email = e;
@@ -49,24 +50,37 @@ public class ParEmailID implements interfaces.RegistroHashExtensivel<ParEmailID>
   }
 
   public int getId() {
-	  
-	  return this.id;
+
+    return this.id;
   }
-  
-  
+
   @Override
   public int hashCode() {
     return Math.abs(this.email.hashCode());
   }
 
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null || getClass() != obj.getClass())
+      return false;
+    ParEmailID other = (ParEmailID) obj;
+    return this.id == other.id &&
+        (this.email == null ? other.email == null : this.email.equals(other.email));
+  }
+
+  @Override
   public short size() {
     return this.TAMANHO;
   }
 
+  @Override
   public String toString() {
     return this.email + ";" + this.id;
   }
 
+  @Override
   public byte[] toByteArray() throws IOException {
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     DataOutputStream dos = new DataOutputStream(baos);
@@ -81,6 +95,7 @@ public class ParEmailID implements interfaces.RegistroHashExtensivel<ParEmailID>
     return bs2;
   }
 
+  @Override
   public void fromByteArray(byte[] ba) throws IOException {
     ByteArrayInputStream bais = new ByteArrayInputStream(ba);
     DataInputStream dis = new DataInputStream(bais);
