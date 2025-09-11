@@ -3,8 +3,7 @@ package service;
 import model.Usuario;
 
 public class ArquivoUsuario extends service.Arquivo<Usuario> {
-
-    Arquivo<Usuario> arqUsuario;
+    
     HashExtensivel<ParEmailID> indiceIndiretoEmail;
 
     public ArquivoUsuario() throws Exception {

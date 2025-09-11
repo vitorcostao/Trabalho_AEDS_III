@@ -4,7 +4,6 @@ import model.Lista;
 
 public class ArquivoLista extends service.Arquivo<Lista> {
 
-    Arquivo<Lista> arqLista;
     HashExtensivel<ParUsuarioLista> indiceIndiretoNome;
 
     public ArquivoLista() throws Exception {
