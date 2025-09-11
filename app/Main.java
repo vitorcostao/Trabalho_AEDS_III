@@ -65,8 +65,8 @@ public class Main {
 	                int hashSenha = senha.hashCode();
 
 	                usuarioLogado = arqUsuario.read(email);
-	                if (usuarioLogado != null && usuarioLogado.hashSenha == hashSenha) {
-	                    System.out.println("Usuário logado: " + usuarioLogado.nome + "e id: " + usuarioLogado.id);
+	                if (usuarioLogado != null && usuarioLogado.getHashSenha() == hashSenha) {
+	                    System.out.println("Usuário logado: " + usuarioLogado.getNome() + "e id: " + usuarioLogado.getId());
 	                } else {
 	                    System.out.println("Usuário ou senha inválidos.");
 	                }
