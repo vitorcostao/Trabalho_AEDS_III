@@ -1,28 +1,14 @@
-/*
-TABELA HASH EXTENSÍVEL
-
-Os nomes dos métodos foram mantidos em inglês
-apenas para manter a coerência com o resto da
-disciplina:
-- boolean create(T elemento)
-- long read(int hashcode)
-- boolean update(T novoElemento)   //  a chave (hashcode) deve ser a mesma
-- boolean delete(int hashcode)
-
-Implementado pelo Prof. Marcos Kutova
-v1.1 - 2021
-*/
 package service;
 
+import interfaces.RegistroHashExtensivel;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.RandomAccessFile;
-import java.util.ArrayList;
 import java.lang.reflect.Constructor;
-import interfaces.RegistroHashExtensivel;
+import java.util.ArrayList;
 
 public class HashExtensivel<T extends RegistroHashExtensivel<T>> {
 
