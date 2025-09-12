@@ -12,12 +12,12 @@ import java.io.DataOutputStream;
 public class Usuario implements Entidade {
 
     // Definir dados
-    public int id;
-    public String nome;
-    public String email;
-    public int hashSenha;
-    public String perguntaSecreta;
-    public String respostaSecreta;
+    private int id;
+    private String nome;
+    private String email;
+    private int hashSenha;
+    private String perguntaSecreta;
+    private String respostaSecreta;
 
     public Usuario() {
 
@@ -29,8 +29,7 @@ public class Usuario implements Entidade {
         this.respostaSecreta = " ";
     }
 
-    public Usuario(int id, String nome, String email, int hashSenha, String perguntaSecreta, String respostaSecreta) throws Exception {
-
+    public Usuario(int id, String nome, String email, int hashSenha, String perguntaSecreta, String respostaSecreta){
         this.id = id;
         this.nome = nome;
         this.email = email;
@@ -45,11 +44,42 @@ public class Usuario implements Entidade {
     }
 
     
+    public String getNome() {
+        return this.nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
     public void setEmail(String email) {
 
         this.email = email;
     }
 
+     public int getHashSenha() {
+        return this.hashSenha;
+    }
+
+    public void setHashSenha(int hashSenha) {
+        this.hashSenha = hashSenha;
+    }
+
+    public String getPerguntaSecreta() {
+        return this.perguntaSecreta;
+    }
+
+    public void setPerguntaSecreta(String perguntaSecreta) {
+        this.perguntaSecreta = perguntaSecreta;
+    }
+
+    public String getRespostaSecreta() {
+        return this.respostaSecreta;
+    }
+
+    public void setRespostaSecreta(String respostaSecreta) {
+        this.respostaSecreta = respostaSecreta;
+    }
     
     @Override
     public int getId() {

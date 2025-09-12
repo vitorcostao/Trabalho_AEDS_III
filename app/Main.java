@@ -40,7 +40,7 @@ public class Main {
 	        opcao = sc.nextLine().charAt(0);
 
 	        switch (opcao) {
-	            case '1' -> {
+	            case '1': {
 	                // Ler dados do usuário pelo Scanner
 	                System.out.print("Digite o nome: ");
 	                String nome = sc.nextLine();
@@ -58,7 +58,7 @@ public class Main {
 	                System.out.println("Usuário criado com ID: " + id);
 	            }
 
-	            case '2' -> {
+	            case '2' : {
 	                // Ler dados do login
 	                System.out.print("Digite o email: ");
 	                String email = sc.nextLine();
@@ -67,14 +67,14 @@ public class Main {
 	                int hashSenha = senha.hashCode();
 
 	                usuarioLogado = arqUsuario.read(email);
-	                if (usuarioLogado != null && usuarioLogado.hashSenha == hashSenha) {
-	                    System.out.println("Usuário logado: " + usuarioLogado.nome + "e id: " + usuarioLogado.id);
+	                if (usuarioLogado != null && usuarioLogado.getHashSenha() == hashSenha) {
+	                    System.out.println("Usuário logado: " + usuarioLogado.getNome() + "e id: " + usuarioLogado.getId());
 	                } else {
 	                    System.out.println("Usuário ou senha inválidos.");
 	                }
 	            }
 	            
-	            case '3' -> {
+	            case '3': {
 	            	
 	                int idUsuario = usuarioLogado.getId();
 
@@ -109,8 +109,8 @@ public class Main {
 	                
 	            }
 
-	            case 'S', 's' -> System.out.println("Encerrando programa!");
-	            default -> System.out.println("Opção inválida!");
+	            case 'S': System.out.println("Encerrando programa!");
+	            default: System.out.println("Opção inválida!");
 	        }
 
 	    } while (opcao != 'S' && opcao != 's');
