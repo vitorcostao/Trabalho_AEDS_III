@@ -1,86 +1,120 @@
 package app;
 
-import arvore.*;
+import arvore.ParIntInt;
 import arvore.aed3.ArvoreBMais;
 import java.util.Scanner;
 import model.*;
 import service.ArquivoLista;
 import service.ArquivoUsuario;
 
-
-
 public class Main {
- 
-	
+
 	// Definir dados
 	private static ArquivoUsuario arqUsuario;
 	private static ArquivoLista arqLista;
-	static ArvoreBMais<ParUsuarioLista> tree;
+	static ArvoreBMais<ParIntInt> tree;
 
-
-    
 	public static void main(String[] args) throws Exception {
-	    arqUsuario = new ArquivoUsuario();
-	    arqLista = new ArquivoLista();
-		tree = new ArvoreBMais<>(ParUsuarioLista.class.getConstructor(), 5, "arvoreBmais.db");
-	    
-	    Usuario usuarioLogado = null;
+		arqUsuario = new ArquivoUsuario();
+		arqLista = new ArquivoLista();
+		tree = new ArvoreBMais<>(ParIntInt.class.getConstructor(), 5, "arvoreBmais.db");
 
-	    Scanner sc = new Scanner(System.in);
-	    char opcao;
+		Usuario usuarioLogado = null;
 
-	    do {
-	        System.out.println("\nEscolha uma opção:");
-	        System.out.println("1 - Criar usuário");
-	        System.out.println("2 - Simular login");
-	        System.out.println("3 - Criar Lista");
-	        System.out.println("S - Sair");
-	        opcao = sc.nextLine().charAt(0);
+		Scanner sc = new Scanner(System.in);
+		char opcao;
 
-	        switch (opcao) {
-	            case '1' -> {
-	                // Ler dados do usuário pelo Scanner
-	                System.out.print("Digite o nome: ");
-	                String nome = sc.nextLine();
-	                System.out.print("Digite o email: ");
-	                String email = sc.nextLine();
-	                System.out.print("Digite a senha: ");
-	                String senha = sc.nextLine();
-	                System.out.print("Digite a pergunta de segurança: ");
-	                String perg = sc.nextLine();
-	                System.out.print("Digite a resposta de segurança: ");
-	                String resp = sc.nextLine();
+		do {
+			System.out.println("\nEscolha uma opção:");
+			System.out.println("1 - Criar usuário");
+			System.out.println("2 - Simular login");
+			System.out.println("3 - Criar Lista");
+			System.out.println("S - Sair");
+			opcao = sc.nextLine().charAt(0);
 
-	                Usuario novo = new Usuario(0, nome, email, senha.hashCode(), perg, resp);
-	                int id = arqUsuario.create(novo);
-	                System.out.println("Usuário criado com ID: " + id);
-	            }
+			switch (opcao) {
+				case '1' -> {
+					// Ler dados do usuário pelo Scanner
+					System.out.print("Digite o nome: ");
+					String nome = sc.nextLine();
+					System.out.print("Digite o email: ");
+					String email = sc.nextLine();
+					System.out.print("Digite a senha: ");
+					String senha = sc.nextLine();
+					System.out.print("Digite a pergunta de segurança: ");
+					String perg = sc.nextLine();
+					System.out.print("Digite a resposta de segurança: ");
+					String resp = sc.nextLine();
 
-	            case '2' -> {
-	                // Ler dados do login
-	                System.out.print("Digite o email: ");
-	                String email = sc.nextLine();
-	                System.out.print("Digite a senha: ");
-	                String senha = sc.nextLine();
-	                int hashSenha = senha.hashCode();
+					Usuario novo = new Usuario(0, nome, email, senha.hashCode(), perg, resp);
+					int id = arqUsuario.create(novo);
+					System.out.println("Usuário criado com ID: " + id);
+				}
 
-	                usuarioLogado = arqUsuario.read(email);
-	                if (usuarioLogado != null && usuarioLogado.getHashSenha() == hashSenha) {
-	                    System.out.println("Usuário logado: " + usuarioLogado.getNome() + "e id: " + usuarioLogado.getId());
-	                } else {
-	                    System.out.println("Usuário ou senha inválidos.");
-	                }
-	            }
+				case '2' -> {
+					// Ler dados do login
+					System.out.print("Digite o email: ");
+					String email = sc.nextLine();
+					System.out.print("Digite a senha: ");
+					String senha = sc.nextLine();
+					int hashSenha = senha.hashCode();
 
-	            case 'S', 's' -> System.out.println("Encerrando programa!");
-	            default -> System.out.println("Opção inválida!");
-	        }
+					usuarioLogado = arqUsuario.read(email);
+					if (usuarioLogado != null && usuarioLogado.getHashSenha() == hashSenha) {
+						System.out.println(
+								"Usuário logado: " + usuarioLogado.getNome() + "e id: " + usuarioLogado.getId());
+					} else {
+						System.out.println("Usuário ou senha inválidos.");
+					}
+				}
 
-	    } while (opcao != 'S' && opcao != 's');
+				case '3' -> {
 
-	    sc.close();
-	    arqUsuario.close();
-	  
+					int idUsuario = usuarioLogado.getId();
+
+					System.out.print("Digite o nome da lista: ");
+					String nome = sc.nextLine();
+
+					System.out.print("Digite a descrição da lista: ");
+					String descricao = sc.nextLine();
+
+					System.out.print("Digite a data de criação (dd/mm/yyyy): ");
+					String dataCriacao = sc.nextLine();
+
+					System.out.print("Digite a data limite (dd/mm/yyyy): ");
+					String dataLimite = sc.nextLine();
+
+					System.out.print("Digite o código compartilhável: ");
+					String codigoCompartilhavel = sc.nextLine();
+
+					// Criar a lista no arquivo
+					Lista lista = new Lista(0, idUsuario, nome, descricao, dataCriacao, dataLimite,
+							codigoCompartilhavel);
+					int id = arqLista.create(lista); 
+					lista.setId(id);
+
+					// Criar o par para a B+
+					ParIntInt par = new ParIntInt(idUsuario, id);
+
+					// Inserir na árvore B+
+					tree.create(par);
+
+					System.out.println(
+							"Lista de numero " + lista.getId() + " criada pelo usuario " + usuarioLogado.getEmail());
+
+					tree.print();
+
+				}
+
+				case 'S', 's' -> System.out.println("Encerrando programa!");
+				default -> System.out.println("Opção inválida!");
+			}
+
+		} while (opcao != 'S' && opcao != 's');
+
+		sc.close();
+		arqUsuario.close();
+
 	}
 
 }
