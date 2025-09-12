@@ -1,16 +1,15 @@
 package view;
+import controle.ControleUsuario;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Scanner;
-
-import controle.ControleUsuario;
 import model.Lista;
 import model.Usuario;
 
 public class Painel {
 
     private static boolean executando = true;
-    private static ControleUsuario controleUsuario = null;
+    public static ControleUsuario controleUsuario = null;
 
     /*-+-+-+-+- Funões de Auxilio de Painel -+-+-+-+- */
     public static void limparTelaWindows() {
@@ -86,11 +85,14 @@ public class Painel {
         
         try {
         Usuario usuario = controleUsuario.buscarPorEmail(email);
-        
-        if (usuario != null && usuario.getHashSenha() == senha.hashCode()) {
+
+        if (usuario.getHashSenha() == senha.hashCode()) {
             System.out.println("\nLogin bem-sucedido! Bem-vindo(a), " + usuario.getNome() + "!");
+            controleUsuario.setUser(usuario.getId(), usuario.getNome(), usuario.getEmail(), usuario.getHashSenha(), usuario.getPerguntaSecreta(), usuario.getPerguntaSecreta());
+
+
             pausar(sc);
-            painelInicio(sc, usuario);  // Redireciona para o painel do usuário
+            painelInicio(sc);  // Redireciona para o painel do usuário
         } else {
             System.out.println("\nFalha no login! Email ou senha incorretos.");
             pausar(sc);
@@ -121,7 +123,7 @@ public class Painel {
             Usuario novoUsuario = controleUsuario.cadastrarUsuario(nome, email, senha, perg, resp);
             System.out.println(novoUsuario.toString());
             pausar(sc);
-            painelInicio(sc, novoUsuario); // Simula login após cadastro
+            painelInicio(sc); // Simula login após cadastro
         } catch (Exception e) {
             System.out.println("Erro ao cadastrar usuário: " + e.getMessage());
             pausar(sc);
@@ -131,15 +133,15 @@ public class Painel {
     }
 
      /*-+-+-+-+-  Painel de Dados Usuario  -+-+-+-+- */
-    public static void painelMeusDados(Scanner sc, Usuario usuario) {
+    public static void painelMeusDados(Scanner sc) throws Exception{
         limparTelaWindows();
         System.out.println("Presente Fácil 1.0\n-----------------");
         System.out.println(">Início >Meus dados\n");
 
-        System.out.println("ID: " + usuario.getId());
-        System.out.println("Nome: " + usuario.getNome());
-        System.out.println("Email: " + usuario.getEmail());
-        System.out.println("Pergunta secreta: " + usuario.getPerguntaSecreta());
+        System.out.println("ID: " + controleUsuario.getUser().getId());
+        System.out.println("Nome: " + controleUsuario.getUser().getNome());
+        System.out.println("Email: " + controleUsuario.getUser().getEmail());
+        System.out.println("Pergunta secreta: " + controleUsuario.getUser().getPerguntaSecreta());
         // System.out.println("Hash da senha: " + usuario.getHashSenha());
         System.out.println("\n(1) Alterar meus dados");
         System.out.println("(2) Excluir minha conta");
@@ -147,27 +149,27 @@ public class Painel {
         char op = sc.nextLine().charAt(0);
         switch (op) {
                 case '1':
-                    alterarMeusDados(sc, usuario);
-                    painelMeusDados(sc, usuario); // Reexibe após alteração
+                    alterarMeusDados(sc);
+                    painelMeusDados(sc); // Reexibe após alteração
                     break;
                 case '2':
-                    excluirUsuario(sc, usuario);
+                    excluirUsuario(sc);
                     break;
                 case '3':
-                    painelInicio(sc, usuario);
+                    painelInicio(sc);
                     break;
                 case 'S':
-                    painelInicio(sc, usuario);
+                    painelInicio(sc);
                     break;
                 default:
                     System.out.print("Opção inválida!");  
                     pausar(sc);
-                    painelMeusDados(sc, usuario);      
+                    painelMeusDados(sc);      
         }
     }
 
      /*-+-+-+-+-  Painel de Exclusão de Dados Usuario  -+-+-+-+- */
-    public static void excluirUsuario(Scanner sc, Usuario usuario) {
+    public static void excluirUsuario(Scanner sc) throws Exception {
     limparTelaWindows();
     System.out.println("Presente Fácil 1.0\n-----------------");
     System.out.println(">Inicio >Meus dados >Excluir\n");
@@ -177,13 +179,13 @@ public class Painel {
 
     if (resp.equals("S")) {
         try {
-            ControleUsuario controle = new ControleUsuario(); // ← garante instância funcional
-            boolean sucesso = controle.removerUsuarioPorId(usuario.getId());
+           
+            boolean sucesso = controleUsuario.removerUsuarioPorId(controleUsuario.getUser().getId());
 
             if (sucesso) {
                 System.out.println("Conta excluída com sucesso.");
-                controle.fechar();
-                executando = false; // encerra sistema
+                controleUsuario.fechar();
+                executando = false; 
             } else {
                 System.out.println("Erro ao excluir. Tente novamente.");
             }
@@ -193,46 +195,54 @@ public class Painel {
     } else {
         System.out.println("Operação cancelada.");
         pausar(sc);
-        painelMeusDados(sc, usuario); // Retorna ao painel de dados
+        painelMeusDados(sc); // Retorna ao painel de dados
     }
 }
 
 
      /*-+-+-+-+-  Painel de Alteração de Dados Usuario  -+-+-+-+- */
-    public static void alterarMeusDados(Scanner sc, Usuario usuario) {
+    public static void alterarMeusDados(Scanner sc) throws Exception {
+    
+    Usuario novoUsuario = new Usuario();
     limparTelaWindows();
     System.out.println("Presente Fácil 1.0\n-----------------");
     System.out.println(">Inicio >Meus dados >Alterar\n");
 
     System.out.print("Novo nome (deixe em branco para manter): ");
     String nome = sc.nextLine();
-    if (!nome.isEmpty()) usuario.setNome(nome);
+    if (!nome.isEmpty()) novoUsuario.setNome(nome);
 
     System.out.print("Novo email (deixe em branco para manter): ");
     String email = sc.nextLine();
-    if (!email.isEmpty()) usuario.setEmail(email);
+    if (!email.isEmpty()) novoUsuario.setEmail(email);
 
     System.out.print("Nova senha (deixe em branco para manter): ");
     String senha = sc.nextLine();
-    if (!senha.isEmpty()) usuario.setHashSenha(senha.hashCode());
+    if (!senha.isEmpty()) novoUsuario.setHashSenha(senha.hashCode());
 
     System.out.print("Nova pergunta secreta (deixe em branco para manter): ");
     String pergunta = sc.nextLine();
-    if (!pergunta.isEmpty()) usuario.setPerguntaSecreta(pergunta);
+    if (!pergunta.isEmpty()) novoUsuario.setPerguntaSecreta(pergunta);
 
     System.out.print("Nova resposta secreta (deixe em branco para manter): ");
     String resposta = sc.nextLine();
-    if (!resposta.isEmpty()) usuario.setRespostaSecreta(resposta);
+    if (!resposta.isEmpty()) novoUsuario.setRespostaSecreta(resposta);
 
-    // Aqui você deveria persistir os dados no arquivo via seu CRUD (update)
-    // Exemplo: arqUsuario.update(usuario);
+    novoUsuario.setId(controleUsuario.getUser().getId());
 
-    System.out.println("\nDados atualizados com sucesso!");
+    if(controleUsuario.atualizarUsuario(novoUsuario, controleUsuario.getUser().getEmail())){
+
+        controleUsuario.setUser(novoUsuario.getId(), novoUsuario.getNome(), novoUsuario.getEmail(), novoUsuario.getHashSenha(), novoUsuario.getPerguntaSecreta(), novoUsuario.getPerguntaSecreta());
+        System.out.println("\nDados atualizados com sucesso!");
+    } else {
+
+            System.out.println("\nErro: Dados não foram atualizados!");
+    }
     pausar(sc);
 }
 
      /*-+-+-+-+-  Painel de Inicio  -+-+-+-+- */
-    public static void painelInicio(Scanner sc, Usuario usuario) {
+    public static void painelInicio(Scanner sc) throws Exception {
         limparTelaWindows();
         System.out.println("Presente Fácil 1.0\n-----------------\n>Inicio\n");
         System.out.println("(1) Meus dados");
@@ -245,13 +255,13 @@ public class Painel {
         switch (op) {
             case '1':
                 System.out.println("Meus dados selecionado");
-                painelMeusDados(sc, usuario);
+                painelMeusDados(sc);
                
             break;
 
             case '2':
                 System.out.println("Ver minhas listas");
-                painelMinhasListas(sc, usuario);
+                painelMinhasListas(sc);
             break;
 
             case '3':
@@ -281,7 +291,7 @@ public class Painel {
     
 
     /*-+-+-+-+-  Painel de Minhas Listas -+-+-+-+- */
-    public static void painelMinhasListas(Scanner sc, Usuario usuario) {
+    public static void painelMinhasListas(Scanner sc) throws Exception{
     limparTelaWindows();
     System.out.println("Presente Fácil 1.0\n-----------------");
     System.out.println(">Início >Minhas listas\n");
@@ -290,10 +300,10 @@ public class Painel {
     ArrayList<Lista> listasDoUsuario = new ArrayList<>();
 
     // Simulando algumas listas
-    listasDoUsuario.add(new Lista(1, usuario.getId(), "Aniversário 2025", "Sugestões de presentes", "2025-07-30", "2025-10-31", "tdfd9as8bp"));
-    listasDoUsuario.add(new Lista(2, usuario.getId(), "Decoração da casa", "Itens para o novo apê", "2025-03-15", "NaN", "x4a7kl0z9q"));
-    listasDoUsuario.add(new Lista(3, usuario.getId(), "Dia dos pais", "Presentes pro paizão", "2025-07-20", "2025-08-10", "a8m3pwqk2l"));
-    listasDoUsuario.add(new Lista(4, usuario.getId(), "Natal 2024", "Ideias natalinas", "2024-12-01", "NaN", "mnbv8723zx"));
+    listasDoUsuario.add(new Lista(1, controleUsuario.getUser().getId(), "Aniversário 2025", "Sugestões de presentes", "2025-07-30", "2025-10-31", "tdfd9as8bp"));
+    listasDoUsuario.add(new Lista(2, controleUsuario.getUser().getId(), "Decoração da casa", "Itens para o novo apê", "2025-03-15", "NaN", "x4a7kl0z9q"));
+    listasDoUsuario.add(new Lista(3, controleUsuario.getUser().getId(), "Dia dos pais", "Presentes pro paizão", "2025-07-20", "2025-08-10", "a8m3pwqk2l"));
+    listasDoUsuario.add(new Lista(4, controleUsuario.getUser().getId(), "Natal 2024", "Ideias natalinas", "2024-12-01", "NaN", "mnbv8723zx"));
 
     // Ordena alfabeticamente por nome
     listasDoUsuario.sort(Comparator.comparing(Lista::getNome));
@@ -315,7 +325,7 @@ public class Painel {
             pausar(sc);
             break;
         case "R":
-           painelInicio(sc, usuario);
+           painelInicio(sc);
         default:
             try {
                 int indice = Integer.parseInt(opcao) - 1;
@@ -331,7 +341,7 @@ public class Painel {
             }
     }
 
-    painelMinhasListas(sc, usuario); // Volta após ação
+    painelMinhasListas(sc); // Volta após ação
 }
 
 

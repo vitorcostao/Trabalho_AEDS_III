@@ -1,16 +1,33 @@
 package controle;
 
 import java.util.Scanner;
-
 import model.Usuario;
 import service.ArquivoUsuario;
 
 public class ControleUsuario {
 
     private ArquivoUsuario arquivoUsuario;
+    private Usuario usuarioLogado;
+    
 
     public ControleUsuario() throws Exception {
         arquivoUsuario = new ArquivoUsuario();
+        usuarioLogado = new Usuario();
+    }
+
+    public Usuario getUser(){
+
+        return usuarioLogado;
+    }
+
+    public void setUser(int id, String nome, String email, int senha, String pergunta, String resposta){
+
+        this.usuarioLogado.setId(id);
+        this.usuarioLogado.setNome(nome);
+        this.usuarioLogado.setEmail(email);
+        this.usuarioLogado.setHashSenha(senha);
+        this.usuarioLogado.setPerguntaSecreta(pergunta);
+        this.usuarioLogado.setRespostaSecreta(resposta);
     }
 
     /*-+-+-+-+- Cadastrar Usuario -+-+-+-+- */
@@ -31,23 +48,6 @@ public class ControleUsuario {
         return novo;
     }
 
-    /*-+-+-+-+- Loga Usuario -+-+-+-+- */
-    public Usuario login(String email, String senha) throws Exception {
-        Usuario usuario = arquivoUsuario.read(email);
-
-        if (usuario == null) {
-            throw new IllegalArgumentException("Email não cadastrado.");
-        }
-
-        // Comparar hashes de senha
-        if (usuario.getHashSenha() != senha.hashCode()) {
-            throw new IllegalArgumentException("Senha incorreta.");
-        }
-
-        return usuario;
-    }
-
-
 
     // Busca usuário pelo email
     public Usuario buscarPorEmail(String email) throws Exception {
@@ -60,8 +60,9 @@ public class ControleUsuario {
     }
 
     // Atualiza usuário
-    public boolean atualizarUsuario(Usuario usuarioAtualizado) throws Exception {
-        return arquivoUsuario.update(usuarioAtualizado);
+    public boolean atualizarUsuario(Usuario usuarioAtualizado, String emailAntigo) throws Exception {
+
+        return arquivoUsuario.update(emailAntigo, usuarioAtualizado);
     }
 
     // Remove usuário por email
