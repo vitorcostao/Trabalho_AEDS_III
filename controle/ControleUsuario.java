@@ -13,7 +13,7 @@ public class ControleUsuario {
         arquivoUsuario = new ArquivoUsuario();
     }
 
-    // Cadastra usuário; lança exceção se email já existir
+    /*-+-+-+-+- Cadastrar Usuario -+-+-+-+- */
     public Usuario cadastrarUsuario(String nome, String email, String senha, String pergunta, String resposta) throws Exception {
         if (arquivoUsuario.read(email) != null) {
             throw new IllegalArgumentException("Email já cadastrado!");
@@ -30,6 +30,24 @@ public class ControleUsuario {
 
         return novo;
     }
+
+    /*-+-+-+-+- Loga Usuario -+-+-+-+- */
+    public Usuario login(String email, String senha) throws Exception {
+        Usuario usuario = arquivoUsuario.read(email);
+
+        if (usuario == null) {
+            throw new IllegalArgumentException("Email não cadastrado.");
+        }
+
+        // Comparar hashes de senha
+        if (usuario.getHashSenha() != senha.hashCode()) {
+            throw new IllegalArgumentException("Senha incorreta.");
+        }
+
+        return usuario;
+    }
+
+
 
     // Busca usuário pelo email
     public Usuario buscarPorEmail(String email) throws Exception {

@@ -51,7 +51,7 @@ public class Painel {
         System.out.println("(2) Novo usuário");
         System.out.println("(S) Sair");
         System.out.print("Opção: ");
-        char op = sc.nextLine().charAt(0);
+        char op = sc.nextLine().toUpperCase().charAt(0);
         switch (op) {
             case '1':
                 System.out.println("Login selecionado");
@@ -80,20 +80,25 @@ public class Painel {
         limparTelaWindows();
         System.out.println("Presente Fácil 1.0\n-----------------\n>Login\n");
         System.out.println("Digite o email: ");
-        //String email = sc.nextLine();
+        String email = sc.nextLine();
         System.out.println("Digite a senha: ");
-        //String senha = sc.nextLine();
-        //Usuario user = arqUsuario.findByEmail(email);
-        //if (user != null && user.getSenha() == senha.hashCode()){
-        //    System.out.println("Login bem sucedido! Bem vindo " + user.getNome());
-        //} else {
-        //    System.out.println("Falha no login! Email ou senha incorretos.");
-        //}
-        //para pausar a tela
+        String senha = sc.nextLine();
+        
+        try {
+        Usuario usuario = controleUsuario.buscarPorEmail(email);
+        
+        if (usuario != null && usuario.getHashSenha() == senha.hashCode()) {
+            System.out.println("\nLogin bem-sucedido! Bem-vindo(a), " + usuario.getNome() + "!");
+            pausar(sc);
+            painelInicio(sc, usuario);  // Redireciona para o painel do usuário
+        } else {
+            System.out.println("\nFalha no login! Email ou senha incorretos.");
+            pausar(sc);
+        }
+    } catch (Exception e) {
+        System.out.println("Erro ao tentar fazer login: " + e.getMessage());
         pausar(sc);
-        //Inicio simulado
-        Usuario usuarioLogado = new Usuario(1, "Felipe", "Felemail.com", 123, "Qual seu nome?", "Felipe");
-        painelInicio(sc, usuarioLogado);
+    }
     }
     
      /*-+-+-+-+-  Painel de Cadastro  -+-+-+-+- */
@@ -163,25 +168,35 @@ public class Painel {
 
      /*-+-+-+-+-  Painel de Exclusão de Dados Usuario  -+-+-+-+- */
     public static void excluirUsuario(Scanner sc, Usuario usuario) {
-        limparTelaWindows();
-        System.out.println("Presente Fácil 1.0\n-----------------");
-        System.out.println(">Inicio >Meus dados >Excluir\n");
+    limparTelaWindows();
+    System.out.println("Presente Fácil 1.0\n-----------------");
+    System.out.println(">Inicio >Meus dados >Excluir\n");
 
-        System.out.print("Tem certeza que deseja excluir sua conta? (S/N): ");
-        String resp = sc.nextLine().toUpperCase();
+    System.out.print("Tem certeza que deseja excluir sua conta? (S/N): ");
+    String resp = sc.nextLine().toUpperCase();
 
-        if (resp.equals("S")) {
-            // Excluir do arquivo com seu CRUD
-            // Exemplo: arqUsuario.delete(usuario.getId());
+    if (resp.equals("S")) {
+        try {
+            ControleUsuario controle = new ControleUsuario(); // ← garante instância funcional
+            boolean sucesso = controle.removerUsuarioPorId(usuario.getId());
 
-            System.out.println("Conta excluída com sucesso.");
-            executando = false; // Encerra sistema
-        } else {
-            System.out.println("Operação cancelada.");
-            pausar(sc);
-            painelMeusDados(sc, usuario); // Retorna ao painel de dados
+            if (sucesso) {
+                System.out.println("Conta excluída com sucesso.");
+                controle.fechar();
+                executando = false; // encerra sistema
+            } else {
+                System.out.println("Erro ao excluir. Tente novamente.");
+            }
+        } catch (Exception e) {
+            System.out.println("Erro ao excluir usuário: " + e.getMessage());
         }
+    } else {
+        System.out.println("Operação cancelada.");
+        pausar(sc);
+        painelMeusDados(sc, usuario); // Retorna ao painel de dados
     }
+}
+
 
      /*-+-+-+-+-  Painel de Alteração de Dados Usuario  -+-+-+-+- */
     public static void alterarMeusDados(Scanner sc, Usuario usuario) {
