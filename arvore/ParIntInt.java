@@ -36,7 +36,6 @@ public class ParIntInt implements arvore.aed3.RegistroArvoreBMais<ParIntInt> {
       this.num1 = n1; // ID do Usuário
       this.num2 = n2; // ID da Pergunta
     } catch (Exception ec) {
-      ec.printStackTrace();
     }
   }
 
@@ -45,10 +44,12 @@ public class ParIntInt implements arvore.aed3.RegistroArvoreBMais<ParIntInt> {
     return new ParIntInt(this.num1, this.num2);
   }
 
+  @Override
   public short size() {
     return this.TAMANHO;
   }
 
+  @Override
   public int compareTo(ParIntInt a) {
     if (this.num1 != a.num1)
       return this.num1 - a.num1;
@@ -58,10 +59,12 @@ public class ParIntInt implements arvore.aed3.RegistroArvoreBMais<ParIntInt> {
       return this.num2 == -1 ? 0 : this.num2 - a.num2;
   }
 
+  @Override
   public String toString() {
     return String.format("%3d", this.num1) + ";" + String.format("%-3d", this.num2);
   }
 
+  @Override
   public byte[] toByteArray() throws IOException {
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     DataOutputStream dos = new DataOutputStream(baos);
@@ -70,6 +73,7 @@ public class ParIntInt implements arvore.aed3.RegistroArvoreBMais<ParIntInt> {
     return baos.toByteArray();
   }
 
+  @Override
   public void fromByteArray(byte[] ba) throws IOException {
     ByteArrayInputStream bais = new ByteArrayInputStream(ba);
     DataInputStream dis = new DataInputStream(bais);
