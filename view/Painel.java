@@ -25,7 +25,13 @@ public class Painel {
     /*-+-+-+-+- ________________________ -+-+-+-+- */
 
     /*-+-+-+-+- Funões de Painel -+-+-+-+- */
-    
+
+    public static void tela(Scanner sc){
+       while (executando){
+            exibirMenuInicial(sc);
+
+        }
+    }
     /*-+-+-+-+-  Menu Inicial  -+-+-+-+- */
     public static void exibirMenuInicial(Scanner sc) {
         limparTelaWindows();
@@ -57,12 +63,58 @@ public class Painel {
         }
         
     }
+
+     /*-+-+-+-+-  Painel de Login  -+-+-+-+- */
+    public static void painelLogin(Scanner sc){
+        limparTelaWindows();
+        System.out.println("Presente Fácil 1.0\n-----------------\n>Login\n");
+        System.out.println("Digite o email: ");
+        //String email = sc.nextLine();
+        System.out.println("Digite a senha: ");
+        //String senha = sc.nextLine();
+        //Usuario user = arqUsuario.findByEmail(email);
+        //if (user != null && user.getSenha() == senha.hashCode()){
+        //    System.out.println("Login bem sucedido! Bem vindo " + user.getNome());
+        //} else {
+        //    System.out.println("Falha no login! Email ou senha incorretos.");
+        //}
+        //para pausar a tela
+        pausar(sc);
+        //Inicio simulado
+        Usuario usuarioLogado = new Usuario(1, "Felipe", "Felemail.com", 123, "Qual seu nome?", "Felipe");
+        painelInicio(sc, usuarioLogado);
+    }
     
+     /*-+-+-+-+-  Painel de Cadastro  -+-+-+-+- */
+    public static void painelCadastro(Scanner sc){
+        limparTelaWindows();
+        System.out.println("Presente Fácil 1.0\n-----------------\n>Cadastro\n");
+        System.out.println("Digite o nome: ");
+	    String nome = sc.nextLine();
+	    System.out.println("Digite o email: ");
+	    String email = sc.nextLine();
+	    System.out.println("Digite a senha: ");
+	    String senha = sc.nextLine();
+	    System.out.println("Digite a pergunta de segurança: ");
+	    String perg = sc.nextLine();
+	    System.out.println("Digite a resposta de segurança: ");
+	    String resp = sc.nextLine();  
+
+        /*Usuario novo = new Usuario(0, nome, email, senha.hashCode(), perg, resp);
+	    int id = arqUsuario.create(novo);
+	    System.out.println("Usuário criado com ID: " + id);*/
+
+        Usuario novoUsuario = new Usuario(nome, email, senha.hashCode(), perg, resp);
+        pausar(sc);
+        painelInicio(sc, novoUsuario); //Simula login após cadastro
+
+    }
+
      /*-+-+-+-+-  Painel de Dados Usuario  -+-+-+-+- */
     public static void painelMeusDados(Scanner sc, Usuario usuario) {
         limparTelaWindows();
         System.out.println("Presente Fácil 1.0\n-----------------");
-        System.out.println("> Início > Meus dados\n");
+        System.out.println(">Início >Meus dados\n");
 
         System.out.println("ID: " + usuario.getId());
         System.out.println("Nome: " + usuario.getNome());
@@ -82,12 +134,15 @@ public class Painel {
                     excluirUsuario(sc, usuario);
                     break;
                 case '3':
-                    return; // Retorna ao menu anterior
+                    painelInicio(sc, usuario);
+                    break;
                 case 'S':
-                    executando = false;
+                    painelInicio(sc, usuario);
                     break;
                 default:
-                    System.out.println("Opção inválida!");        
+                    System.out.print("Opção inválida!");  
+                    pausar(sc);
+                    painelMeusDados(sc, usuario);      
         }
     }
 
@@ -95,7 +150,7 @@ public class Painel {
     public static void excluirUsuario(Scanner sc, Usuario usuario) {
         limparTelaWindows();
         System.out.println("Presente Fácil 1.0\n-----------------");
-        System.out.println("> Inicio > Meus dados > Excluir\n");
+        System.out.println(">Inicio >Meus dados >Excluir\n");
 
         System.out.print("Tem certeza que deseja excluir sua conta? (S/N): ");
         String resp = sc.nextLine().toUpperCase();
@@ -108,6 +163,8 @@ public class Painel {
             executando = false; // Encerra sistema
         } else {
             System.out.println("Operação cancelada.");
+            pausar(sc);
+            painelMeusDados(sc, usuario); // Retorna ao painel de dados
         }
     }
 
@@ -115,7 +172,7 @@ public class Painel {
     public static void alterarMeusDados(Scanner sc, Usuario usuario) {
     limparTelaWindows();
     System.out.println("Presente Fácil 1.0\n-----------------");
-    System.out.println("> Meus dados > Alterar\n");
+    System.out.println(">Inicio >Meus dados >Alterar\n");
 
     System.out.print("Novo nome (deixe em branco para manter): ");
     String nome = sc.nextLine();
@@ -169,10 +226,14 @@ public class Painel {
 
             case '3':
                 System.out.println("Acessar produtos");
+                System.out.println("Em desenvolvimento...");
+                pausar(sc);
 
             break;
             case '4':
                 System.out.println("Buscar lista"); 
+                System.out.println("Em desenvolvimento...");
+                pausar(sc);
              break;
 
             case 'S':
@@ -186,51 +247,14 @@ public class Painel {
         }
     }
 
-     /*-+-+-+-+-  Painel de Cadastro  -+-+-+-+- */
-    public static void painelCadastro(Scanner sc){
-        limparTelaWindows();
-        System.out.println("Presente Fácil 1.0\n-----------------\n>Cadastro\n");
-        System.out.println("Digite o nome: ");
-	    //String nome = sc.nextLine();
-	    System.out.println("Digite o email: ");
-	   // String email = sc.nextLine();
-	    System.out.println("Digite a senha: ");
-	    //String senha = sc.nextLine();
-	    System.out.println("Digite a pergunta de segurança: ");
-	    //String perg = sc.nextLine();
-	    System.out.println("Digite a resposta de segurança: ");
-	    //String resp = sc.nextLine();  
-
-        /*Usuario novo = new Usuario(0, nome, email, senha.hashCode(), perg, resp);
-	    int id = arqUsuario.create(novo);
-	    System.out.println("Usuário criado com ID: " + id);*/
     
-    //para pausar a tela
-        pausar(sc);
-    }
-     /*-+-+-+-+-  Painel de Login  -+-+-+-+- */
-    public static void painelLogin(Scanner sc){
-        limparTelaWindows();
-        System.out.println("Presente Fácil 1.0\n-----------------\n>Login\n");
-        System.out.println("Digite o email: ");
-        //String email = sc.nextLine();
-        System.out.println("Digite a senha: ");
-        //String senha = sc.nextLine();
-        //Usuario user = arqUsuario.findByEmail(email);
-        //if (user != null && user.getSenha() == senha.hashCode()){
-        //    System.out.println("Login bem sucedido! Bem vindo " + user.getNome());
-        //} else {
-        //    System.out.println("Falha no login! Email ou senha incorretos.");
-        //}
-        //para pausar a tela
-        pausar(sc);
-    }
+    
 
     /*-+-+-+-+-  Painel de Minhas Listas -+-+-+-+- */
     public static void painelMinhasListas(Scanner sc, Usuario usuario) {
     limparTelaWindows();
     System.out.println("Presente Fácil 1.0\n-----------------");
-    System.out.println("> Início > Minhas listas\n");
+    System.out.println(">Início >Minhas listas\n");
 
     // TODO: Trocar essa parte pelo carregamento real via CRUD
     ArrayList<Lista> listasDoUsuario = new ArrayList<>();
@@ -261,7 +285,7 @@ public class Painel {
             pausar(sc);
             break;
         case "R":
-            return;
+           painelInicio(sc, usuario);
         default:
             try {
                 int indice = Integer.parseInt(opcao) - 1;
@@ -284,7 +308,7 @@ public class Painel {
 public static void painelDetalhesLista(Scanner sc, Lista lista) {
     limparTelaWindows();
     System.out.println("Presente Fácil 1.0\n-----------------");
-    System.out.println("> Início > Minhas listas > " + lista.getNome() + "\n");
+    System.out.println(">Início >Minhas listas >" + lista.getNome() + "\n");
 
     System.out.println("CÓDIGO: " + lista.getCodigoCompartilhavel());
     System.out.println("NOME: " + lista.getNome());
@@ -326,21 +350,12 @@ public static void painelDetalhesLista(Scanner sc, Lista lista) {
 
     
     /*-+-+-+-+- ________________________ -+-+-+-+- */
+   /* 
+    //Para teste 
     public static void main(String[] args){
         Scanner sc = new Scanner(System.in);  
-        Usuario u = new Usuario(1, "Felipe", "Felemail.com", 123, "Qual seu nome?", "Felipe");
-
-
-        while (executando){
-            exibirMenuInicial(sc);
-
-        }
-        executando = true;
-        while (executando){
-            painelInicio(sc, u);
-        }
-
+        tela(sc);
         sc.close();
-    }
+    }*/
 
 }

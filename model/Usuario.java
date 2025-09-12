@@ -19,6 +19,7 @@ public class Usuario implements Entidade {
     private String perguntaSecreta;
     private String respostaSecreta;
 
+    // Construtor vazio
     public Usuario() {
         this.id = -1;
         this.nome = " ";
@@ -28,6 +29,7 @@ public class Usuario implements Entidade {
         this.respostaSecreta = " ";
     }
 
+    // Construtor com id
     public Usuario(int id, String nome, String email, int hashSenha, String perguntaSecreta, String respostaSecreta){
         this.id = id;
         this.nome = nome;
@@ -36,6 +38,17 @@ public class Usuario implements Entidade {
         this.perguntaSecreta = perguntaSecreta;
         this.respostaSecreta = respostaSecreta;
     }
+
+    // Construtor com contrução de id pelo metodo sequencial(ler no arquivo)
+    public Usuario( String nome, String email, int hashSenha, String perguntaSecreta, String respostaSecreta){
+        this.id = -1; // id será definido ao salvar no arquivo
+        this.nome = nome;
+        this.email = email;
+        this.hashSenha = hashSenha;
+        this.perguntaSecreta = perguntaSecreta;
+        this.respostaSecreta = respostaSecreta;
+    }
+
 
     // Getters e Setters
     public String getNome() {
