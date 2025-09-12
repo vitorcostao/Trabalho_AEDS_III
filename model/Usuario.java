@@ -19,6 +19,7 @@ public class Usuario implements Entidade {
     private String perguntaSecreta;
     private String respostaSecreta;
 
+    // Construtor vazio
     public Usuario() {
         this.id = -1;
         this.nome = " ";
@@ -28,7 +29,8 @@ public class Usuario implements Entidade {
         this.respostaSecreta = " ";
     }
 
-    public Usuario(int id, String nome, String email, int hashSenha, String perguntaSecreta, String respostaSecreta) throws Exception {
+    // Construtor com id
+    public Usuario(int id, String nome, String email, int hashSenha, String perguntaSecreta, String respostaSecreta){
         this.id = id;
         this.nome = nome;
         this.email = email;
@@ -36,6 +38,17 @@ public class Usuario implements Entidade {
         this.perguntaSecreta = perguntaSecreta;
         this.respostaSecreta = respostaSecreta;
     }
+
+    // Construtor com contrução de id pelo metodo sequencial(ler no arquivo)
+    public Usuario( String nome, String email, int hashSenha, String perguntaSecreta, String respostaSecreta){
+        this.id = -1; // id será definido ao salvar no arquivo
+        this.nome = nome;
+        this.email = email;
+        this.hashSenha = hashSenha;
+        this.perguntaSecreta = perguntaSecreta;
+        this.respostaSecreta = respostaSecreta;
+    }
+
 
     // Getters e Setters
     public String getNome() {
@@ -49,14 +62,20 @@ public class Usuario implements Entidade {
     public String getEmail() {
         return this.email;
     }
+
     
     public void setEmail(String email) {
         this.email = email;
     }
 
-    public int getHashSenha() {
+     public int getHashSenha() {
         return this.hashSenha;
     }
+
+    public void setSenha(String senha) {
+        this.hashSenha = senha.hashCode(); // correto
+    }
+
 
     public void setHashSenha(int hashSenha) {
         this.hashSenha = hashSenha;
@@ -77,7 +96,7 @@ public class Usuario implements Entidade {
     public void setRespostaSecreta(String respostaSecreta) {
         this.respostaSecreta = respostaSecreta;
     }
-
+    
     @Override
     public int getId() {
         return this.id;
@@ -114,5 +133,10 @@ public class Usuario implements Entidade {
         this.hashSenha = dis.readInt();
         this.perguntaSecreta = dis.readUTF();
         this.respostaSecreta = dis.readUTF();
+    }
+
+    public String toString() {
+        return "ID: " + this.id + ", Nome: " + this.nome + ", Email: " + this.email + ", HashSenha: " + this.hashSenha 
+               + ", PerguntaSecreta: " + this.perguntaSecreta + ", RespostaSecreta: " + this.respostaSecreta;
     }
 }
