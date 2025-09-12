@@ -15,14 +15,14 @@ public class Main {
 	// Definir dados
 	private static ArquivoUsuario arqUsuario;
 	private static ArquivoLista arqLista;
-	static ArvoreBMais<ParUsuarioLista> tree;
+	static ArvoreBMais<ParIntInt> tree;
 
 
     
 	public static void main(String[] args) throws Exception {
 	    arqUsuario = new ArquivoUsuario();
 	    arqLista = new ArquivoLista();
-		tree = new ArvoreBMais<>(ParUsuarioLista.class.getConstructor(), 5, "arvoreBmais.db");
+		tree = new ArvoreBMais<>(ParIntInt.class.getConstructor(), 5, "arvoreBmais.db");
 	    
 	    Usuario usuarioLogado = null;
 
@@ -71,6 +71,43 @@ public class Main {
 	                    System.out.println("Usuário ou senha inválidos.");
 	                }
 	            }
+
+				case '3' -> {
+                    if (usuarioLogado == null) {
+                        System.out.println("Você precisa estar logado para criar uma lista.");
+                        break;
+                    }
+
+                    int idUsuario = usuarioLogado.getId();
+
+                    System.out.print("Digite o nome da lista: ");
+                    String nome = sc.nextLine();
+
+                    System.out.print("Digite a descrição da lista: ");
+                    String descricao = sc.nextLine();
+
+                    System.out.print("Digite a data de criação (dd/mm/yyyy): ");
+                    String dataCriacao = sc.nextLine();
+
+                    System.out.print("Digite a data limite (dd/mm/yyyy): ");
+                    String dataLimite = sc.nextLine();
+
+                    System.out.print("Digite o código compartilhável: ");
+                    String codigoCompartilhavel = sc.nextLine();
+
+                    Lista lista = new Lista(0, idUsuario, nome, descricao, dataCriacao, dataLimite, codigoCompartilhavel);
+                    int id = arqLista.create(lista);
+                    lista.setId(id);
+
+                    ParIntInt par = new ParIntInt(idUsuario, id);
+                    tree.create(par);
+
+                    System.out.println("Lista de número " + lista.getId() + " criada pelo usuário " + usuarioLogado.getEmail());
+
+                    tree.print();
+
+                    break;
+                }
 
 	            case 'S', 's' -> System.out.println("Encerrando programa!");
 	            default -> System.out.println("Opção inválida!");
