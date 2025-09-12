@@ -72,6 +72,11 @@ public class Usuario implements Entidade {
         return this.hashSenha;
     }
 
+    public void setSenha(String senha) {
+        this.hashSenha = senha.hashCode(); // correto
+    }
+
+
     public void setHashSenha(int hashSenha) {
         this.hashSenha = hashSenha;
     }
@@ -128,5 +133,10 @@ public class Usuario implements Entidade {
         this.hashSenha = dis.readInt();
         this.perguntaSecreta = dis.readUTF();
         this.respostaSecreta = dis.readUTF();
+    }
+
+    public String toString() {
+        return "ID: " + this.id + ", Nome: " + this.nome + ", Email: " + this.email + ", HashSenha: " + this.hashSenha 
+               + ", PerguntaSecreta: " + this.perguntaSecreta + ", RespostaSecreta: " + this.respostaSecreta;
     }
 }

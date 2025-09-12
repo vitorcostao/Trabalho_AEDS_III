@@ -3,11 +3,14 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Scanner;
 
+import controle.ControleUsuario;
 import model.Lista;
 import model.Usuario;
 
 public class Painel {
+
     private static boolean executando = true;
+    private static ControleUsuario controleUsuario = null;
 
     /*-+-+-+-+- Funões de Auxilio de Painel -+-+-+-+- */
     public static void limparTelaWindows() {
@@ -26,12 +29,20 @@ public class Painel {
 
     /*-+-+-+-+- Funões de Painel -+-+-+-+- */
 
-    public static void tela(Scanner sc){
-       while (executando){
-            exibirMenuInicial(sc);
-
-        }
+   public static void tela(Scanner sc){
+    try {
+        controleUsuario = new ControleUsuario();
+    } catch (Exception e) {
+        System.out.println("Erro ao iniciar controle de usuários: " + e.getMessage());
+        executando = false;
+        return;
     }
+
+    while (executando){
+        exibirMenuInicial(sc);
+    }
+}
+
     /*-+-+-+-+-  Menu Inicial  -+-+-+-+- */
     public static void exibirMenuInicial(Scanner sc) {
         limparTelaWindows();
@@ -100,13 +111,17 @@ public class Painel {
 	    System.out.println("Digite a resposta de segurança: ");
 	    String resp = sc.nextLine();  
 
-        /*Usuario novo = new Usuario(0, nome, email, senha.hashCode(), perg, resp);
-	    int id = arqUsuario.create(novo);
-	    System.out.println("Usuário criado com ID: " + id);*/
+        
+        try {
+            Usuario novoUsuario = controleUsuario.cadastrarUsuario(nome, email, senha, perg, resp);
+            System.out.println(novoUsuario.toString());
+            pausar(sc);
+            painelInicio(sc, novoUsuario); // Simula login após cadastro
+        } catch (Exception e) {
+            System.out.println("Erro ao cadastrar usuário: " + e.getMessage());
+            pausar(sc);
+        }
 
-        Usuario novoUsuario = new Usuario(nome, email, senha.hashCode(), perg, resp);
-        pausar(sc);
-        painelInicio(sc, novoUsuario); //Simula login após cadastro
 
     }
 
