@@ -24,7 +24,7 @@ public class Main {
 	    arqLista = new ArquivoLista();
 		tree = new ArvoreBMais<>(ParIntInt.class.getConstructor(), 5, "arvoreBmais.db");
         Scanner sc = new Scanner(System.in);
-	    Painel.tela(null);
+	    Painel.tela(sc);
 
         arqLista.close();
         sc.close();  
