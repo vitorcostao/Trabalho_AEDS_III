@@ -35,14 +35,27 @@ public class ParIDEndereco implements interfaces.RegistroHashExtensivel<ParIDEnd
         return this.id;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null || getClass() != obj.getClass())
+            return false;
+        ParIDEndereco other = (ParIDEndereco) obj;
+        return id == other.id && endereco == other.endereco;
+    }
+
+    @Override
     public short size() {
         return this.TAMANHO;
     }
 
+    @Override
     public String toString() {
         return "("+this.id + ";" + this.endereco+")";
     }
 
+    @Override
     public byte[] toByteArray() throws IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         DataOutputStream dos = new DataOutputStream(baos);
@@ -51,6 +64,7 @@ public class ParIDEndereco implements interfaces.RegistroHashExtensivel<ParIDEnd
         return baos.toByteArray();
     }
 
+    @Override
     public void fromByteArray(byte[] ba) throws IOException {
         ByteArrayInputStream bais = new ByteArrayInputStream(ba);
         DataInputStream dis = new DataInputStream(bais);

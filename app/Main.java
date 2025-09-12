@@ -1,12 +1,11 @@
 package app;
 
-import java.util.ArrayList;
-import java.util.Scanner;
-import service.ArquivoUsuario;
-import service.ArquivoLista;
-import model.*;
 import arvore.*;
 import arvore.aed3.ArvoreBMais;
+import java.util.Scanner;
+import model.*;
+import service.ArquivoLista;
+import service.ArquivoUsuario;
 
 
 
@@ -23,7 +22,6 @@ public class Main {
 	public static void main(String[] args) throws Exception {
 	    arqUsuario = new ArquivoUsuario();
 	    arqLista = new ArquivoLista();
-
 		tree = new ArvoreBMais<>(ParUsuarioLista.class.getConstructor(), 5, "arvoreBmais.db");
 	    
 	    Usuario usuarioLogado = null;
@@ -67,6 +65,8 @@ public class Main {
 	                int hashSenha = senha.hashCode();
 
 	                usuarioLogado = arqUsuario.read(email);
+	                if (usuarioLogado != null && usuarioLogado.getHashSenha() == hashSenha) {
+	                    System.out.println("Usuário logado: " + usuarioLogado.getNome() + "e id: " + usuarioLogado.getId());
 	                if (usuarioLogado != null && usuarioLogado.getHashSenha() == hashSenha) {
 	                    System.out.println("Usuário logado: " + usuarioLogado.getNome() + "e id: " + usuarioLogado.getId());
 	                } else {

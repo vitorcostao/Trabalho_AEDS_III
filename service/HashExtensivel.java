@@ -1,28 +1,14 @@
-/*
-TABELA HASH EXTENSÍVEL
-
-Os nomes dos métodos foram mantidos em inglês
-apenas para manter a coerência com o resto da
-disciplina:
-- boolean create(T elemento)
-- long read(int hashcode)
-- boolean update(T novoElemento)   //  a chave (hashcode) deve ser a mesma
-- boolean delete(int hashcode)
-
-Implementado pelo Prof. Marcos Kutova
-v1.1 - 2021
-*/
 package service;
 
+import interfaces.RegistroHashExtensivel;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.RandomAccessFile;
-import java.util.ArrayList;
 import java.lang.reflect.Constructor;
-import interfaces.RegistroHashExtensivel;
+import java.util.ArrayList;
 
 public class HashExtensivel<T extends RegistroHashExtensivel<T>> {
 
@@ -161,6 +147,7 @@ public class HashExtensivel<T extends RegistroHashExtensivel<T>> {
       return quantidade == quantidadeMaxima;
     }
 
+    @Override
     public String toString() {
       String s = "Profundidade Local: " + profundidadeLocal + "\nQuantidade: " + quantidade + "\n| ";
       int i = 0;
@@ -225,6 +212,7 @@ public class HashExtensivel<T extends RegistroHashExtensivel<T>> {
       }
     }
 
+    @Override
     public String toString() {
       String s = "\nProfundidade global: " + profundidadeGlobal;
       int i = 0;
@@ -303,7 +291,7 @@ public class HashExtensivel<T extends RegistroHashExtensivel<T>> {
 
   public boolean create(T elem) throws Exception {
 
-    // Carrega TODO o diretório para a memória
+    // Carrega todo o diretório para a memória
     byte[] bd = new byte[(int) arqDiretorio.length()];
     arqDiretorio.seek(0);
     arqDiretorio.read(bd);
@@ -462,6 +450,7 @@ public class HashExtensivel<T extends RegistroHashExtensivel<T>> {
     return true;
   }
 
+  @SuppressWarnings("CallToPrintStackTrace")
   public void print() {
     try {
       byte[] bd = new byte[(int) arqDiretorio.length()];

@@ -1,24 +1,3 @@
-/*
-
-Esta classe representa um PAR CHAVE VALOR (PCV) 
-para uma entidade Pessoa. Seu objetivo é representar
-uma entrada de índice. 
-
-Esse índice será secundário e indireto, baseado no
-email de uma pessoa. Ao fazermos a busca por pessoa,
-ele retornará o ID dessa pessoa, para que esse ID
-possa ser buscado em um índice direto (que não é
-apresentado neste projeto)
-
-Um índice direto de ID precisaria ser criado por meio
-de outra classe, cujos dados fossem um int para o ID
-e um long para o endereço
- 
-Implementado pelo Prof. Marcos Kutova
-v1.0 - 2021
- 
-*/
-
 package service;
 
 import java.io.ByteArrayInputStream;
@@ -27,36 +6,39 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-public class ParEmailID implements interfaces.RegistroHashExtensivel<ParEmailID> {
+public class ParCodigoId implements interfaces.RegistroHashExtensivel<ParCodigoId> {
 
-  private String email;
+  private String codigo;
   private int id;
   private short TAMANHO = 44;
 
-  public ParEmailID() {
+  public ParCodigoId() {
     this("", -1);
   }
 
   @SuppressWarnings("CallToPrintStackTrace")
-  public ParEmailID(String e, int i) {
+  public ParCodigoId(String codigo, int id) {
     try {
-      this.email = e;
-      this.id = i;
-      if (e.getBytes().length + 4 > TAMANHO)
-        throw new Exception("Número de caracteres do email maior que o permitido. Os dados serão cortados.");
+      this.codigo = codigo;
+      this.id = id;
+      if (codigo.getBytes().length + 4 > TAMANHO)
+        throw new Exception("Número de caracteres do código maior que o permitido. Os dados serão cortados.");
     } catch (Exception ec) {
       ec.printStackTrace();
     }
   }
 
   public int getId() {
-
     return this.id;
+  }
+
+  public String getCodigo() {
+    return this.codigo;
   }
 
   @Override
   public int hashCode() {
-    return Math.abs(this.email.hashCode());
+    return Math.abs(this.codigo.hashCode());
   }
 
   @Override
@@ -65,9 +47,15 @@ public class ParEmailID implements interfaces.RegistroHashExtensivel<ParEmailID>
       return true;
     if (obj == null || getClass() != obj.getClass())
       return false;
-    ParEmailID other = (ParEmailID) obj;
-    return this.id == other.id &&
-        (this.email == null ? other.email == null : this.email.equals(other.email));
+    ParCodigoId other = (ParCodigoId) obj;
+    if (id != other.id)
+      return false;
+    if (codigo == null) {
+      if (other.codigo != null)
+        return false;
+    } else if (!codigo.equals(other.codigo))
+      return false;
+    return true;
   }
 
   @Override
@@ -77,14 +65,14 @@ public class ParEmailID implements interfaces.RegistroHashExtensivel<ParEmailID>
 
   @Override
   public String toString() {
-    return this.email + ";" + this.id;
+    return this.codigo + ";" + this.id;
   }
 
   @Override
   public byte[] toByteArray() throws IOException {
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     DataOutputStream dos = new DataOutputStream(baos);
-    dos.writeUTF(email);
+    dos.writeUTF(codigo);
     dos.writeInt(id);
     byte[] bs = baos.toByteArray();
     byte[] bs2 = new byte[TAMANHO];
@@ -99,12 +87,12 @@ public class ParEmailID implements interfaces.RegistroHashExtensivel<ParEmailID>
   public void fromByteArray(byte[] ba) throws IOException {
     ByteArrayInputStream bais = new ByteArrayInputStream(ba);
     DataInputStream dis = new DataInputStream(bais);
-    this.email = dis.readUTF();
+    this.codigo = dis.readUTF();
     this.id = dis.readInt();
   }
 
-  public static int hash(String email) {
-    return Math.abs(email.hashCode());
+  public static int hash(String codigo) {
+    return Math.abs(codigo.hashCode());
   }
 
 }

@@ -4,13 +4,12 @@ import model.Lista;
 
 public class ArquivoLista extends service.Arquivo<Lista> {
 
-    Arquivo<Lista> arqLista;
-    HashExtensivel<ParUsuarioLista> indiceIndiretoNome;
+    HashExtensivel<ParCodigoId> indiceIndireto;
 
     public ArquivoLista() throws Exception {
         super("listas", Lista.class.getConstructor());
-        indiceIndiretoNome = new HashExtensivel<>(
-            ParUsuarioLista.class.getConstructor(), 
+        indiceIndireto = new HashExtensivel<>(
+            ParCodigoId.class.getConstructor(), 
             4, 
             ".\\dados\\listas\\indiceLista.d.db",   // diretório
             ".\\dados\\listas\\indiceLista.c.db"    // cestos 
@@ -20,22 +19,22 @@ public class ArquivoLista extends service.Arquivo<Lista> {
     @Override
     public int create(Lista l) throws Exception {
         int id = super.create(l);
-        indiceIndiretoNome.create(new ParUsuarioLista(l.getNome(), id));
+        indiceIndireto.create(new ParCodigoId(l.getNome(), id));
         return id;
     }
 
     public Lista read(String email) throws Exception {
-    	ParUsuarioLista pei = indiceIndiretoNome.read(ParUsuarioLista.hash(email));
+    	ParCodigoId pei = indiceIndireto.read(ParCodigoId.hash(email));
         if(pei == null)
             return null;
         return read(pei.getId());
     }
     
     public boolean delete(String email) throws Exception {
-    	ParUsuarioLista pei = indiceIndiretoNome.read(ParUsuarioLista.hash(email));
+    	ParCodigoId pei = indiceIndireto.read(ParCodigoId.hash(email));
         if(pei != null) 
             if(delete(pei.getId())) 
-                return indiceIndiretoNome.delete(ParUsuarioLista.hash(email));
+                return indiceIndireto.delete(ParCodigoId.hash(email));
         return false;
     }
 
@@ -44,7 +43,7 @@ public class ArquivoLista extends service.Arquivo<Lista> {
         Lista l = super.read(id);
         if(l != null) {
             if(super.delete(id))
-                return indiceIndiretoNome.delete(ParUsuarioLista.hash(l.getNome()));
+                return indiceIndireto.delete(ParCodigoId.hash(l.getNome()));
         }
         return false;
     }
@@ -54,8 +53,8 @@ public class ArquivoLista extends service.Arquivo<Lista> {
     	Lista usuarioVelho = read(novoUsuario.getNome());
         if(super.update(novoUsuario)) {
             if(novoUsuario.getNome().compareTo(usuarioVelho.getNome())!=0) {
-            	indiceIndiretoNome.delete(ParUsuarioLista.hash(usuarioVelho.getNome()));
-            	indiceIndiretoNome.create(new ParUsuarioLista(novoUsuario.getNome(), novoUsuario.getId()));
+            	indiceIndireto.delete(ParCodigoId.hash(usuarioVelho.getNome()));
+            	indiceIndireto.create(new ParCodigoId(novoUsuario.getNome(), novoUsuario.getId()));
             }
             return true;
         }

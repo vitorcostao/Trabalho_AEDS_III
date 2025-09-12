@@ -20,7 +20,6 @@ public class Usuario implements Entidade {
     private String respostaSecreta;
 
     public Usuario() {
-
         this.id = -1;
         this.nome = " ";
         this.email = " ";
@@ -38,12 +37,7 @@ public class Usuario implements Entidade {
         this.respostaSecreta = respostaSecreta;
     }
 
-    public String getEmail() {
-
-        return this.email;
-    }
-
-    
+    // Getters e Setters
     public String getNome() {
         return this.nome;
     }
@@ -52,8 +46,12 @@ public class Usuario implements Entidade {
         this.nome = nome;
     }
 
-    public void setEmail(String email) {
+    public String getEmail() {
+        return this.email;
+    }
 
+    
+    public void setEmail(String email) {
         this.email = email;
     }
 
@@ -83,19 +81,16 @@ public class Usuario implements Entidade {
     
     @Override
     public int getId() {
-
         return this.id;
     }
 
     @Override
     public void setId(int id) {
-
         this.id = id;
     }
     
     @Override
     public byte[] toByteArray() throws Exception {
-
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         DataOutputStream dos = new DataOutputStream(baos);
 
@@ -111,7 +106,6 @@ public class Usuario implements Entidade {
 
     @Override
     public void fromByteArray(byte[] vb) throws Exception {
-        
         ByteArrayInputStream bis = new ByteArrayInputStream(vb);
         DataInputStream dis = new DataInputStream(bis);
 
@@ -122,5 +116,4 @@ public class Usuario implements Entidade {
         this.perguntaSecreta = dis.readUTF();
         this.respostaSecreta = dis.readUTF();
     }
-
 }
