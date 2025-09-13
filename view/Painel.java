@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import model.Lista;
 import model.Usuario;
+import service.ConsoleUtils;
+
 
 public class Painel {
 
@@ -58,11 +60,13 @@ public class Painel {
         char op = sc.nextLine().toUpperCase().charAt(0);
         switch (op) {
             case '1' -> {
+                ConsoleUtils.limparConsole();
                 System.out.println("Login selecionado");
                 painelLogin(sc);
             }
 
             case '2' -> {
+                ConsoleUtils.limparConsole();
                 System.out.println("Cadastrar selecionado");
                 painelCadastro(sc);
             }
@@ -255,6 +259,7 @@ public class Painel {
         char op = sc.nextLine().charAt(0);
         switch (op) {
             case '1' -> {
+
                 System.out.println("Meus dados selecionado");
                 painelMeusDados(sc);
             }
@@ -320,16 +325,16 @@ public class Painel {
         System.out.println("Digite a data limite(dd/MM/yyyy): ");
         String dataLimite = sc.nextLine();
 
-        System.out.println("Codigo compartilhavel(Ja sera implementado)");
-        String codigo = sc.nextLine();
-
         try {
 
             Lista novaLista = controleUsuario.getControl().cadastrarLista(controleUsuario.getUser().getId(), nome, descricao,
-                    dataCriacao, dataLimite, codigo);
+                    dataCriacao, dataLimite);
 
-            ArrayList<ParIntInt> array = controleUsuario.getControl().tree.read(new ParIntInt(controleUsuario.getUser().getId(), codigo.hashCode()));
+            ArrayList<ParIntInt> array = controleUsuario.getControl().tree.read(new ParIntInt(controleUsuario.getUser().getId(), novaLista.getCodigoCompartilhavel().hashCode()));
             array.forEach(par -> System.out.println(par));
+
+
+            System.out.println("Codigo compartilhavel: " + novaLista.getCodigoCompartilhavel());
 
 
 
@@ -339,7 +344,9 @@ public class Painel {
         } catch (Exception e) {
             System.out.println("Erro ao cadastrar usuário: " + e.getMessage());
         }
+
     }
+
 
     public static void painelDetalhesLista(Scanner sc, Lista lista) {
         limparTelaWindows();

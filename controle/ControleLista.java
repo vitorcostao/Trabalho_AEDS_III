@@ -11,7 +11,7 @@ public class ControleLista {
     private static ArquivoLista arquivoLista;
     public static ArvoreBMais<ParIntInt> tree;
     public static Usuario usuarioLogado;
-    
+
     public ControleLista() throws Exception {
         arquivoLista = new ArquivoLista();
         tree = new ArvoreBMais<>(ParIntInt.class.getConstructor(), 5, "arvoreBmais.db");
@@ -24,24 +24,34 @@ public class ControleLista {
     }
 
     /*-+-+-+-+- Cadastrar Lista -+-+-+-+- */
-    public Lista cadastrarLista(int idUsuario, String nome, String descricao, String dataCriacao, String dataLimite, String codigo) throws Exception {
-        if (arquivoLista.read(codigo) != null) {
-            throw new IllegalArgumentException("Email já cadastrado!");
+    public Lista cadastrarLista(int idUsuario, String nome, String descricao, String dataCriacao, String dataLimite) throws Exception {
+
+        Lista novo = new Lista(0, idUsuario, nome, descricao, dataCriacao, dataLimite);
+
+        //enquanto estiver tendo colisão fica gerando a lista dnv até n dar mais.
+        while(PesquisaPorCodigo(novo.getCodigoCompartilhavel()) == true){
+            novo = new Lista(0, idUsuario, nome, descricao, dataCriacao, dataLimite);
         }
-        Lista novo = new Lista(0, idUsuario, nome, descricao, dataCriacao, dataLimite, codigo);
 
         int id = arquivoLista.create(novo);
         novo.setId(id);
         tree.create(new ParIntInt(idUsuario, id));
 
-    
         tree.print();
-
         return novo;
     }
 
 
-    // Busca usuário pelo email
+    // Busca de colisão
+    public boolean PesquisaPorCodigo(String codigo) throws Exception {
+
+        Lista lista = arquivoLista.read(codigo);
+        if(lista != null){
+            return true;
+        }
+        return false;
+    }
+
     public Lista buscarPorCodigo(String codigo) throws Exception {
         return arquivoLista.read(codigo);
     }

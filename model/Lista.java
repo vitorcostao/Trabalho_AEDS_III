@@ -1,6 +1,8 @@
 package model;
 
 import interfaces.Entidade;
+import service.NanoID;
+
 import java.io.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -25,14 +27,14 @@ public class Lista implements Entidade {
         this.codigoCompartilhavel = " ";
     }
 
-    public Lista(int id, int idUsuario, String nome, String descricao, String dataCriacao, String dataLimite, String codigoCompartilhavel) {
+    public Lista(int id, int idUsuario, String nome, String descricao, String dataCriacao, String dataLimite) {
         this.id = id;
         this.idUsuario = idUsuario;
         this.nome = nome;
         this.descricao = descricao;
         this.dataCriacao = dataCriacao;
         this.dataLimite = dataLimite;
-        this.codigoCompartilhavel = codigoCompartilhavel;
+        this.codigoCompartilhavel = NanoID.gerarNanoID(10);
     }
 
     @Override
@@ -89,9 +91,6 @@ public class Lista implements Entidade {
         return codigoCompartilhavel;
     }
 
-    public void setCodigoCompartilhavel(String codigoCompartilhavel) {
-        this.codigoCompartilhavel = codigoCompartilhavel;
-    }
 
     @Override
     public byte[] toByteArray() throws Exception {
