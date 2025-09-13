@@ -135,6 +135,7 @@ public class Usuario implements Entidade {
         this.respostaSecreta = dis.readUTF();
     }
 
+    @Override
     public String toString() {
         return "ID: " + this.id + ", Nome: " + this.nome + ", Email: " + this.email + ", HashSenha: " + this.hashSenha 
                + ", PerguntaSecreta: " + this.perguntaSecreta + ", RespostaSecreta: " + this.respostaSecreta;

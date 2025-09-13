@@ -19,22 +19,22 @@ public class ArquivoLista extends service.Arquivo<Lista> {
     @Override
     public int create(Lista l) throws Exception {
         int id = super.create(l);
-        indiceIndireto.create(new ParCodigoId(l.getNome(), id));
+        indiceIndireto.create(new ParCodigoId(l.getCodigoCompartilhavel(), id));
         return id;
     }
 
-    public Lista read(String email) throws Exception {
-    	ParCodigoId pei = indiceIndireto.read(ParCodigoId.hash(email));
+    public Lista read(String codigoCompartilhavel) throws Exception {
+    	ParCodigoId pei = indiceIndireto.read(ParCodigoId.hash(codigoCompartilhavel));
         if(pei == null)
             return null;
         return read(pei.getId());
     }
     
-    public boolean delete(String email) throws Exception {
-    	ParCodigoId pei = indiceIndireto.read(ParCodigoId.hash(email));
+    public boolean delete(String codigoCompartilhavel) throws Exception {
+    	ParCodigoId pei = indiceIndireto.read(ParCodigoId.hash(codigoCompartilhavel));
         if(pei != null) 
             if(delete(pei.getId())) 
-                return indiceIndireto.delete(ParCodigoId.hash(email));
+                return indiceIndireto.delete(ParCodigoId.hash(codigoCompartilhavel));
         return false;
     }
 
@@ -48,13 +48,18 @@ public class ArquivoLista extends service.Arquivo<Lista> {
         return false;
     }
 
-    @Override
-    public boolean update(Lista novoUsuario) throws Exception {
-    	Lista usuarioVelho = read(novoUsuario.getNome());
-        if(super.update(novoUsuario)) {
-            if(novoUsuario.getNome().compareTo(usuarioVelho.getNome())!=0) {
-            	indiceIndireto.delete(ParCodigoId.hash(usuarioVelho.getNome()));
-            	indiceIndireto.create(new ParCodigoId(novoUsuario.getNome(), novoUsuario.getId()));
+    public boolean update(Lista novaLista, String codigoAntigo) throws Exception {
+    	
+        Lista listaVelha = read(codigoAntigo);
+        if(listaVelha == null){
+
+            return false;
+        }
+
+        if(super.update(novaLista)){
+            if (!novaLista.getCodigoCompartilhavel().equals(listaVelha.getCodigoCompartilhavel())) {
+                indiceIndireto.delete(ParCodigoId.hash(codigoAntigo));
+                indiceIndireto.create(new ParCodigoId(novaLista.getCodigoCompartilhavel(), novaLista.getId()));
             }
             return true;
         }

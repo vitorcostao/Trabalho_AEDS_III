@@ -1,23 +1,29 @@
 package controle;
 
-import java.util.Scanner;
 import model.Usuario;
 import service.ArquivoUsuario;
 
 public class ControleUsuario {
 
-    private ArquivoUsuario arquivoUsuario;
-    private Usuario usuarioLogado;
+    private final ArquivoUsuario arquivoUsuario;
+    private final ControleLista controleLista;
+    private final Usuario usuarioLogado;
     
 
     public ControleUsuario() throws Exception {
         arquivoUsuario = new ArquivoUsuario();
         usuarioLogado = new Usuario();
+        controleLista = new ControleLista(usuarioLogado);
     }
 
     public Usuario getUser(){
 
         return usuarioLogado;
+    }
+
+    public ControleLista getControl(){
+
+        return controleLista;
     }
 
     public void setUser(int id, String nome, String email, int senha, String pergunta, String resposta){
@@ -79,6 +85,7 @@ public class ControleUsuario {
         arquivoUsuario.close();
     }
 
+    /* 
     // Método main para testes rápidos
     public static void main(String[] args) {
 
@@ -105,4 +112,5 @@ public class ControleUsuario {
         }
         sc.close();
     }
+    */
 }

@@ -53,7 +53,8 @@ public class ArquivoUsuario extends service.Arquivo<Usuario> {
         Usuario usuarioVelho = read(emailAntigo);
         if (usuarioVelho == null) {
             return false;
-        }
+        } 
+        
         if (super.update(novoUsuario)) {
             if (!novoUsuario.getEmail().equals(usuarioVelho.getEmail())) {
                 indiceIndiretoEmail.delete(ParEmailID.hash(emailAntigo));
