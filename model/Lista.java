@@ -11,8 +11,8 @@ public class Lista implements Entidade {
     private int idUsuario;
     private String nome;
     private String descricao;
-    private String dataCriacao;  
-    private String dataLimite;   
+    private String dataCriacao;
+    private String dataLimite;
     private String codigoCompartilhavel;
 
     public Lista() {
@@ -25,7 +25,8 @@ public class Lista implements Entidade {
         this.codigoCompartilhavel = " ";
     }
 
-    public Lista(int id, int idUsuario, String nome, String descricao, String dataCriacao, String dataLimite, String codigoCompartilhavel) {
+    public Lista(int id, int idUsuario, String nome, String descricao, String dataCriacao, String dataLimite,
+            String codigoCompartilhavel) {
         this.id = id;
         this.idUsuario = idUsuario;
         this.nome = nome;
@@ -122,4 +123,15 @@ public class Lista implements Entidade {
         dataLimite = dis.readUTF();
         codigoCompartilhavel = dis.readUTF();
     }
+
+    @Override
+    public String toString() {
+        return  "\nNome: " + nome +
+                "\nDescrição: " + descricao +
+                "\nData de Criação: " + dataCriacao +
+                "\nData Limite: " + dataLimite +
+                "\nCódigo Compartilhável: " + codigoCompartilhavel +
+                "\n---------------------------";
+    }
+
 }

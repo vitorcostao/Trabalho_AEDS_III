@@ -13,7 +13,6 @@ public class Painel {
 
     private static boolean executando = true;
     public static ControleUsuario controleUsuario = null;
-    
 
     /*-+-+-+-+- Funões de Auxilio de Painel -+-+-+-+- */
     public static void limparTelaWindows() {
@@ -290,20 +289,55 @@ public class Painel {
         System.out.println("Presente Fácil 1.0\n-----------------");
         System.out.println(">Início >Minhas listas\n");
 
+        // Mostra todas as listas/presentes do usuário
+        int idUsuario = ControleLista.usuarioLogado.getId();
+        ParIntInt busca = new ParIntInt(idUsuario, -1);
+
+        ArrayList<Lista> listasUsuario = new ArrayList<>();
+        int contador = 1;
+
+        try {
+            ArrayList<ParIntInt> listaPresentes = ControleLista.tree.read(busca);
+
+            if (listaPresentes.isEmpty()) {
+                System.out.println("Você ainda não possui presentes cadastrados.");
+            } else {
+                System.out.println("Seus presentes:");
+
+                for (ParIntInt par : listaPresentes) {
+                    int idLista = par.getNum2();
+                    Lista presente = controleUsuario.getControl().getArquivoLista().read(idLista);
+                    listasUsuario.add(presente);
+                    System.out.printf("(%d) %s - %s\n", contador, presente.getNome(), presente.getDataLimite());
+                    contador++;
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Erro ao carregar seus presentes.");
+        }
+
         System.out.println("\n(N) Nova lista");
         System.out.println("(R) Retornar ao menu anterior");
         System.out.print("\nOpção: ");
         String opcao = sc.nextLine().toUpperCase();
 
         switch (opcao) {
-            case "N" -> {
-                painelCadastroListas(sc);
-            }
+            case "N" -> painelCadastroListas(sc);
             case "R" -> painelInicio(sc);
             default -> {
+                try {
+                    int escolha = Integer.parseInt(opcao);
+                    if (escolha >= 1 && escolha <= listasUsuario.size()) {
+                        Lista listaSelecionada = listasUsuario.get(escolha - 1);
+                        painelDetalhesLista(sc, listaSelecionada);
+                    } else {
+                        System.out.println("Opção inválida!");
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("Opção inválida!");
+                }
             }
         }
-
     }
 
     public static void painelCadastroListas(Scanner sc) {
@@ -325,23 +359,25 @@ public class Painel {
 
         try {
 
-            Lista novaLista = controleUsuario.getControl().cadastrarLista(controleUsuario.getUser().getId(), nome, descricao,
+            @SuppressWarnings("unused")
+            Lista novaLista = controleUsuario.getControl().cadastrarLista(controleUsuario.getUser().getId(), nome,
+                    descricao,
                     dataCriacao, dataLimite, codigo);
 
-            ArrayList<ParIntInt> array = controleUsuario.getControl().tree.read(new ParIntInt(controleUsuario.getUser().getId(), codigo.hashCode()));
+            @SuppressWarnings("static-access")
+            ArrayList<ParIntInt> array = controleUsuario.getControl().tree
+                    .read(new ParIntInt(controleUsuario.getUser().getId(), codigo.hashCode()));
             array.forEach(par -> System.out.println(par));
-
-
 
             pausar(sc);
             painelMinhasListas(sc);
-            
+
         } catch (Exception e) {
             System.out.println("Erro ao cadastrar usuário: " + e.getMessage());
         }
     }
 
-    public static void painelDetalhesLista(Scanner sc, Lista lista) {
+    public static void painelDetalhesLista(Scanner sc, Lista lista) throws Exception {
         limparTelaWindows();
         System.out.println("Presente Fácil 1.0\n-----------------");
         System.out.println(">Início >Minhas listas >" + lista.getNome() + "\n");
@@ -366,14 +402,16 @@ public class Painel {
                 pausar(sc);
             }
             case "2" -> {
-                System.out.println("Alteração de dados em desenvolvimento.");
+                alterarDadosLista(sc, lista);
                 pausar(sc);
             }
             case "3" -> {
-                System.out.println("Exclusão da lista (confirmar...)");
+                excluirLista(sc, lista);
                 pausar(sc);
             }
             case "R" -> {
+
+                painelMinhasListas(sc);
             }
 
             default -> {
@@ -381,6 +419,81 @@ public class Painel {
                 pausar(sc);
             }
         }
+    }
+
+    public static void excluirLista(Scanner sc, Lista lista) throws Exception{
+        limparTelaWindows();
+        System.out.println("Presente Fácil 1.0\n-----------------");
+        System.out.println(">Início >Minhas listas > Excluir\n");
+
+        System.out.println("Você tem certeza que deseja excluir a lista \"" + lista.getNome() + "\"? (S/N): ");
+        String confirm = sc.nextLine().toUpperCase();
+
+        if (confirm.equals("S")) {
+            try {
+                // Remove do arquivo
+                controleUsuario.getControl().getArquivoLista().delete(lista.getId());
+
+                // Remove da árvore B+
+                ParIntInt par = new ParIntInt(lista.getIdUsuario(), lista.getId());
+                ControleLista.tree.delete(par);
+
+                System.out.println("Lista excluída com sucesso!");
+            } catch (Exception e) {
+                System.out.println("Erro ao excluir a lista: " + e.getMessage());
+            }
+        } else {
+            System.out.println("Exclusão cancelada.");
+        }
+
+        painelMinhasListas(sc);
+    }
+
+    public static void alterarDadosLista(Scanner sc, Lista lista) throws Exception {
+        limparTelaWindows();
+        System.out.println("Presente Fácil 1.0\n-----------------");
+        System.out.println(">Início >Minhas listas > Alterar dados\n");
+
+        try {
+            System.out.println("CÓDIGO: " + lista.getCodigoCompartilhavel());
+
+            // Nome
+            System.out.print("Novo nome (deixe em branco para manter \"" + lista.getNome() + "\"): ");
+            String novoNome = sc.nextLine();
+            if (!novoNome.isBlank()) {
+                lista.setNome(novoNome);
+            }
+
+            // Descrição
+            System.out.print("Nova descrição (deixe em branco para manter \"" + lista.getDescricao() + "\"): ");
+            String novaDesc = sc.nextLine();
+            if (!novaDesc.isBlank()) {
+                lista.setDescricao(novaDesc);
+            }
+
+            // Data limite
+            System.out.print("Nova data limite (AAAA-MM-DD) ou deixe em branco para manter \""
+                    + (lista.getDataLimite().equalsIgnoreCase("NaN") ? "Não definida" : lista.getDataLimite())
+                    + "\"): ");
+            String novaData = sc.nextLine();
+            if (!novaData.isBlank()) {
+                // Validação simples de formato YYYY-MM-DD
+                if (novaData.matches("\\d{4}-\\d{2}-\\d{2}")) {
+                    lista.setDataLimite(novaData);
+                } else {
+                    System.out.println("Formato inválido! Mantendo a data atual.");
+                }
+            }
+
+            // Salva as alterações no arquivo
+            controleUsuario.getControl().getArquivoLista().update(lista);
+
+            System.out.println("\nLista atualizada com sucesso!");
+        } catch (Exception e) {
+            System.out.println("Erro ao atualizar a lista: " + e.getMessage());
+        }
+
+        painelDetalhesLista(sc, lista);
     }
 
     /*-+-+-+-+- ________________________ -+-+-+-+- */

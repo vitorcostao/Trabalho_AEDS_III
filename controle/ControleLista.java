@@ -23,6 +23,18 @@ public class ControleLista {
         tree = new ArvoreBMais<>(ParIntInt.class.getConstructor(), 5, "arvoreBmais.db");
     }
 
+    @SuppressWarnings("static-access")
+    public ArquivoLista getArquivoLista(){
+
+        return this.arquivoLista;
+    }
+
+    @SuppressWarnings("rawtypes")
+    public ArvoreBMais getArvoreBMais(){
+
+        return tree;
+    }
+
     /*-+-+-+-+- Cadastrar Lista -+-+-+-+- */
     public Lista cadastrarLista(int idUsuario, String nome, String descricao, String dataCriacao, String dataLimite, String codigo) throws Exception {
         if (arquivoLista.read(codigo) != null) {
