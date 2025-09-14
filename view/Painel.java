@@ -367,7 +367,6 @@ public class Painel {
             @SuppressWarnings("static-access")
             ArrayList<ParIntInt> array = controleUsuario.getControl().tree
                     .read(new ParIntInt(controleUsuario.getUser().getId(), codigo.hashCode()));
-            array.forEach(par -> System.out.println(par));
 
             pausar(sc);
             painelMinhasListas(sc);
