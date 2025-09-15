@@ -80,14 +80,20 @@ public class ControleLista {
             if (listaPresentes.isEmpty()) {
                 System.out.println("Você ainda não possui listas de presentes cadastrados.");
             } else {
-                System.out.println("Seus presentes:");
+                System.out.println("Suas listas:");
 
                 for (ParIntInt par : listaPresentes) {
+
+                    int idUser = par.getNum1();
                     int idLista = par.getNum2();
-                    Lista presente = arquivoLista.read(idLista);
-                    listasUsuario.add(presente);
-                    System.out.printf("(%d) %s - %s\n", contador, presente.getNome(), presente.getDataLimite());
-                    contador++;
+
+                    if (idUser == idUsuario) {
+
+                        Lista lista = arquivoLista.read(idLista);
+                        listasUsuario.add(lista);
+                        System.out.printf("(%d) %s - %s\n", contador, lista.getNome(), lista.getDataLimite());
+                        contador++;
+                    }
                 }
             }
         } catch (Exception e) {
