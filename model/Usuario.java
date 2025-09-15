@@ -49,7 +49,6 @@ public class Usuario implements Entidade {
         this.respostaSecreta = respostaSecreta;
     }
 
-
     // Getters e Setters
     public String getNome() {
         return this.nome;

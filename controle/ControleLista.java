@@ -13,7 +13,7 @@ public class ControleLista {
 
     private static ArquivoLista arquivoLista;
     public static ArvoreBMais<ParIntInt> tree;
-    public static Usuario usuarioLogado;
+    public Usuario usuarioLogado;
 
     public ControleLista() throws Exception {
         arquivoLista = new ArquivoLista();
@@ -22,7 +22,7 @@ public class ControleLista {
 
     public ControleLista(Usuario usuarioLogado) throws Exception {
         arquivoLista = new ArquivoLista();
-        ControleLista.usuarioLogado = usuarioLogado;
+        this.usuarioLogado = usuarioLogado;
         tree = new ArvoreBMais<>(ParIntInt.class.getConstructor(), 5, "arvoreBmais.db");
     }
 
@@ -37,6 +37,12 @@ public class ControleLista {
 
         return tree;
     }
+
+    public void setUser(Usuario usuarioLogado){
+
+        this.usuarioLogado = usuarioLogado;
+    }
+
 
     /*-+-+-+-+- Cadastrar Lista -+-+-+-+- */
     public void cadastrarLista(Scanner sc) throws Exception {
@@ -66,36 +72,31 @@ public class ControleLista {
     }
 
     public ArrayList<Lista> exibirListas() {
-
-        // Mostra todas as listas/presentes do usuário
-        int idUsuario = ControleLista.usuarioLogado.getId();
-        ParIntInt busca = new ParIntInt(idUsuario, -1);
-
+        int idUsuario = this.usuarioLogado.getId();
         ArrayList<Lista> listasUsuario = new ArrayList<>();
         int contador = 1;
 
         try {
-            ArrayList<ParIntInt> listaPresentes = ControleLista.tree.read(busca);
+            // Pega todos os pares da árvore
+            ArrayList<ParIntInt> todosOsPares = ControleLista.tree.read(new ParIntInt(-1, -1));
 
-            if (listaPresentes.isEmpty()) {
+            // Filtra apenas os pares do usuário logado
+            for (ParIntInt par : todosOsPares) {
+                if (par.getNum1() == idUsuario) {
+                    int idLista = par.getNum2();
+                    Lista lista = arquivoLista.read(idLista);
+                    listasUsuario.add(lista);
+                    System.out.printf("(%d) %s - %s\n", contador, lista.getNome(), lista.getDataLimite());
+                    contador++;
+                }
+            }
+
+            if (listasUsuario.isEmpty()) {
                 System.out.println("Você ainda não possui listas de presentes cadastrados.");
             } else {
                 System.out.println("Suas listas:");
-
-                for (ParIntInt par : listaPresentes) {
-
-                    int idUser = par.getNum1();
-                    int idLista = par.getNum2();
-
-                    if (idUser == idUsuario) {
-
-                        Lista lista = arquivoLista.read(idLista);
-                        listasUsuario.add(lista);
-                        System.out.printf("(%d) %s - %s\n", contador, lista.getNome(), lista.getDataLimite());
-                        contador++;
-                    }
-                }
             }
+
         } catch (Exception e) {
             System.out.println("Erro ao carregar seus presentes.");
         }

@@ -50,6 +50,10 @@ public class ControleUsuario {
         boolean resp = false;
 
         usuarioLogado = buscarPorEmail(email);
+        controleLista.setUser(usuarioLogado);
+        
+
+        System.out.println(usuarioLogado);
 
         if (usuarioLogado != null) {
             if (usuarioLogado.getHashSenha() == senha.hashCode()) {
