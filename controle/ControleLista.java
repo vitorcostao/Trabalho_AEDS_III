@@ -2,16 +2,19 @@ package controle;
 
 import arvore.ParIntInt;
 import arvore.aed3.ArvoreBMais;
+import java.time.LocalDate;
+import java.util.*;
 import model.Lista;
 import model.Usuario;
 import service.ArquivoLista;
+import view.Painel;
 
 public class ControleLista {
 
     private static ArquivoLista arquivoLista;
     public static ArvoreBMais<ParIntInt> tree;
     public static Usuario usuarioLogado;
-    
+
     public ControleLista() throws Exception {
         arquivoLista = new ArquivoLista();
         tree = new ArvoreBMais<>(ParIntInt.class.getConstructor(), 5, "arvoreBmais.db");
@@ -24,34 +27,216 @@ public class ControleLista {
     }
 
     @SuppressWarnings("static-access")
-    public ArquivoLista getArquivoLista(){
+    public ArquivoLista getArquivoLista() {
 
         return this.arquivoLista;
     }
 
     @SuppressWarnings("rawtypes")
-    public ArvoreBMais getArvoreBMais(){
+    public ArvoreBMais getArvoreBMais() {
 
         return tree;
     }
 
     /*-+-+-+-+- Cadastrar Lista -+-+-+-+- */
-    public Lista cadastrarLista(int idUsuario, String nome, String descricao, String dataCriacao, String dataLimite, String codigo) throws Exception {
+    public void cadastrarLista(Scanner sc) throws Exception {
+
+        System.out.println("Digite o nome: ");
+        String nome = sc.nextLine();
+        System.out.println("Digite a descricao: ");
+        String descricao = sc.nextLine();
+
+        LocalDate hoje = LocalDate.now();
+        String dataCriacao = hoje.toString();
+
+        System.out.println("Digite a data limite(dd/MM/yyyy): ");
+        String dataLimite = sc.nextLine();
+
+        System.out.println("Codigo compartilhavel(Ja sera implementado)");
+        String codigo = sc.nextLine();
+
         if (arquivoLista.read(codigo) != null) {
             throw new IllegalArgumentException("Email já cadastrado!");
         }
-        Lista novo = new Lista(0, idUsuario, nome, descricao, dataCriacao, dataLimite, codigo);
+        Lista novo = new Lista(0, usuarioLogado.getId(), nome, descricao, dataCriacao, dataLimite, codigo);
 
         int id = arquivoLista.create(novo);
         novo.setId(id);
-        tree.create(new ParIntInt(idUsuario, id));
-
-    
-        tree.print();
-
-        return novo;
+        tree.create(new ParIntInt(usuarioLogado.getId(), id));
     }
 
+    public ArrayList<Lista> exibirListas() {
+
+        // Mostra todas as listas/presentes do usuário
+        int idUsuario = ControleLista.usuarioLogado.getId();
+        ParIntInt busca = new ParIntInt(idUsuario, -1);
+
+        ArrayList<Lista> listasUsuario = new ArrayList<>();
+        int contador = 1;
+
+        try {
+            ArrayList<ParIntInt> listaPresentes = ControleLista.tree.read(busca);
+
+            if (listaPresentes.isEmpty()) {
+                System.out.println("Você ainda não possui listas de presentes cadastrados.");
+            } else {
+                System.out.println("Seus presentes:");
+
+                for (ParIntInt par : listaPresentes) {
+                    int idLista = par.getNum2();
+                    Lista presente = arquivoLista.read(idLista);
+                    listasUsuario.add(presente);
+                    System.out.printf("(%d) %s - %s\n", contador, presente.getNome(), presente.getDataLimite());
+                    contador++;
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Erro ao carregar seus presentes.");
+        }
+
+        return listasUsuario;
+    }
+
+    public static ArrayList<Lista> obterListasUsuario(int idUsuario) throws Exception {
+
+        ArrayList<Lista> listasUsuario = new ArrayList<>();
+        ParIntInt busca = new ParIntInt(idUsuario, -1);
+        ArrayList<ParIntInt> listaPresentes = tree.read(busca);
+
+        for (ParIntInt par : listaPresentes) {
+            int idLista = par.getNum2();
+            Lista lista = arquivoLista.read(idLista);
+            listasUsuario.add(lista);
+        }
+
+        return listasUsuario;
+    }
+
+    public void exibirDetalhesLista(ArrayList<Lista> listasUsuario, int escolha, Scanner sc) throws Exception {
+        try {
+            if (escolha >= 1 && escolha <= listasUsuario.size()) {
+
+                Lista listaSelecionada = listasUsuario.get(escolha - 1);
+                System.out.println(">Início >Minhas listas >" + listaSelecionada.getNome() + "\n");
+                System.out.println("CÓDIGO: " + listaSelecionada.getCodigoCompartilhavel());
+                System.out.println("NOME: " + listaSelecionada.getNome());
+                System.out.println("DESCRIÇÃO: " + listaSelecionada.getDescricao());
+                System.out.println("DATA DE CRIAÇÃO: " + listaSelecionada.getDataCriacao());
+                System.out.println("DATA LIMITE: "
+                        + (listaSelecionada.getDataLimite().equalsIgnoreCase("NaN") ? "Não definida"
+                                : listaSelecionada.getDataLimite()));
+
+                System.out.println("\n(1) Gerenciar produtos da lista");
+                System.out.println("(2) Alterar dados da lista");
+                System.out.println("(3) Excluir lista");
+                System.out.println("(R) Retornar ao menu anterior");
+
+                System.out.print("Opção: ");
+                String op = sc.nextLine().toUpperCase();
+
+                switch (op) {
+                    case "1" -> {
+                        Painel.pausar(sc);
+                    }
+                    case "2" -> {
+                        Painel.alterarDadosLista(sc, listaSelecionada, escolha, listasUsuario);
+                        Painel.pausar(sc);
+                    }
+                    case "3" -> {
+                        Painel.excluirLista(sc, listaSelecionada);
+                        Painel.pausar(sc);
+                    }
+                    case "R" -> {
+
+                        Painel.painelMinhasListas(sc);
+                    }
+
+                    default -> {
+                        System.out.println("Opção inválida.");
+                        Painel.pausar(sc);
+                    }
+                }
+            } else {
+                System.out.println("Opção inválida!");
+                Painel.pausar(sc);
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Opção inválida!");
+        }
+    }
+
+    public boolean alterarDadosLista(Scanner sc, Lista lista) {
+
+        boolean resp = false;
+
+        try {
+            System.out.println("CÓDIGO: " + lista.getCodigoCompartilhavel());
+
+            // Nome
+            System.out.print("Novo nome (deixe em branco para manter \"" + lista.getNome() + "\"): ");
+            String novoNome = sc.nextLine();
+            if (!novoNome.isBlank()) {
+                lista.setNome(novoNome);
+            }
+
+            // Descrição
+            System.out.print("Nova descrição (deixe em branco para manter \"" + lista.getDescricao() + "\"): ");
+            String novaDesc = sc.nextLine();
+            if (!novaDesc.isBlank()) {
+                lista.setDescricao(novaDesc);
+            }
+
+            // Data limite
+            System.out.print("Nova data limite (AAAA-MM-DD) ou deixe em branco para manter \""
+                    + (lista.getDataLimite().equalsIgnoreCase("NaN") ? "Não definida" : lista.getDataLimite())
+                    + "\"): ");
+            String novaData = sc.nextLine();
+            if (!novaData.isBlank()) {
+                // Validação simples de formato YYYY-MM-DD
+                if (novaData.matches("\\d{4}-\\d{2}-\\d{2}")) {
+                    lista.setDataLimite(novaData);
+                } else {
+                    System.out.println("Formato inválido! Mantendo a data atual.");
+                }
+            }
+
+            // Salva as alterações no arquivo
+            if (arquivoLista.update(lista)) {
+
+                resp = true;
+            }
+        } catch (Exception e) {
+            System.out.println("Erro ao atualizar a lista: " + e.getMessage());
+        }
+
+        return resp;
+    }
+
+    public boolean excluirLista(Scanner sc, Lista lista) {
+
+        boolean resp = false;
+
+        System.out.println("Você tem certeza que deseja excluir a lista \"" + lista.getNome() + "\"? (S/N): ");
+        String confirm = sc.nextLine().toUpperCase();
+
+        if (confirm.equals("S")) {
+            try {
+                // Remove do arquivo
+                arquivoLista.delete(lista.getId());
+
+                // Remove da árvore B+
+                ParIntInt par = new ParIntInt(lista.getIdUsuario(), lista.getId());
+                ControleLista.tree.delete(par);
+                resp = true;
+            } catch (Exception e) {
+                System.out.println("Erro ao excluir a lista: " + e.getMessage());
+            }
+        } else {
+            System.out.println("Exclusão cancelada.");
+        }
+
+        return resp;
+    }
 
     // Busca usuário pelo email
     public Lista buscarPorCodigo(String codigo) throws Exception {
@@ -83,36 +268,37 @@ public class ControleLista {
         arquivoLista.close();
     }
 
-    /* 
-    // Método main para testes rápidos
-    public static void main(String[] args) {
-
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Presente Fácil 1.0\n-----------------\n>Cadastro\n");
-        System.out.println("Digite o nome: ");
-	    String nome = sc.nextLine();
-	    System.out.println("Digite a descricao: ");
-	    String descricao = sc.nextLine();
-	    
-        LocalDate hoje = LocalDate.now();
-	    String dataCriacao = hoje.toString();
-
-
-	    System.out.println("Digite a data limite(dd/MM/yyyy): ");
-	    String dataLimite = sc.nextLine();
-
-	    System.out.println("Codigo compartilhavel(Ja sera implementado)");
-	    String codigo = sc.nextLine();
-       
-        try {
-            ControleLista controleLista = new ControleLista();
-            Lista novaLista = controleLista.cadastrarLista(usuarioLogado.getId(), nome, descricao, dataCriacao, dataLimite, codigo);
-            System.out.println(novaLista.toString());
-            controleLista.fechar();
-        } catch (Exception e) {
-            System.out.println("Erro ao cadastrar usuário: " + e.getMessage());
-        }
-        sc.close();
-    }
-    */
+    /*
+     * // Método main para testes rápidos
+     * public static void main(String[] args) {
+     * 
+     * Scanner sc = new Scanner(System.in);
+     * System.out.println("Presente Fácil 1.0\n-----------------\n>Cadastro\n");
+     * System.out.println("Digite o nome: ");
+     * String nome = sc.nextLine();
+     * System.out.println("Digite a descricao: ");
+     * String descricao = sc.nextLine();
+     * 
+     * LocalDate hoje = LocalDate.now();
+     * String dataCriacao = hoje.toString();
+     * 
+     * 
+     * System.out.println("Digite a data limite(dd/MM/yyyy): ");
+     * String dataLimite = sc.nextLine();
+     * 
+     * System.out.println("Codigo compartilhavel(Ja sera implementado)");
+     * String codigo = sc.nextLine();
+     * 
+     * try {
+     * ControleLista controleLista = new ControleLista();
+     * Lista novaLista = controleLista.cadastrarLista(usuarioLogado.getId(), nome,
+     * descricao, dataCriacao, dataLimite, codigo);
+     * System.out.println(novaLista.toString());
+     * controleLista.fechar();
+     * } catch (Exception e) {
+     * System.out.println("Erro ao cadastrar usuário: " + e.getMessage());
+     * }
+     * sc.close();
+     * }
+     */
 }
