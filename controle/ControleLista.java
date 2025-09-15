@@ -38,11 +38,10 @@ public class ControleLista {
         return tree;
     }
 
-    public void setUser(Usuario usuarioLogado){
+    public void setUser(Usuario usuarioLogado) {
 
         this.usuarioLogado = usuarioLogado;
     }
-
 
     /*-+-+-+-+- Cadastrar Lista -+-+-+-+- */
     public void cadastrarLista(Scanner sc) throws Exception {
@@ -72,35 +71,30 @@ public class ControleLista {
     }
 
     public ArrayList<Lista> exibirListas() {
-        int idUsuario = this.usuarioLogado.getId();
+        int idUsuario = usuarioLogado.getId();
+        ParIntInt busca = new ParIntInt(idUsuario, -1);
         ArrayList<Lista> listasUsuario = new ArrayList<>();
         int contador = 1;
-
         try {
-            // Pega todos os pares da árvore
-            ArrayList<ParIntInt> todosOsPares = ControleLista.tree.read(new ParIntInt(-1, -1));
-
-            // Filtra apenas os pares do usuário logado
-            for (ParIntInt par : todosOsPares) {
-                if (par.getNum1() == idUsuario) {
-                    int idLista = par.getNum2();
-                    Lista lista = arquivoLista.read(idLista);
-                    listasUsuario.add(lista);
-                    System.out.printf("(%d) %s - %s\n", contador, lista.getNome(), lista.getDataLimite());
-                    contador++;
-                }
-            }
-
-            if (listasUsuario.isEmpty()) {
+            ArrayList<ParIntInt> listaPresentes = ControleLista.tree.read(busca);
+            if (listaPresentes.isEmpty()) {
                 System.out.println("Você ainda não possui listas de presentes cadastrados.");
             } else {
                 System.out.println("Suas listas:");
+                for (ParIntInt par : listaPresentes) {
+                    int idUser = par.getNum1();
+                    int idLista = par.getNum2();
+                    if (idUser == idUsuario) {
+                        Lista lista = arquivoLista.read(idLista);
+                        listasUsuario.add(lista);
+                        System.out.printf("(%d) %s - %s\n", contador, lista.getNome(), lista.getDataLimite());
+                        contador++;
+                    }
+                }
             }
-
         } catch (Exception e) {
             System.out.println("Erro ao carregar seus presentes.");
         }
-
         return listasUsuario;
     }
 
