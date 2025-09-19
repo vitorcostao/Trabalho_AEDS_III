@@ -131,7 +131,7 @@ public class Lista implements Entidade {
                 "\nData de Criação: " + dataCriacao +
                 "\nData Limite: " + dataLimite +
                 "\nCódigo Compartilhável: " + codigoCompartilhavel +
-                "\n---------------------------";
+                "\n--------------------------------------------";
     }
 
 }

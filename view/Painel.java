@@ -130,7 +130,7 @@ public class Painel {
 
         System.out.println("\n(1) Alterar meus dados");
         System.out.println("(2) Excluir minha conta");
-        System.out.println("(3) Retornar ao menu anterior");
+        System.out.println("(0) Retornar ao menu anterior");
         char op = sc.nextLine().charAt(0);
         switch (op) {
             case '1' -> {
@@ -140,7 +140,7 @@ public class Painel {
             }
             case '2' -> excluirUsuario(sc);
             case '3' -> painelInicio(sc);
-            case 'S' -> painelInicio(sc);
+            case '0' -> painelInicio(sc);
             default -> {
                 System.out.print("Opção inválida!");
                 pausar(sc);
@@ -200,30 +200,30 @@ public class Painel {
         System.out.println("(4) Buscar lista");
         System.out.println("(S) Sair");
         System.out.print("Opção: ");
-        char op = sc.nextLine().charAt(0);
+        String op = sc.nextLine().toUpperCase();
         switch (op) {
-            case '1' -> {
+            case "1" -> {
                 System.out.println("Meus dados selecionado");
                 painelMeusDados(sc);
             }
 
-            case '2' -> {
+            case "2" -> {
                 System.out.println("Ver minhas listas");
                 painelMinhasListas(sc);
             }
 
-            case '3' -> {
+            case "3" -> {
                 System.out.println("Acessar produtos");
                 System.out.println("Em desenvolvimento...");
                 pausar(sc);
             }
-            case '4' -> {
+            case "4" -> {
                 System.out.println("Buscar lista");
                 System.out.println("Em desenvolvimento...");
                 pausar(sc);
             }
 
-            case 'S' -> {
+            case "S" -> {
                 System.out.println("Saindo...");
                 executando = false;
             }
@@ -240,14 +240,14 @@ public class Painel {
 
         ArrayList<Lista> listas = controleUsuario.getControl().exibirListas();
 
-        System.out.println("\n(N) Nova lista");
-        System.out.println("(R) Retornar ao menu anterior");
+        System.out.println("\n(1) Nova lista");
+        System.out.println("(0) Retornar ao menu anterior");
         System.out.print("\nOpção: ");
-        String opcao = sc.nextLine().toUpperCase();
+        String opcao = sc.nextLine();
 
         switch (opcao) {
-            case "N" -> painelCadastroListas(sc);
-            case "R" -> painelInicio(sc);
+            case "1" -> painelCadastroListas(sc);
+            case "0" -> painelInicio(sc);
             default -> {
                 limparTelaWindows();
                 int escolha = Integer.parseInt(opcao);

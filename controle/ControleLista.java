@@ -8,6 +8,7 @@ import model.Lista;
 import model.Usuario;
 import service.ArquivoLista;
 import view.Painel;
+import service.NanoID;
 
 public class ControleLista {
 
@@ -57,17 +58,28 @@ public class ControleLista {
         System.out.println("Digite a data limite(dd/MM/yyyy): ");
         String dataLimite = sc.nextLine();
 
-        System.out.println("Codigo compartilhavel(Ja sera implementado)");
-        String codigo = sc.nextLine();
+        //esse do while gera um nanoID verifica se o código compartilhável gerado ja está presente em alguma lista
+        //e caso encontre essa colisão, gera outro código, até passar sem colidir
 
-        if (arquivoLista.read(codigo) != null) {
-            throw new IllegalArgumentException("Email já cadastrado!");
-        }
+        String codigo = NanoID.gerarNanoID(10);;
+    //    do{
+      //      codigo = NanoID.gerarNanoID(10);
+
+  //  }while(PesquisaPorCodigo(codigo) == true);
+
         Lista novo = new Lista(0, usuarioLogado.getId(), nome, descricao, dataCriacao, dataLimite, codigo);
+        System.out.println("Codigo compartilhavel: "+novo.getCodigoCompartilhavel());
 
         int id = arquivoLista.create(novo);
         novo.setId(id);
         tree.create(new ParIntInt(usuarioLogado.getId(), id));
+    }
+
+    public boolean PesquisarPorCodigo(String Codigo){
+
+
+
+        return false;
     }
 
     public ArrayList<Lista> exibirListas() {
@@ -130,30 +142,30 @@ public class ControleLista {
                 System.out.println("\n(1) Gerenciar produtos da lista");
                 System.out.println("(2) Alterar dados da lista");
                 System.out.println("(3) Excluir lista");
-                System.out.println("(R) Retornar ao menu anterior");
+                System.out.println("(0) Retornar ao menu anterior");
 
                 System.out.print("Opção: ");
-                String op = sc.nextLine().toUpperCase();
+                char op = sc.next().charAt(0);
 
                 switch (op) {
-                    case "1" -> {
+                    case '1' -> {
                         Painel.pausar(sc);
                     }
-                    case "2" -> {
+                    case '2' -> {
                         Painel.alterarDadosLista(sc, listaSelecionada, escolha, listasUsuario);
                         Painel.pausar(sc);
                     }
-                    case "3" -> {
+                    case '3' -> {
                         Painel.excluirLista(sc, listaSelecionada);
                         Painel.pausar(sc);
                     }
-                    case "R" -> {
+                    case '0' -> {
 
                         Painel.painelMinhasListas(sc);
                     }
 
                     default -> {
-                        System.out.println("Opção inválida.");
+                        System.out.println("Opção inválida!");
                         Painel.pausar(sc);
                     }
                 }
@@ -237,32 +249,6 @@ public class ControleLista {
         }
 
         return resp;
-    }
-
-    // Busca usuário pelo email
-    public Lista buscarPorCodigo(String codigo) throws Exception {
-        return arquivoLista.read(codigo);
-    }
-
-    // Busca usuário pelo ID
-    public Lista buscarPorId(int id) throws Exception {
-        return arquivoLista.read(id);
-    }
-
-    // Atualiza usuário
-    public boolean atualizarUsuario(Lista listaAtualizada, String emailAntigo) throws Exception {
-
-        return arquivoLista.update(listaAtualizada, emailAntigo);
-    }
-
-    // Remove usuário por email
-    public boolean removerUsuarioPorEmail(String email) throws Exception {
-        return arquivoLista.delete(email);
-    }
-
-    // Remove usuário por ID
-    public boolean removerUsuarioPorId(int id) throws Exception {
-        return arquivoLista.delete(id);
     }
 
     public void fechar() throws Exception {
