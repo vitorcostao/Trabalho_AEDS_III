@@ -36,6 +36,23 @@ public class Lista implements Entidade {
         this.codigoCompartilhavel = codigoCompartilhavel;
     }
 
+    public void print(){
+
+        System.out.println("Codigo compartilhavel: "+codigoCompartilhavel);
+        System.out.println("---------------------------------------->");
+        System.out.println("NOME DA LISTA......:" +nome);
+        System.out.println("DESCRIÇÃO..........:" +descricao);
+        System.out.println("DATA DA CRIAÇÃO....:" +dataCriacao);
+        if(dataCriacao.equalsIgnoreCase("NaN")){
+            System.out.println("DATA LIMITE........: Não definida");
+        }else{
+            System.out.println("DATA LIMITE........: "+dataLimite);
+        }
+        System.out.println("---------------------------------------->");
+
+    }
+
+
     @Override
     public int getId() {
         return this.id;

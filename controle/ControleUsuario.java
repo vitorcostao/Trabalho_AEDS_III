@@ -74,10 +74,10 @@ public class ControleUsuario {
 
         System.out.println("Presente Fácil 1.0\n-----------------");
         System.out.println(">Início >Meus dados\n");
-        System.out.println("ID: " + usuarioLogado.getId());
-        System.out.println("Nome: " + usuarioLogado.getNome());
-        System.out.println("Email: " + usuarioLogado.getEmail());
-        System.out.println("Pergunta secreta: " + usuarioLogado.getPerguntaSecreta());
+        System.out.println("ID.................:" + usuarioLogado.getId());
+        System.out.println("NOME...............: " + usuarioLogado.getNome());
+        System.out.println("EMAIL..............: " + usuarioLogado.getEmail());
+        System.out.println("PERGUNTA SECRETA...: " + usuarioLogado.getPerguntaSecreta());
     }
 
     public boolean alterarMeusDados(Scanner sc) throws Exception {

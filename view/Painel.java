@@ -174,8 +174,8 @@ public class Painel {
         boolean resp = false;
 
         limparTelaWindows();
-        System.out.println("Presente Fácil 1.0\n-----------------");
-        System.out.println(">Inicio >Meus dados >Alterar\n");
+        System.out.println("Presente Fácil 1.0\n----------------------------------------->");
+        System.out.println("> Inicio > Meus dados > Alterar\n");
 
         if (controleUsuario.alterarMeusDados(sc)) {
 
@@ -193,7 +193,8 @@ public class Painel {
     /*-+-+-+-+-  Painel de Inicio  -+-+-+-+- */
     public static void painelInicio(Scanner sc) throws Exception {
         limparTelaWindows();
-        System.out.println("Presente Fácil 1.0\n-----------------\n>Inicio\n");
+        System.out.println("Presente Fácil 1.0\n----------------------------------------->");
+        System.out.println("> Início");
         System.out.println("(1) Meus dados");
         System.out.println("(2) Minhas listas");
         System.out.println("(3) Produtos");
@@ -216,11 +217,11 @@ public class Painel {
                 System.out.println("Acessar produtos");
                 System.out.println("Em desenvolvimento...");
                 pausar(sc);
+                painelInicio(sc);
             }
             case "4" -> {
                 System.out.println("Buscar lista");
-                System.out.println("Em desenvolvimento...");
-                pausar(sc);
+                painelBusca(sc);
             }
 
             case "S" -> {
@@ -235,23 +236,23 @@ public class Painel {
     /*-+-+-+-+-  Painel de Minhas Listas -+-+-+-+- */
     public static void painelMinhasListas(Scanner sc) throws Exception {
         limparTelaWindows();
-        System.out.println("Presente Fácil 1.0\n-----------------");
-        System.out.println(">Início >Minhas listas\n");
+        System.out.println("Presente Fácil 1.0\n----------------------------------------->");
+        System.out.println("> Início > Minhas listas\n");
 
         ArrayList<Lista> listas = controleUsuario.getControl().exibirListas();
 
-        System.out.println("\n(1) Nova lista");
+        System.out.println("\n(N) Nova lista");
         System.out.println("(0) Retornar ao menu anterior");
         System.out.print("\nOpção: ");
         String opcao = sc.nextLine();
 
         switch (opcao) {
-            case "1" -> painelCadastroListas(sc);
+            case "N" -> painelCadastroListas(sc);
             case "0" -> painelInicio(sc);
             default -> {
                 limparTelaWindows();
                 int escolha = Integer.parseInt(opcao);
-                System.out.println("Presente Fácil 1.0\n-----------------");
+                System.out.println("Presente Fácil 1.0\n----------------------------------------->");
                 controleUsuario.getControl().exibirDetalhesLista(listas, escolha, sc);
             }
         }
@@ -259,7 +260,7 @@ public class Painel {
 
     public static void painelCadastroListas(Scanner sc) {
 
-        System.out.println("Presente Fácil 1.0\n-----------------\n>Cadastro Listas\n");
+        System.out.println("Presente Fácil 1.0\n----------------------------------------->\n>Cadastro Listas\n");
         try {
             controleUsuario.getControl().cadastrarLista(sc);
             pausar(sc);
@@ -277,8 +278,8 @@ public class Painel {
 
     public static void excluirLista(Scanner sc, Lista lista) throws Exception {
         limparTelaWindows();
-        System.out.println("Presente Fácil 1.0\n-----------------");
-        System.out.println(">Início >Minhas listas > Excluir\n");
+        System.out.println("Presente Fácil 1.0\n----------------------------------------->");
+        System.out.println("> Início > Minhas listas > Excluir\n");
 
         if(controleUsuario.getControl().excluirLista(sc, lista)){
 
@@ -290,8 +291,8 @@ public class Painel {
 
     public static void alterarDadosLista(Scanner sc, Lista lista, int escolha, ArrayList<Lista> array) throws Exception {
         limparTelaWindows();
-        System.out.println("Presente Fácil 1.0\n-----------------");
-        System.out.println(">Início >Minhas listas > Alterar dados\n");
+        System.out.println("Presente Fácil 1.0\n----------------------------------------->");
+        System.out.println("> Início > Minhas listas > Alterar dados\n");
 
         if(controleUsuario.getControl().alterarDadosLista(sc, lista)){
 
@@ -306,6 +307,21 @@ public class Painel {
         painelDetalhesLista(array, escolha, sc);
     }
 
+    public static void painelBusca(Scanner sc) throws Exception {
+        limparTelaWindows();
+        System.out.println("> Início > Busca\n");
+
+        System.out.println("\n\nInsira o codigo compartilhavel: ");
+        String codigo = sc.nextLine();
+
+        ControleLista controleLista = new ControleLista(controleUsuario.getUser());
+
+        controleLista.PesquisarPorCodigo(codigo);
+
+
+
+
+    }
     /*-+-+-+-+- ________________________ -+-+-+-+- */
     /*
      * //Para teste

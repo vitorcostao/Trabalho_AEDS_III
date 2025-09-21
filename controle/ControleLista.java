@@ -7,6 +7,7 @@ import java.util.*;
 import model.Lista;
 import model.Usuario;
 import service.ArquivoLista;
+import service.ParCodigoId;
 import view.Painel;
 import service.NanoID;
 
@@ -26,6 +27,7 @@ public class ControleLista {
         this.usuarioLogado = usuarioLogado;
         tree = new ArvoreBMais<>(ParIntInt.class.getConstructor(), 5, "arvoreBmais.db");
     }
+
 
     @SuppressWarnings("static-access")
     public ArquivoLista getArquivoLista() {
@@ -62,10 +64,10 @@ public class ControleLista {
         //e caso encontre essa colisão, gera outro código, até passar sem colidir
 
         String codigo = NanoID.gerarNanoID(10);;
-    //    do{
-      //      codigo = NanoID.gerarNanoID(10);
+       do{
+            codigo = NanoID.gerarNanoID(10);
 
-  //  }while(PesquisaPorCodigo(codigo) == true);
+      }while(PesquisarPorCodigoB(codigo));
 
         Lista novo = new Lista(0, usuarioLogado.getId(), nome, descricao, dataCriacao, dataLimite, codigo);
         System.out.println("Codigo compartilhavel: "+novo.getCodigoCompartilhavel());
@@ -75,11 +77,35 @@ public class ControleLista {
         tree.create(new ParIntInt(usuarioLogado.getId(), id));
     }
 
-    public boolean PesquisarPorCodigo(String Codigo){
 
 
+    public boolean PesquisarPorCodigoB(String Codigo) throws Exception {
 
-        return false;
+        //cria uma variavel da classe ArquivoLista para acessar os metodos de pesquisa
+        arquivoLista = new ArquivoLista();
+
+        Lista listaAux = arquivoLista.read(Codigo); //cria a lista para receber os valores da pesquisa (retorna null caso vazia)
+
+        if(listaAux == null){
+            return false;
+        }
+        return true;
+    }
+
+
+    public void PesquisarPorCodigo(String Codigo) throws Exception {
+
+        //cria uma variavel da classe ArquivoLista para acessar os metodos de pesquisa
+        arquivoLista = new ArquivoLista();
+
+        Lista listaAux = arquivoLista.read(Codigo); //cria a lista para receber os valores da pesquisa (retorna null caso vazia)
+
+        if(listaAux != null){
+            System.out.println("Lista encontrada!\n");
+            listaAux.print();
+        }else {
+            System.out.println("Lista nao encontrada.");
+        }
     }
 
     public ArrayList<Lista> exibirListas() {
@@ -130,36 +156,25 @@ public class ControleLista {
             if (escolha >= 1 && escolha <= listasUsuario.size()) {
 
                 Lista listaSelecionada = listasUsuario.get(escolha - 1);
-                System.out.println(">Início >Minhas listas >" + listaSelecionada.getNome() + "\n");
-                System.out.println("CÓDIGO: " + listaSelecionada.getCodigoCompartilhavel());
-                System.out.println("NOME: " + listaSelecionada.getNome());
-                System.out.println("DESCRIÇÃO: " + listaSelecionada.getDescricao());
-                System.out.println("DATA DE CRIAÇÃO: " + listaSelecionada.getDataCriacao());
-                System.out.println("DATA LIMITE: "
-                        + (listaSelecionada.getDataLimite().equalsIgnoreCase("NaN") ? "Não definida"
-                                : listaSelecionada.getDataLimite()));
 
-                System.out.println("\n(1) Gerenciar produtos da lista");
-                System.out.println("(2) Alterar dados da lista");
-                System.out.println("(3) Excluir lista");
-                System.out.println("(0) Retornar ao menu anterior");
+                listaSelecionada.print();
 
                 System.out.print("Opção: ");
-                char op = sc.next().charAt(0);
+                String op = sc.nextLine();
 
                 switch (op) {
-                    case '1' -> {
+                    case "1" -> {
                         Painel.pausar(sc);
                     }
-                    case '2' -> {
+                    case "2" -> {
                         Painel.alterarDadosLista(sc, listaSelecionada, escolha, listasUsuario);
                         Painel.pausar(sc);
                     }
-                    case '3' -> {
+                    case "3" -> {
                         Painel.excluirLista(sc, listaSelecionada);
                         Painel.pausar(sc);
                     }
-                    case '0' -> {
+                    case "0" -> {
 
                         Painel.painelMinhasListas(sc);
                     }
