@@ -156,9 +156,9 @@ public class ControleLista {
 
                 listaSelecionada.print();
 
-                System.out.println("\n(0) Inicio");
-                System.out.println("(1) Alterar dados da lista");
-                System.out.println("(2) Excluir lista\n");
+                System.out.println("\n(1) Alterar dados da lista");
+                System.out.println("(2) Excluir lista");
+                System.out.println("(0) Retornar ao menu anterior");
 
                 System.out.print("Opção: ");
                 String op = sc.nextLine();

@@ -244,7 +244,7 @@ public class Painel {
         System.out.println("\n(N) Nova lista");
         System.out.println("(0) Retornar ao menu anterior");
         System.out.print("\nOpção: ");
-        String opcao = sc.nextLine();
+        String opcao = sc.nextLine().toUpperCase();
 
         switch (opcao) {
             case "N" -> painelCadastroListas(sc);
@@ -260,7 +260,7 @@ public class Painel {
 
     public static void painelCadastroListas(Scanner sc) {
 
-        System.out.println("Presente Fácil 1.0\n----------------------------------------->\n>Cadastro Listas\n");
+        System.out.println("Presente Fácil 1.0\n----------------------------------------->\n> Cadastro Listas\n");
         try {
             controleUsuario.getControl().cadastrarLista(sc);
             pausar(sc);
