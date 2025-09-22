@@ -27,8 +27,7 @@ public class ControleUsuario {
     }
 
     /*-+-+-+-+- Cadastrar Usuario -+-+-+-+- */
-    public Usuario cadastrarUsuario(String nome, String email, String senha, String pergunta, String resposta)
-            throws Exception {
+    public Usuario cadastrarUsuario(String nome, String email, String senha, String pergunta, String resposta)  throws Exception {
         if (arquivoUsuario.read(email) != null) {
             throw new IllegalArgumentException("Email já cadastrado!");
         }
