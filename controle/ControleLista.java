@@ -58,18 +58,18 @@ public class ControleLista {
         System.out.println("Digite a data limite(dd/MM/yyyy): ");
         String dataLimite = sc.nextLine();
 
-        // esse do while gera um nanoID verifica se o código compartilhável gerado ja
+        // esse do while gera um nanoID verifica se o código compartilhável gerado já
         // está presente em alguma lista
         // e caso encontre essa colisão, gera outro código, até passar sem colidir
 
-        String codigo = NanoID.gerarNanoID(10);
-        ;
+        String Codigo;
+
         do {
-            codigo = NanoID.gerarNanoID(10);
+            Codigo = NanoID.gerarNanoID(10);
 
-        } while (PesquisarPorCodigoB(codigo));
+        } while (PesquisarPorCodigoB(Codigo));
 
-        Lista novo = new Lista(0, usuarioLogado.getId(), nome, descricao, dataCriacao, dataLimite, codigo);
+        Lista novo = new Lista(0, usuarioLogado.getId(), nome, descricao, dataCriacao, dataLimite, Codigo);
         System.out.println("Codigo compartilhavel: " + novo.getCodigoCompartilhavel());
 
         int id = arquivoLista.create(novo);
@@ -77,12 +77,12 @@ public class ControleLista {
         tree.create(new ParIntInt(usuarioLogado.getId(), id));
     }
 
-    public boolean PesquisarPorCodigoB(String Codigo) throws Exception {
+    public boolean PesquisarPorCodigoB(String codigo) throws Exception {
 
         // cria uma variavel da classe ArquivoLista para acessar os metodos de pesquisa
         arquivoLista = new ArquivoLista();
 
-        Lista listaAux = arquivoLista.read(Codigo); // cria a lista para receber os valores da pesquisa (retorna null
+        Lista listaAux = arquivoLista.read(codigo); // cria a lista para receber os valores da pesquisa (retorna null
                                                     // caso vazia)
 
         if (listaAux == null) {
