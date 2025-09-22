@@ -46,24 +46,24 @@ public class Painel {
     /*-+-+-+-+-  Menu Inicial  -+-+-+-+- */
     public static void exibirMenuInicial(Scanner sc) throws Exception {
         limparTelaWindows();
-        System.out.println("Presente Fácil 1.0\n-----------------");
+        System.out.println("Presente Fácil 1.0\n----------------------------------------->");
         System.out.println("\n(1) Login");
         System.out.println("(2) Novo usuário");
         System.out.println("(S) Sair");
         System.out.print("Opção: ");
-        char op = sc.nextLine().toUpperCase().charAt(0);
+        String op = sc.nextLine().toUpperCase();
         switch (op) {
-            case '1' -> {
+            case "1" -> {
                 System.out.println("Login selecionado");
                 painelLogin(sc);
             }
 
-            case '2' -> {
+            case "2" -> {
                 System.out.println("Cadastrar selecionado");
                 painelCadastro(sc);
             }
 
-            case 'S' -> {
+            case "S" -> {
                 System.out.println("Saindo...");
                 executando = false;
             }
@@ -76,7 +76,8 @@ public class Painel {
     /*-+-+-+-+-  Painel de Login  -+-+-+-+- */
     public static void painelLogin(Scanner sc) throws Exception {
         limparTelaWindows();
-        System.out.println("Presente Fácil 1.0\n-----------------\n>Login\n");
+        System.out.println("Presente Fácil 1.0\n----------------------------------------->");
+        System.out.println("> Login\n");
         System.out.println("Digite o email: ");
         String email = sc.nextLine();
         System.out.println("Digite a senha: ");
@@ -97,7 +98,8 @@ public class Painel {
     /*-+-+-+-+-  Painel de Cadastro  -+-+-+-+- */
     public static void painelCadastro(Scanner sc) throws Exception {
         limparTelaWindows();
-        System.out.println("Presente Fácil 1.0\n-----------------\n>Cadastro\n");
+        System.out.println("Presente Fácil 1.0\n----------------------------------------->");
+        System.out.println("> Cadastro\n");
         System.out.println("Digite o nome: ");
         String nome = sc.nextLine();
         System.out.println("Digite o email: ");
@@ -131,16 +133,16 @@ public class Painel {
         System.out.println("\n(1) Alterar meus dados");
         System.out.println("(2) Excluir minha conta");
         System.out.println("(0) Retornar ao menu anterior");
-        char op = sc.nextLine().charAt(0);
+        String op = sc.nextLine();
         switch (op) {
-            case '1' -> {
+            case "1" -> {
                 limparTelaWindows();
                 alterarMeusDados(sc);
                 painelMeusDados(sc); // Reexibe após alteração
             }
-            case '2' -> excluirUsuario(sc);
-            case '3' -> painelInicio(sc);
-            case '0' -> painelInicio(sc);
+            case "2" -> excluirUsuario(sc);
+            case "3" -> painelInicio(sc);
+            case "0" -> painelInicio(sc);
             default -> {
                 System.out.print("Opção inválida!");
                 pausar(sc);
@@ -152,8 +154,8 @@ public class Painel {
     /*-+-+-+-+-  Painel de Exclusão de Dados Usuario  -+-+-+-+- */
     public static void excluirUsuario(Scanner sc) throws Exception {
         limparTelaWindows();
-        System.out.println("Presente Fácil 1.0\n-----------------");
-        System.out.println(">Inicio >Meus dados >Excluir\n");
+        System.out.println("Presente Fácil 1.0\n----------------------------------------->");
+        System.out.println("> Inicio > Meus dados > Excluir\n");
 
         System.out.print("Tem certeza que deseja excluir sua conta? (S/N): ");
         String resp = sc.nextLine().toUpperCase();
@@ -260,7 +262,8 @@ public class Painel {
 
     public static void painelCadastroListas(Scanner sc) {
 
-        System.out.println("Presente Fácil 1.0\n----------------------------------------->\n> Cadastro Listas\n");
+        System.out.println("Presente Fácil 1.0\n----------------------------------------->\n");
+        System.out.println("> Início > Minhas listas > Cadastro Listas\n");
         try {
             controleUsuario.getControl().cadastrarLista(sc);
             pausar(sc);
@@ -308,8 +311,9 @@ public class Painel {
     }
 
     public static void painelBusca(Scanner sc) throws Exception {
-        
+
         limparTelaWindows();
+        System.out.println("Presente Fácil 1.0\n----------------------------------------->");
         System.out.println("> Início > Busca\n");
 
         System.out.println("\n\nInsira o codigo compartilhavel: ");

@@ -39,7 +39,7 @@ public class Lista implements Entidade {
     public void print(){
 
         System.out.println("Codigo compartilhavel: "+codigoCompartilhavel);
-        System.out.println("---------------------------------------->");
+        System.out.println("----------------------------------------->");
         System.out.println("NOME DA LISTA......:" +nome);
         System.out.println("DESCRIÇÃO..........:" +descricao);
         System.out.println("DATA DA CRIAÇÃO....:" +dataCriacao);
@@ -48,7 +48,7 @@ public class Lista implements Entidade {
         }else{
             System.out.println("DATA LIMITE........: "+dataLimite);
         }
-        System.out.println("---------------------------------------->");
+        System.out.println("----------------------------------------->");
 
     }
 
