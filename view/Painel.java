@@ -114,7 +114,7 @@ public class Painel {
             Usuario novoUsuario = controleUsuario.cadastrarUsuario(nome, email, senha, perg, resp);
             System.out.println(novoUsuario.toString());
             pausar(sc);
-            painelInicio(sc); // Simula login após cadastro
+            exibirMenuInicial(sc);; 
         } catch (Exception e) {
             System.out.println("Erro ao cadastrar usuário: " + e.getMessage());
             pausar(sc);
@@ -308,6 +308,7 @@ public class Painel {
     }
 
     public static void painelBusca(Scanner sc) throws Exception {
+        
         limparTelaWindows();
         System.out.println("> Início > Busca\n");
 
@@ -318,7 +319,8 @@ public class Painel {
 
         controleLista.PesquisarPorCodigo(codigo);
 
-
+        pausar(sc);
+        Painel.painelInicio(sc);
 
 
     }

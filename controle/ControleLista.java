@@ -7,9 +7,8 @@ import java.util.*;
 import model.Lista;
 import model.Usuario;
 import service.ArquivoLista;
-import service.ParCodigoId;
-import view.Painel;
 import service.NanoID;
+import view.Painel;
 
 public class ControleLista {
 
@@ -27,7 +26,6 @@ public class ControleLista {
         this.usuarioLogado = usuarioLogado;
         tree = new ArvoreBMais<>(ParIntInt.class.getConstructor(), 5, "arvoreBmais.db");
     }
-
 
     @SuppressWarnings("static-access")
     public ArquivoLista getArquivoLista() {
@@ -60,50 +58,51 @@ public class ControleLista {
         System.out.println("Digite a data limite(dd/MM/yyyy): ");
         String dataLimite = sc.nextLine();
 
-        //esse do while gera um nanoID verifica se o código compartilhável gerado ja está presente em alguma lista
-        //e caso encontre essa colisão, gera outro código, até passar sem colidir
+        // esse do while gera um nanoID verifica se o código compartilhável gerado ja
+        // está presente em alguma lista
+        // e caso encontre essa colisão, gera outro código, até passar sem colidir
 
-        String codigo = NanoID.gerarNanoID(10);;
-       do{
+        String codigo = NanoID.gerarNanoID(10);
+        ;
+        do {
             codigo = NanoID.gerarNanoID(10);
 
-      }while(PesquisarPorCodigoB(codigo));
+        } while (PesquisarPorCodigoB(codigo));
 
         Lista novo = new Lista(0, usuarioLogado.getId(), nome, descricao, dataCriacao, dataLimite, codigo);
-        System.out.println("Codigo compartilhavel: "+novo.getCodigoCompartilhavel());
+        System.out.println("Codigo compartilhavel: " + novo.getCodigoCompartilhavel());
 
         int id = arquivoLista.create(novo);
         novo.setId(id);
         tree.create(new ParIntInt(usuarioLogado.getId(), id));
     }
 
-
-
     public boolean PesquisarPorCodigoB(String Codigo) throws Exception {
 
-        //cria uma variavel da classe ArquivoLista para acessar os metodos de pesquisa
+        // cria uma variavel da classe ArquivoLista para acessar os metodos de pesquisa
         arquivoLista = new ArquivoLista();
 
-        Lista listaAux = arquivoLista.read(Codigo); //cria a lista para receber os valores da pesquisa (retorna null caso vazia)
+        Lista listaAux = arquivoLista.read(Codigo); // cria a lista para receber os valores da pesquisa (retorna null
+                                                    // caso vazia)
 
-        if(listaAux == null){
+        if (listaAux == null) {
             return false;
         }
         return true;
     }
 
-
     public void PesquisarPorCodigo(String Codigo) throws Exception {
 
-        //cria uma variavel da classe ArquivoLista para acessar os metodos de pesquisa
+        // cria uma variavel da classe ArquivoLista para acessar os metodos de pesquisa
         arquivoLista = new ArquivoLista();
 
-        Lista listaAux = arquivoLista.read(Codigo); //cria a lista para receber os valores da pesquisa (retorna null caso vazia)
+        Lista listaAux = arquivoLista.read(Codigo); // cria a lista para receber os valores da pesquisa (retorna null
+                                                    // caso vazia)
 
-        if(listaAux != null){
-            System.out.println("Lista encontrada!\n");
+        if (listaAux != null) {
+            System.out.println("\nLista encontrada!\n");
             listaAux.print();
-        }else {
+        } else {
             System.out.println("Lista nao encontrada.");
         }
     }
@@ -115,23 +114,21 @@ public class ControleLista {
         int contador = 1;
         try {
             ArrayList<ParIntInt> listaPresentes = ControleLista.tree.read(busca);
-            if (listaPresentes.isEmpty()) {
-                System.out.println("Você ainda não possui listas de presentes cadastrados.");
-            } else {
-                System.out.println("Suas listas:");
-                for (ParIntInt par : listaPresentes) {
-                    int idUser = par.getNum1();
-                    int idLista = par.getNum2();
-                    if (idUser == idUsuario) {
-                        Lista lista = arquivoLista.read(idLista);
-                        listasUsuario.add(lista);
-                        System.out.printf("(%d) %s - %s\n", contador, lista.getNome(), lista.getDataLimite());
-                        contador++;
-                    }
+
+            System.out.println("Suas listas:");
+            for (ParIntInt par : listaPresentes) {
+                int idUser = par.getNum1();
+                int idLista = par.getNum2();
+                if (idUser == idUsuario) {
+                    Lista lista = arquivoLista.read(idLista);
+                    listasUsuario.add(lista);
+                    System.out.printf("(%d) %s - %s\n", contador, lista.getNome(), lista.getDataLimite());
+                    contador++;
                 }
+
             }
         } catch (Exception e) {
-            System.out.println("Erro ao carregar seus presentes.");
+
         }
         return listasUsuario;
     }
@@ -159,18 +156,19 @@ public class ControleLista {
 
                 listaSelecionada.print();
 
+                System.out.println("\n(0) Inicio");
+                System.out.println("(1) Alterar dados da lista");
+                System.out.println("(2) Excluir lista\n");
+
                 System.out.print("Opção: ");
                 String op = sc.nextLine();
 
                 switch (op) {
                     case "1" -> {
-                        Painel.pausar(sc);
-                    }
-                    case "2" -> {
                         Painel.alterarDadosLista(sc, listaSelecionada, escolha, listasUsuario);
                         Painel.pausar(sc);
                     }
-                    case "3" -> {
+                    case "2" -> {
                         Painel.excluirLista(sc, listaSelecionada);
                         Painel.pausar(sc);
                     }
