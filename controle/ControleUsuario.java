@@ -51,9 +51,6 @@ public class ControleUsuario {
 
         usuarioLogado = buscarPorEmail(email);
         controleLista.setUser(usuarioLogado);
-        
-
-        System.out.println(usuarioLogado);
 
         if (usuarioLogado != null) {
             if (usuarioLogado.getHashSenha() == senha.hashCode()) {
@@ -83,6 +80,7 @@ public class ControleUsuario {
     public boolean alterarMeusDados(Scanner sc) throws Exception {
 
         boolean resp = false;
+        String emailAntigo = usuarioLogado.getEmail();
 
         // Nome
         System.out.print("Novo nome (deixe em branco para manter): ");
@@ -114,7 +112,7 @@ public class ControleUsuario {
         if (!resposta.isEmpty())
             usuarioLogado.setRespostaSecreta(resposta);
 
-        if (arquivoUsuario.update(email, usuarioLogado)) {
+        if (arquivoUsuario.update(emailAntigo, usuarioLogado)) {
 
             resp = true;
         }

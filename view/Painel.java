@@ -89,7 +89,6 @@ public class Painel {
             painelInicio(sc);
         } else {
 
-            System.out.println("\nFalha no login! Email ou senha incorretos.");
             pausar(sc);
             exibirMenuInicial(sc);
         }
@@ -112,7 +111,8 @@ public class Painel {
 
         try {
             Usuario novoUsuario = controleUsuario.cadastrarUsuario(nome, email, senha, perg, resp);
-            System.out.println(novoUsuario.toString());
+            
+            System.out.println("Usuario " + novoUsuario.getNome() + " cadastrado com sucesso!");
             pausar(sc);
             exibirMenuInicial(sc);; 
         } catch (Exception e) {
