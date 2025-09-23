@@ -26,7 +26,7 @@ O arquivo do índice está armazenado no diretório:
 
 ### CRUD Usuários
 
-![Imagem CRUD Usuários](imagens/ArquivoUsuarios.png)  
+![Arquivo Usuario](imagens/ArquivoUsuarios.png)  
 
 Após o login, o usuário pode visualizar seus dados (**READ**), atualizar suas informações (**UPDATE**) ou excluir sua conta (**DELETE**), além de ter acesso ao CRUD de Listas.
 
@@ -44,7 +44,7 @@ No model `Lista`, o **ID do usuário** que a criou é utilizado como chave estra
 
 ### CRUD Lista
 
-![Imagem CRUD Lista](imagens/ArquivoLista.png)  
+![Arquivo Lista](imagens/ArquivoLista.png)  
 
 ---
 
@@ -90,19 +90,19 @@ pausar() → Aguarda o usuário pressionar ENTER <br>
 
 Essa é a função responsavel por gerar o **NanoID**, ela define uma string com todos os caracteres validos para a construção do código, e seleciona aleatoriamente posições da string para inserir no código compartilhável, retornando o mesmo.
 
-![Imagem CRUD Lista](imagens/NanoID.png) 
+![NanoID](imagens/NanoID.png) 
 
 Ele é utilizado na nossa função de cadastro de listas, onde é gerado inicialmente dentro de um laço do while, pois é necessário verificar possíveis colisões, e caso encontre, um novo código é gerado.
 
-![Imagem CRUD Lista](imagens/CadastrarLista.png) 
+![CadastrarLista](imagens/cadastrarLista.png) 
 
  a função que verifica as colisões através da função booleana “PesquisarPorCodigoB(String Código)” que le o arquivo contendo o par de codigo compartilhável e ID, caso não encontre retorna false, e o código é utilizado para gerar a nova lista, caso contrário, o loop continua devido ao retorno true da função.
 
- ![Imagem CRUD Lista](imagens/PesquisarPorCodigoB.png) 
+ ![Pesquisar por codigoB](imagens/PesquisarPorCodigoB.png) 
  
 A existência de um “PesquisarPorCodigoB” implica que o mesmo é apenas um derivado de outra função, que seria a “PesquisarPorCodigo”, que não apenas verifica se o código é válido, mas exibe a lista encontrada através da função da classe lista de exibir os dados, sendo a função utilizada quando o usuário realiza a pesquisa.
 
-![Imagem CRUD Lista](imagens/PesquisarPorCodigo.png) 
+![Pesquisar por codigo](imagens/PesquisarPorCodigo.png) 
 
 --------------------------------------------------------------------------------
 
