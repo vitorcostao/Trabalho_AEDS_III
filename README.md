@@ -26,7 +26,7 @@ O arquivo do índice está armazenado no diretório:
 
 ### CRUD Usuários
 
-![Arquivo Usuario](imagens/ArquivoUsuarios.png)  
+![Arquivo Usuario](imagens/ArquivoUsuario.png)  
 
 Após o login, o usuário pode visualizar seus dados (**READ**), atualizar suas informações (**UPDATE**) ou excluir sua conta (**DELETE**), além de ter acesso ao CRUD de Listas.
 
