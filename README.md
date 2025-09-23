@@ -8,6 +8,10 @@
 
 ---
 
+Video demonstrativo no youtube: https://youtu.be/kpWDiY79LIk
+
+---
+
 ## Usuários
 
 Nosso sistema, **“Presente Fácil 1.0”**, inicia com a implementação de um CRUD de usuários, estruturado segundo o padrão MVC.  
