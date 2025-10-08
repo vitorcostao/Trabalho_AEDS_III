@@ -1,0 +1,99 @@
+package model;
+
+import interfaces.Entidade;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+
+/**
+ * Classe para implementar usuários
+ */
+public class Produto implements Entidade {
+
+    // Definir dados
+    private int id;
+    private String GTIN;
+    private String nome;
+    private String descricao;
+
+    // Construtor vazio
+    public Produto() {
+        this.id = -1;
+        this.nome = " ";
+        this.GTIN = " ";
+        this.descricao = " ";
+    }
+
+    // Construtor com id
+    public Produto(int id, String nome, String GTIN, String descricao) {
+        this.id = id;
+        this.nome = nome;
+        this.GTIN = GTIN;
+        this.descricao = descricao;
+    }
+
+    // Getters e Setters
+    public String getNome() {
+        return this.nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getGTIN(){
+
+        return this.GTIN;
+    }
+
+    public void setGTIN(String GTIN){
+
+        this.GTIN = GTIN;
+    }
+
+    public String getDescricao(){
+
+        return this.descricao;
+    }
+
+    public void setDescricao(String descricao){
+
+        this.descricao = descricao;
+    }
+
+    @Override
+    public int getId() {
+        return this.id;
+    }
+
+    @Override
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    @Override
+    public byte[] toByteArray() throws Exception {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        DataOutputStream dos = new DataOutputStream(baos);
+
+        dos.writeInt(this.id);
+        dos.writeUTF(this.nome);
+
+        return baos.toByteArray();
+    }
+
+    @Override
+    public void fromByteArray(byte[] vb) throws Exception {
+        ByteArrayInputStream bis = new ByteArrayInputStream(vb);
+        DataInputStream dis = new DataInputStream(bis);
+
+        this.id = dis.readInt();
+        this.nome = dis.readUTF();
+    }
+
+    @Override
+    public String toString() {
+        return "ID: " + this.id + ", Nome: " + this.nome;
+    }
+}
