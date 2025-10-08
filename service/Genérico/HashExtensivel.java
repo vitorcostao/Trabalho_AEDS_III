@@ -1,4 +1,4 @@
-package service;
+package service.Genérico;
 
 import interfaces.RegistroHashExtensivel;
 import java.io.ByteArrayInputStream;

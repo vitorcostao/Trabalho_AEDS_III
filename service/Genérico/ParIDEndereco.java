@@ -1,4 +1,4 @@
-package service;
+package service.Genérico;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

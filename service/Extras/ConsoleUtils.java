@@ -1,4 +1,4 @@
-package service;
+package service.Extras;
 
 //classe limpa a tela do console gerando assim um programa mais limpo
 public class ConsoleUtils {

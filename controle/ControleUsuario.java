@@ -2,7 +2,7 @@ package controle;
 
 import java.util.Scanner;
 import model.Usuario;
-import service.ArquivoUsuario;
+import service.Usuarios.ArquivoUsuario;
 
 public class ControleUsuario {
 
@@ -162,34 +162,4 @@ public class ControleUsuario {
     public void fechar() throws Exception {
         arquivoUsuario.close();
     }
-
-    /*
-     * // Método main para testes rápidos
-     * public static void main(String[] args) {
-     * 
-     * Scanner sc = new Scanner(System.in);
-     * System.out.println("Presente Fácil 1.0\n-----------------\n>Cadastro\n");
-     * System.out.println("Digite o nome: ");
-     * String nome = sc.nextLine();
-     * System.out.println("Digite o email: ");
-     * String email = sc.nextLine();
-     * System.out.println("Digite a senha: ");
-     * String senha = sc.nextLine();
-     * System.out.println("Digite a pergunta de segurança: ");
-     * String perg = sc.nextLine();
-     * System.out.println("Digite a resposta de segurança: ");
-     * String resp = sc.nextLine();
-     * 
-     * try {
-     * ControleUsuario controleUsuario = new ControleUsuario();
-     * Usuario novoUsuario = controleUsuario.cadastrarUsuario(nome, email, senha,
-     * perg, resp);
-     * System.out.println(novoUsuario.toString());
-     * controleUsuario.fechar();
-     * } catch (Exception e) {
-     * System.out.println("Erro ao cadastrar usuário: " + e.getMessage());
-     * }
-     * sc.close();
-     * }
-     */
 }

@@ -19,7 +19,7 @@ v1.0 - 2021
  
 */
 
-package service;
+package service.Pares;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -57,6 +57,10 @@ public class ParEmailID implements interfaces.RegistroHashExtensivel<ParEmailID>
   @Override
   public int hashCode() {
     return Math.abs(this.email.hashCode());
+  }
+
+  public static int hash(String email) {
+    return Math.abs(email.hashCode());
   }
 
   @Override
@@ -102,9 +106,4 @@ public class ParEmailID implements interfaces.RegistroHashExtensivel<ParEmailID>
     this.email = dis.readUTF();
     this.id = dis.readInt();
   }
-
-  public static int hash(String email) {
-    return Math.abs(email.hashCode());
-  }
-
 }

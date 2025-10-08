@@ -1,8 +1,11 @@
-package service;
+package service.Listas;
 
 import model.Lista;
+import service.Genérico.Arquivo;
+import service.Genérico.HashExtensivel;
+import service.Pares.ParCodigoId;
 
-public class ArquivoLista extends service.Arquivo<Lista> {
+public class ArquivoLista extends service.Genérico.Arquivo<Lista> {
 
     HashExtensivel<ParCodigoId> indiceIndireto;
 
