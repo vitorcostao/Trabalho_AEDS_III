@@ -8,12 +8,16 @@ public class ControleUsuario {
 
     private static ArquivoUsuario arquivoUsuario;
     private static ControleLista controleLista;
+    private static ControleProduto controleProduto;
+    private static ControleListaProduto controleListaProduto;
     private static Usuario usuarioLogado;
 
     public ControleUsuario() throws Exception {
         arquivoUsuario = new ArquivoUsuario();
         usuarioLogado = new Usuario();
         controleLista = new ControleLista(usuarioLogado);
+        controleProduto = new ControleProduto(usuarioLogado);
+        controleListaProduto = new ControleListaProduto(usuarioLogado);
     }
 
     public Usuario getUser() {
@@ -21,9 +25,19 @@ public class ControleUsuario {
         return usuarioLogado;
     }
 
-    public ControleLista getControl() {
+    public ControleLista getControleLista() {
 
         return controleLista;
+    }
+
+    public ControleProduto getControleProdutos(){
+
+        return controleProduto;
+    }
+
+    public ControleListaProduto getControleListaProduto(){
+
+        return controleListaProduto;
     }
 
     /*-+-+-+-+- Cadastrar Usuario -+-+-+-+- */

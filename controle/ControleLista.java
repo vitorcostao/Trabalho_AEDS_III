@@ -8,7 +8,7 @@ import model.Lista;
 import model.Usuario;
 import service.Listas.ArquivoLista;
 import service.Listas.NanoID;
-import view.Painel;
+
 
 public class ControleLista {
 
@@ -108,6 +108,7 @@ public class ControleLista {
     }
 
     public ArrayList<Lista> exibirListas() {
+
         int idUsuario = usuarioLogado.getId();
         ParIntInt busca = new ParIntInt(idUsuario, -1);
         ArrayList<Lista> listasUsuario = new ArrayList<>();
@@ -146,49 +147,6 @@ public class ControleLista {
         }
 
         return listasUsuario;
-    }
-
-    public void exibirDetalhesLista(ArrayList<Lista> listasUsuario, int escolha, Scanner sc) throws Exception {
-        try {
-            if (escolha >= 1 && escolha <= listasUsuario.size()) {
-
-                Lista listaSelecionada = listasUsuario.get(escolha - 1);
-
-                listaSelecionada.print();
-
-                System.out.println("\n(1) Alterar dados da lista");
-                System.out.println("(2) Excluir lista");
-                System.out.println("(0) Retornar ao menu anterior");
-
-                System.out.print("Opção: ");
-                String op = sc.nextLine();
-
-                switch (op) {
-                    case "1" -> {
-                        Painel.alterarDadosLista(sc, listaSelecionada, escolha, listasUsuario);
-                        Painel.pausar(sc);
-                    }
-                    case "2" -> {
-                        Painel.excluirLista(sc, listaSelecionada);
-                        Painel.pausar(sc);
-                    }
-                    case "0" -> {
-
-                        Painel.painelMinhasListas(sc);
-                    }
-
-                    default -> {
-                        System.out.println("Opção inválida!");
-                        Painel.pausar(sc);
-                    }
-                }
-            } else {
-                System.out.println("Opção inválida!");
-                Painel.pausar(sc);
-            }
-        } catch (NumberFormatException e) {
-            System.out.println("Opção inválida!");
-        }
     }
 
     public boolean alterarDadosLista(Scanner sc, Lista lista) {
