@@ -1,9 +1,8 @@
 package service.ListaProduto;
 
-import model.Lista;
-import model.ListaProduto;
-import java.util.ArrayList;
 import arvore.aed3.ArvoreBMais;
+import java.util.ArrayList;
+import model.ListaProduto;
 import service.Pares.ParListaLp;
 import service.Pares.ParProdutoLp;
 
@@ -19,6 +18,7 @@ public class ArquivoListaProduto extends service.Genérico.Arquivo<ListaProduto>
                 "arvoreProdutoListaProdutos.db");
     }
 
+    @Override    
     public int create(ListaProduto lp) throws Exception {
 
         int id = super.create(lp);
@@ -28,6 +28,7 @@ public class ArquivoListaProduto extends service.Genérico.Arquivo<ListaProduto>
         return id;
     }
 
+    @Override  
     public ListaProduto read(int id) throws Exception {
         return super.read(id);
     }

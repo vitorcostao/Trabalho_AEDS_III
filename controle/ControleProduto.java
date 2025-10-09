@@ -2,12 +2,12 @@ package controle;
 
 import java.util.ArrayList;
 import java.util.Scanner;
-
 import model.Lista;
 import model.ListaProduto;
 import model.Produto;
 import model.Usuario;
 import service.ListaProduto.ArquivoListaProduto;
+import service.Listas.ArquivoLista;
 import service.Produtos.ArquivoProduto;
 
 public class ControleProduto {
@@ -18,11 +18,12 @@ public class ControleProduto {
     private static Lista listaAtual;
 
     public ControleProduto(Usuario usuarioLogado, Lista listaAtual) throws Exception {
-        arquivoProduto = new ArquivoProduto();
-        arquivoListaProduto = new ArquivoListaProduto();
-        ControleProduto.usuarioLogado = usuarioLogado;
-        ControleProduto.listaAtual = listaAtual;
-    }
+    arquivoProduto = new ArquivoProduto();
+    arquivoListaProduto = new ArquivoListaProduto();
+    ControleProduto.usuarioLogado = usuarioLogado;
+    ControleProduto.listaAtual = listaAtual;
+}
+
 
     public ArquivoProduto getArquivoProduto() {
         return arquivoProduto;
@@ -90,7 +91,6 @@ public class ControleProduto {
     }
 
     public boolean removerProduto(int idProduto) throws Exception {
-
         ArrayList<ListaProduto> relacoes = arquivoListaProduto.readByProduto(idProduto);
         for (ListaProduto lp : relacoes) {
             if (lp.getIdLista() == listaAtual.getId()) {
@@ -121,5 +121,47 @@ public class ControleProduto {
     public void fechar() throws Exception {
         arquivoProduto.close();
         arquivoListaProduto.close();
+    }
+
+    // Métodos auxiliares úteis
+
+    public Produto buscarProdutoPorGTIN(String gtin) throws Exception {
+        return arquivoProduto.read(gtin); // usa o índice indireto
+    }
+
+    public ArrayList<Produto> listarProdutosOrdenados() throws Exception {
+        ArrayList<Produto> produtos = arquivoProduto.readAll();
+        produtos.sort((a, b) -> a.getNome().compareToIgnoreCase(b.getNome()));
+        return produtos;
+    }
+
+    public ArrayList<String> listarNomesDasMinhasListasQueContemProduto(int idProduto) throws Exception {
+        ArrayList<String> nomes = new ArrayList<>();
+        ArrayList<ListaProduto> relacoes = arquivoListaProduto.readByProduto(idProduto);
+
+        for (ListaProduto lp : relacoes) {
+            if (lp != null && lp.getId() != -1) {
+                Lista lista = new ArquivoLista().read(lp.getIdLista());
+                if (lista != null && lista.getIdUsuario() == usuarioLogado.getId()) {
+                    nomes.add(lista.getNome());
+                }
+            }
+        }
+
+        return nomes;
+    }
+
+    public int contarListasDeOutrosUsuariosQueContemProduto(int idProduto) throws Exception {
+        int count = 0;
+        ArrayList<ListaProduto> relacoes = arquivoListaProduto.readByProduto(idProduto);
+
+        for (ListaProduto lp : relacoes) {
+            Lista lista = new ArquivoLista().read(lp.getIdLista());
+            if (lista != null && lista.getIdUsuario() != usuarioLogado.getId()) {
+                count++;
+            }
+        }
+
+        return count;
     }
 }

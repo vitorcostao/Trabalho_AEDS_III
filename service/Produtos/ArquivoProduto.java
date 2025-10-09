@@ -1,7 +1,7 @@
 package service.Produtos;
 
+import java.util.ArrayList;
 import model.Produto;
-import service.Genérico.Arquivo;
 import service.Genérico.HashExtensivel;
 import service.Pares.ParCodigoId;
 
@@ -68,4 +68,16 @@ public class ArquivoProduto extends service.Genérico.Arquivo<Produto> {
         }
         return false;
     }
+
+    @Override
+    public ArrayList<Produto> readAll() throws Exception {
+    ArrayList<Produto> produtos = new ArrayList<>();
+    for (Produto p : super.readAll()) {
+        if (p != null && p.getId() != -1) {
+            produtos.add(p);
+        }
+    }
+    return produtos;
+}
+
 }

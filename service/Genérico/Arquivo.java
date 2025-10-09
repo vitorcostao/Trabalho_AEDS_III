@@ -1,10 +1,11 @@
 package service.Genérico;
 
 
+import interfaces.Entidade;
 import java.io.File;
 import java.io.RandomAccessFile;
 import java.lang.reflect.Constructor;
-import interfaces.Entidade;
+import java.util.ArrayList;
 
 public class Arquivo<T extends Entidade> {
     final int TAM_CABECALHO = 12;
@@ -247,5 +248,25 @@ public class Arquivo<T extends Entidade> {
         indiceDireto.close();
     }
 
+
+    public ArrayList<T> readAll() throws Exception {
+    ArrayList<T> lista = new ArrayList<>();
+    long pos = 4; // após o cabeçalho
+    this.arquivo.seek(pos);
+    while (this.arquivo.getFilePointer() < this.arquivo.length()) {
+        boolean lapide = this.arquivo.readByte() == '*';
+        int tamanho = this.arquivo.readInt();
+        if (!lapide) {
+            byte[] buffer = new byte[tamanho];
+            this.arquivo.read(buffer);
+            T obj = this.construtor.newInstance();
+            obj.fromByteArray(buffer);
+            lista.add(obj);
+        } else {
+            this.arquivo.skipBytes(tamanho);
+        }
+    }
+    return lista;
+}
 
 }
