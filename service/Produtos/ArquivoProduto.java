@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import model.Produto;
 import service.Genérico.HashExtensivel;
 import service.Pares.ParCodigoId;
+import java.util.*;
+import view.Painel;
 
 public class ArquivoProduto extends service.Genérico.Arquivo<Produto> {
 
@@ -12,10 +14,10 @@ public class ArquivoProduto extends service.Genérico.Arquivo<Produto> {
     public ArquivoProduto() throws Exception {
         super("produtos", Produto.class.getConstructor());
         indiceIndireto = new HashExtensivel<>(
-            ParCodigoId.class.getConstructor(), 
-            4, 
-            ".\\dados\\produtos\\indiceProdutos.d.db",   // diretório
-            ".\\dados\\produtos\\indiceProdutos.c.db"    // cestos 
+                ParCodigoId.class.getConstructor(),
+                4,
+                ".\\dados\\produtos\\indiceProdutos.d.db", // diretório
+                ".\\dados\\produtos\\indiceProdutos.c.db" // cestos
         );
     }
 
@@ -27,16 +29,16 @@ public class ArquivoProduto extends service.Genérico.Arquivo<Produto> {
     }
 
     public Produto read(String GTIN) throws Exception {
-    	ParCodigoId pei = indiceIndireto.read(ParCodigoId.hash(GTIN));
-        if(pei == null)
+        ParCodigoId pei = indiceIndireto.read(ParCodigoId.hash(GTIN));
+        if (pei == null)
             return null;
         return read(pei.getId());
     }
-    
+
     public boolean delete(String GTIN) throws Exception {
-    	ParCodigoId pei = indiceIndireto.read(ParCodigoId.hash(GTIN));
-        if(pei != null) 
-            if(delete(pei.getId())) 
+        ParCodigoId pei = indiceIndireto.read(ParCodigoId.hash(GTIN));
+        if (pei != null)
+            if (delete(pei.getId()))
                 return indiceIndireto.delete(ParCodigoId.hash(GTIN));
         return false;
     }
@@ -44,22 +46,22 @@ public class ArquivoProduto extends service.Genérico.Arquivo<Produto> {
     @Override
     public boolean delete(int id) throws Exception {
         Produto p = super.read(id);
-        if(p != null) {
-            if(super.delete(id))
+        if (p != null) {
+            if (super.delete(id))
                 return indiceIndireto.delete(ParCodigoId.hash(p.getGTIN()));
         }
         return false;
     }
 
     public boolean update(Produto novoProduto, String codigoAntigo) throws Exception {
-    	
+
         Produto produtoVelhor = read(codigoAntigo);
-        if(produtoVelhor == null){
+        if (produtoVelhor == null) {
 
             return false;
         }
 
-        if(super.update(novoProduto)){
+        if (super.update(novoProduto)) {
             if (!novoProduto.getGTIN().equals(produtoVelhor.getGTIN())) {
                 indiceIndireto.delete(ParCodigoId.hash(codigoAntigo));
                 indiceIndireto.create(new ParCodigoId(novoProduto.getGTIN(), novoProduto.getId()));
@@ -71,13 +73,16 @@ public class ArquivoProduto extends service.Genérico.Arquivo<Produto> {
 
     @Override
     public ArrayList<Produto> readAll() throws Exception {
-    ArrayList<Produto> produtos = new ArrayList<>();
-    for (Produto p : super.readAll()) {
-        if (p != null && p.getId() != -1) {
-            produtos.add(p);
+
+        ArrayList<Produto> todos = super.readAll();
+        ArrayList<Produto> produtos = new ArrayList<>();
+
+        for (Produto p : todos) {
+            if (p != null && p.getId() != -1) {
+                produtos.add(p);
+            }
         }
+        return produtos;
     }
-    return produtos;
-}
 
 }

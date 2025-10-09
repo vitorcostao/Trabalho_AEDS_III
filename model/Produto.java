@@ -78,7 +78,9 @@ public class Produto implements Entidade {
         DataOutputStream dos = new DataOutputStream(baos);
 
         dos.writeInt(this.id);
+        dos.writeUTF(this.GTIN);
         dos.writeUTF(this.nome);
+        dos.writeUTF(this.descricao);
 
         return baos.toByteArray();
     }
@@ -89,11 +91,13 @@ public class Produto implements Entidade {
         DataInputStream dis = new DataInputStream(bis);
 
         this.id = dis.readInt();
+        this.GTIN = dis.readUTF();
         this.nome = dis.readUTF();
+        this.descricao = dis.readUTF();
     }
 
     @Override
     public String toString() {
-        return "ID: " + this.id + ", Nome: " + this.nome;
+        return "ID: " + this.id + ", GTIN:" + this.GTIN + ", Nome: " + this.nome + ", Descricao:" + this.descricao;
     }
 }

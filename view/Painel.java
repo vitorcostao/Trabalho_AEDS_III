@@ -498,7 +498,8 @@ public static void painelDetalhesProduto(Produto p, Scanner sc) throws Exception
     switch (op) {
         case "1" -> {
             controleProduto.atualizarProduto(sc, p.getId());
-            painelDetalhesProduto(p, sc);
+            Produto novo = controleProduto.getArquivoProduto().read(p.getId());
+            painelDetalhesProduto(novo, sc);
         }
         case "2" -> {
             controleProduto.removerProduto(p.getId());

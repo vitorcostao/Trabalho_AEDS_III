@@ -18,12 +18,11 @@ public class ControleProduto {
     private static Lista listaAtual;
 
     public ControleProduto(Usuario usuarioLogado, Lista listaAtual) throws Exception {
-    arquivoProduto = new ArquivoProduto();
-    arquivoListaProduto = new ArquivoListaProduto();
-    ControleProduto.usuarioLogado = usuarioLogado;
-    ControleProduto.listaAtual = listaAtual;
-}
-
+        arquivoProduto = new ArquivoProduto();
+        arquivoListaProduto = new ArquivoListaProduto();
+        ControleProduto.usuarioLogado = usuarioLogado;
+        ControleProduto.listaAtual = listaAtual;
+    }
 
     public ArquivoProduto getArquivoProduto() {
         return arquivoProduto;
@@ -34,6 +33,7 @@ public class ControleProduto {
     }
 
     public Produto cadastrarProduto(String nome, String gtin, String descricao) throws Exception {
+
         Produto novo = new Produto(-1, nome, gtin, descricao);
         int id = arquivoProduto.create(novo);
         novo.setId(id);
