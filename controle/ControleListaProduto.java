@@ -76,22 +76,6 @@ public class ControleListaProduto {
         }
     }
 
-    public ArrayList<String> listarNomesDasMinhasListasQueContemProduto(int idProduto) throws Exception {
-        ArrayList<String> nomes = new ArrayList<>();
-        ArrayList<ListaProduto> relacoes = arquivoListaProduto.readByProduto(idProduto);
-
-        for (ListaProduto lp : relacoes) {
-            if (lp != null && lp.getId() != -1) {
-                Lista lista = new ArquivoLista().read(lp.getIdLista());
-                if (lista != null && lista.getIdUsuario() == usuarioLogado.getId()) {
-                    nomes.add(lista.getNome());
-                }
-            }
-        }
-
-        return nomes;
-    }
-
     public int contarListasDeOutrosUsuariosQueContemProduto(int idProduto) throws Exception {
         int count = 0;
         ArrayList<ListaProduto> relacoes = arquivoListaProduto.readByProduto(idProduto);
@@ -105,5 +89,18 @@ public class ControleListaProduto {
 
         return count;
     }
+
+    public ArrayList<Lista> findListFromProducts(int idProduto) throws Exception{
+
+        ArrayList<ListaProduto> idLista = arquivoListaProduto.readByProduto(idProduto);
+        ArrayList<Lista> result = new ArrayList<>();
+
+        for(ListaProduto lp : idLista){
+
+            result.add(arquivoLista.read(lp.getIdLista()));
+        }
+
+        return result;
+    }  
 
 }

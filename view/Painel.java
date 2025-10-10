@@ -516,14 +516,25 @@ public class Painel {
         System.out.println("GTIN-13....: " + p.getGTIN());
         System.out.println("DESCRIÇÃO..: " + p.getDescricao());
 
-        ArrayList<String> listasUsuario = controleUsuario.getControleListaProduto()
-                .listarNomesDasMinhasListasQueContemProduto(p.getId());
+
+
         System.out.println("\nAparece nas minhas listas:");
-        if (listasUsuario.isEmpty())
+
+        ArrayList<Lista> list = controleUsuario.getControleListaProduto().findListFromProducts(p.getId());
+
+        if (list.isEmpty()){
+
             System.out.println("- (nenhuma)");
-        else
-            for (String nome : listasUsuario)
-                System.out.println("- " + nome);
+        } else {
+
+            int i = 0;
+
+            for(Lista L : list){
+
+                System.out.println( "- " + list.get(i).getNome());
+                i++;
+            }
+        }
 
         int countOutras = controleUsuario.getControleListaProduto()
                 .contarListasDeOutrosUsuariosQueContemProduto(p.getId());
