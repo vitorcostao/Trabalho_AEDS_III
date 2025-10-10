@@ -632,11 +632,11 @@ public class Painel {
                         
                         if(controleUsuario.getControleListaProduto().adicionarProdutoNaLista(todos.get(index).getId(), listaSelecionada)){
 
-                            System.out.println("Produto associado com sucesso!");
+                            System.out.println("Produto associado a " + listaSelecionada.getNome() + "!");
                             pausar(sc);
                         } else {
 
-                            System.out.println("Produto já associado!");
+                            System.out.println("Produto já associado a " + listaSelecionada.getNome() + "!");
                             pausar(sc);
                         }
                         
@@ -680,8 +680,16 @@ public class Painel {
                 
                 if(p != null){
 
-                    controleUsuario.getControleListaProduto().adicionarProdutoNaLista(p.getId(), listaSelecionada);                    
-                    System.out.println("Produto associado com sucesso!");
+                    if(controleUsuario.getControleListaProduto().adicionarProdutoNaLista(p.getId(), listaSelecionada)){
+                        
+                        System.out.println("Produto associado a " + listaSelecionada.getNome() + "!");
+                        pausar(sc);
+                    } else {
+
+                        System.out.println("Produto já associado a " + listaSelecionada.getNome() + "!");
+                        pausar(sc);
+                    }                 
+                    
                 } else {
 
                     System.out.println("Produto não cadastrado!");

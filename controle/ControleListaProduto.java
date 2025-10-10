@@ -27,20 +27,19 @@ public class ControleListaProduto {
     }
 
     public boolean adicionarProdutoNaLista(int idProduto, Lista listaAtual) throws Exception {
+        
         if (listaAtual == null) {
             System.out.println("Lista inválida.");
             return false;
         }
 
-        // Verifica se o produto já está na lista
         ArrayList<ListaProduto> relacoes = arquivoListaProduto.readByLista(listaAtual.getId());
         for (ListaProduto lp : relacoes) {
             if (lp.getIdProduto() == idProduto) {
                 return false;
             }
         }
-
-        // Se não estiver, cria a associação normalmente
+    
         ListaProduto novaRelacao = new ListaProduto(listaAtual.getId(), idProduto, 0);
         arquivoListaProduto.create(novaRelacao);
         return true;
