@@ -20,11 +20,9 @@ public class ArquivoListaProduto extends service.Genérico.Arquivo<ListaProduto>
 
     @Override    
     public int create(ListaProduto lp) throws Exception {
-
         int id = super.create(lp);
         treeListaListaProduto.create(new ParListaLp(lp.getIdLista(), id));
         treeProdutoListaProduto.create(new ParProdutoLp(lp.getIdProduto(), id));
-
         return id;
     }
 

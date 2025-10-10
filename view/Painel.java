@@ -613,15 +613,15 @@ public class Painel {
         switch (op) {
             case "A" -> {
                 if (pagina > 1)
-                    painelListarProdutos(sc, pagina - 1);
+                    painelListarProdutosAcrescentar(sc, pagina - 1, listaSelecionada);
                 else
-                    painelListarProdutos(sc, pagina);
+                    painelListarProdutosAcrescentar(sc, pagina, listaSelecionada);
             }
             case "P" -> {
                 if (pagina < totalPaginas)
-                    painelListarProdutos(sc, pagina + 1);
+                    painelListarProdutosAcrescentar(sc, pagina + 1, listaSelecionada);
                 else
-                    painelListarProdutos(sc, pagina);
+                    painelListarProdutosAcrescentar(sc, pagina, listaSelecionada);
             }
             case "R" -> painelProdutos(sc);
             default -> {
@@ -630,14 +630,16 @@ public class Painel {
                     int index = inicio + escolha - 1;
                     if (escolha >= 1 && index < total) {
                         
-                        Produto p = todos.get(index);
-                        ListaProduto lp = new ListaProduto(p.getId(), listaSelecionada.getId(), 0);
+                        if(controleUsuario.getControleListaProduto().adicionarProdutoNaLista(todos.get(index).getId(), listaSelecionada)){
 
+                            System.out.println("Produto associado com sucesso!");
+                            pausar(sc);
+                        } else {
+
+                            System.out.println("Produto já associado!");
+                            pausar(sc);
+                        }
                         
-                        
-                        controleUsuario.getControleListaProduto().adicionarProdutoNaLista(todos.get(index).getId(), listaSelecionada);
-                        
-                        System.out.println("Produto associado com sucesso!");
                         painelMinhasListas(sc);
                     } else {
                         System.out.println("Produto inválido.");
