@@ -26,11 +26,6 @@ public class ListaProduto implements Entidade {
         this.observacao = "";
     }
 
-    public ListaProduto(int idProduto, int idLista){
-
-
-    }
-
     public ListaProduto(int idProduto, int idLista, int quantidade) {
         this.idProduto = idProduto;
         this.idLista = idLista;

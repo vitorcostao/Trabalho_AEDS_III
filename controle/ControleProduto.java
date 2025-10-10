@@ -81,6 +81,7 @@ public class ControleProduto {
     }
 
     public Produto buscarProdutoPorGTIN(String gtin) throws Exception {
+
         return arquivoProduto.read(gtin);
     }
 

@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import model.Produto;
 import service.Genérico.HashExtensivel;
 import service.Pares.ParCodigoId;
-import java.util.*;
-import view.Painel;
 
 public class ArquivoProduto extends service.Genérico.Arquivo<Produto> {
 
@@ -29,16 +27,17 @@ public class ArquivoProduto extends service.Genérico.Arquivo<Produto> {
     }
 
     public Produto read(String GTIN) throws Exception {
-        ParCodigoId pei = indiceIndireto.read(ParCodigoId.hash(GTIN));
-        if (pei == null)
+        ParCodigoId pcd = indiceIndireto.read(ParCodigoId.hash(GTIN));
+        if (pcd == null)
             return null;
-        return read(pei.getId());
+
+        return super.read(pcd.getId());
     }
 
     public boolean delete(String GTIN) throws Exception {
-        ParCodigoId pei = indiceIndireto.read(ParCodigoId.hash(GTIN));
-        if (pei != null)
-            if (delete(pei.getId()))
+        ParCodigoId pcd = indiceIndireto.read(ParCodigoId.hash(GTIN));
+        if (pcd != null)
+            if (delete(pcd.getId()))
                 return indiceIndireto.delete(ParCodigoId.hash(GTIN));
         return false;
     }

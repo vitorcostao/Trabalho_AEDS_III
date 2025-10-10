@@ -8,6 +8,7 @@ import model.Produto;
 import model.Usuario;
 import service.ListaProduto.ArquivoListaProduto;
 import service.Listas.ArquivoLista;
+import service.Pares.ParProdutoLp;
 import service.Produtos.ArquivoProduto;
 
 public class ControleListaProduto {
@@ -27,7 +28,7 @@ public class ControleListaProduto {
 
     public boolean adicionarProdutoNaLista(int idProduto, Lista listaAtual) throws Exception {
 
-        ListaProduto lp = new ListaProduto(listaAtual.getId(), idProduto);
+        ListaProduto lp = new ListaProduto(listaAtual.getId(), idProduto, 0);
         arquivoListaProduto.create(lp);
         return true;
     }
@@ -62,6 +63,15 @@ public class ControleListaProduto {
                     " | Descrição: " + p.getDescricao());
         }
     }
+
+    public boolean pesquisar(int idProduto) throws Exception{
+
+        boolean resp = false;
+
+        
+
+        return resp;
+    }   
 
     public ArrayList<String> listarNomesDasMinhasListasQueContemProduto(int idProduto) throws Exception {
         ArrayList<String> nomes = new ArrayList<>();

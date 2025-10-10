@@ -4,8 +4,11 @@ import controle.*;
 import java.io.IOException;
 import java.util.*;
 import model.Lista;
+import model.ListaProduto;
 import model.Produto;
 import model.Usuario;
+import service.ListaProduto.ArquivoListaProduto;
+import service.Produtos.ArquivoProduto;
 
 public class Painel {
 
@@ -285,34 +288,33 @@ public class Painel {
         System.out.println("\n(1) Gerenciar produtos da lista");
         System.out.println("(2) Alterar dados da lista");
         System.out.println("(3) Excluir Lista");
-        System.out.println("(0) - Retornar ao menu anterior");
+        System.out.println("(0) Retornar ao menu anterior\n\n");
 
         System.out.print("Opção: ");
         String op = sc.nextLine();
 
         switch (op) {
             case "1" -> {
-                Painel.painelRelacionarListasProdutos(sc, listaSelecionada, escolha);
-                Painel.pausar(sc);
+                painelGerenciarProdutos(sc, listaSelecionada, escolha);
             }
 
             case "2" -> {
-                Painel.alterarDadosLista(sc, listaSelecionada, escolha);
-                Painel.pausar(sc);
+                alterarDadosLista(sc, listaSelecionada, escolha);
+                pausar(sc);
             }
 
             case "3" -> {
-                Painel.excluirLista(sc, listaSelecionada);
-                Painel.pausar(sc);
+                excluirLista(sc, listaSelecionada);
+                pausar(sc);
             }
 
             case "S" -> {
-                Painel.painelMinhasListas(sc);
+                painelMinhasListas(sc);
             }
 
             default -> {
                 System.out.println("Opção inválida!");
-                Painel.pausar(sc);
+                pausar(sc);
             }
         }
     }
@@ -514,7 +516,8 @@ public class Painel {
         System.out.println("GTIN-13....: " + p.getGTIN());
         System.out.println("DESCRIÇÃO..: " + p.getDescricao());
 
-        ArrayList<String> listasUsuario = controleUsuario.getControleListaProduto().listarNomesDasMinhasListasQueContemProduto(p.getId());
+        ArrayList<String> listasUsuario = controleUsuario.getControleListaProduto()
+                .listarNomesDasMinhasListasQueContemProduto(p.getId());
         System.out.println("\nAparece nas minhas listas:");
         if (listasUsuario.isEmpty())
             System.out.println("- (nenhuma)");
@@ -522,7 +525,8 @@ public class Painel {
             for (String nome : listasUsuario)
                 System.out.println("- " + nome);
 
-        int countOutras = controleUsuario.getControleListaProduto().contarListasDeOutrosUsuariosQueContemProduto(p.getId());
+        int countOutras = controleUsuario.getControleListaProduto()
+                .contarListasDeOutrosUsuariosQueContemProduto(p.getId());
         System.out.println("\nAparece também em mais " + countOutras + " listas de outras pessoas.\n");
 
         System.out.println("(1) Alterar os dados do produto");
@@ -552,26 +556,156 @@ public class Painel {
 
     /*-+-+-+-+-  Os códigos abaixos tratam da relação entre listas e produtos -+-+-+-+- */
 
-    public static void painelRelacionarListasProdutos(Scanner sc, Lista listaSelecionada, int escolha) throws Exception {
-
+    
+    public static void painelGerenciarProdutos(Scanner sc, Lista listaSelecionada, int escolha) throws Exception {
         limparTelaWindows();
-        System.out.println("Presente Fácil 1.0\n-----------------");
-        System.out.println("> Início > Minhas listas > " + listaSelecionada.getNome() + " > Produtos");
 
+        System.out.println("PresenteFácil 1.0");
+        System.out.println("-----------------");
+        System.out.println("> Início > Minhas listas > " + listaSelecionada.getNome() + " > Produtos\n");
+
+        System.out.println("(A) Acrescentar produtos");
+        System.out.println("(R) Retornar ao menu anterior\n\n");
+        
+        System.out.print("Opção: ");
+        String op = sc.nextLine().toUpperCase();
+
+        switch(op){
+
+            case "A" -> {
+
+                painelAcrescentarProdutos(sc, listaSelecionada, escolha);    
+            }
+
+            case "R" -> {
+
+                painelDetalhesLista(listaSelecionada, escolha, sc);
+            }
+        }
+    }
+
+    public static void painelListarProdutosAcrescentar(Scanner sc, int pagina, Lista listaSelecionada) throws Exception {
+        
+        limparTelaWindows();
+        ArrayList<Produto> todos = controleUsuario.getControleProdutos().listarProdutosOrdenados();
+
+        int total = todos.size();
+        int porPagina = 10;
+        int totalPaginas = (int) Math.ceil((double) total / porPagina);
+        int inicio = (pagina - 1) * porPagina;
+
+        System.out.println("PresenteFácil 1.0");
+        System.out.println("-----------------");
+        System.out.println("> Início > Minhas listas > " + listaSelecionada.getNome() + " > Produtos" + " > Acrescentar Produtos" + " > Listagem");
+
+        for (int i = 0; i < porPagina && (inicio + i) < total; i++) {
+            Produto p = todos.get(inicio + i);
+            System.out.println("(" + (i + 1) + ") " + p.getNome());
+        }
+
+        System.out.println("\n(A) Página anterior");
+        System.out.println("(P) Próxima página");
+        System.out.println("(R) Retornar ao menu anterior");
+
+        System.out.print("\nOpção: ");
         String op = sc.nextLine().toUpperCase();
 
         switch (op) {
             case "A" -> {
-                
-
-
+                if (pagina > 1)
+                    painelListarProdutos(sc, pagina - 1);
+                else
+                    painelListarProdutos(sc, pagina);
             }
-            case "R" -> painelDetalhesLista(listaSelecionada, escolha, sc);
+            case "P" -> {
+                if (pagina < totalPaginas)
+                    painelListarProdutos(sc, pagina + 1);
+                else
+                    painelListarProdutos(sc, pagina);
+            }
+            case "R" -> painelProdutos(sc);
             default -> {
-                System.out.println("Opção inválida.");
-                pausar(sc);
-                painelDetalhesLista(listaSelecionada, escolha, sc);
+                try {
+                    int escolha = Integer.parseInt(op);
+                    int index = inicio + escolha - 1;
+                    if (escolha >= 1 && index < total) {
+                        
+                        Produto p = todos.get(index);
+                        ListaProduto lp = new ListaProduto(p.getId(), listaSelecionada.getId(), 0);
+
+                        
+                        
+                        controleUsuario.getControleListaProduto().adicionarProdutoNaLista(todos.get(index).getId(), listaSelecionada);
+                        
+                        System.out.println("Produto associado com sucesso!");
+                        painelMinhasListas(sc);
+                    } else {
+                        System.out.println("Produto inválido.");
+                        pausar(sc);
+                        painelMinhasListas(sc);
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("Opção inválida.");
+                    pausar(sc);
+                    painelMinhasListas(sc);
+                }
             }
+        }
+    }
+
+    public static void painelAcrescentarProdutos(Scanner sc, Lista listaSelecionada, int escolha) throws Exception {
+
+        limparTelaWindows();
+
+        System.out.println("PresenteFácil 1.0");
+        System.out.println("-----------------");
+        System.out.println("> Início > Minhas listas > " + listaSelecionada.getNome() + " > Produtos" + " > Acrescentar Produtos\n");
+        
+        System.out.println("(1) Buscar produtos por GTIN");
+        System.out.println("(2) Listar todos os produtos\n");
+        System.out.println("(R) Retornar ao menu anterior\n");
+
+        System.out.print("Opção: ");
+        String op = sc.nextLine();
+
+        switch (op) {
+            case "1" -> {
+
+                System.out.print("Digite o GTIN do produto: ");
+                String GTIN = sc.nextLine();
+
+                Produto p = controleUsuario.getControleProdutos().buscarProdutoPorGTIN(GTIN);
+                
+                if(p != null){
+
+                    controleUsuario.getControleListaProduto().adicionarProdutoNaLista(p.getId(), listaSelecionada);                    
+                    System.out.println("Produto associado com sucesso!");
+                } else {
+
+                    System.out.println("Produto não cadastrado!");
+                    pausar(sc);
+                    painelAcrescentarProdutos(sc, listaSelecionada, escolha);
+                }
+
+                painelGerenciarProdutos(sc, listaSelecionada, escolha);
+            }
+
+            case "2" -> {
+
+                painelListarProdutosAcrescentar(sc, escolha, listaSelecionada);
+            }
+
+            case "R" -> {
+
+                painelGerenciarProdutos(sc, listaSelecionada, escolha);
+            }
+            
+            default -> {
+
+                System.out.println("Opcao invalida!");
+                pausar(sc);
+                painelAcrescentarProdutos(sc, listaSelecionada, escolha);
+            }   
         }
     }
 
