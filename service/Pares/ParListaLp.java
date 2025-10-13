@@ -1,5 +1,6 @@
 package service.Pares;
 
+import arvore.aed3.RegistroArvoreBMais;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;

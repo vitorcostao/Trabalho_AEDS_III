@@ -2,9 +2,12 @@ package controle;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import model.ListaProduto;
 import model.Produto;
 import model.Usuario;
 import service.ListaProduto.ArquivoListaProduto;
+import java.util.concurrent.ThreadLocalRandom;
 
 import service.Produtos.ArquivoProduto;
 
@@ -28,9 +31,28 @@ public class ControleProduto {
         return arquivoListaProduto;
     }
 
-    public Produto cadastrarProduto(String nome, String gtin, String descricao) throws Exception {
+    public static String gerarGTIN13() {
+        StringBuilder sb = new StringBuilder(13);
+        int soma = 0;
+        for (int i = 0; i < 12; i++) {
+            int d = ThreadLocalRandom.current().nextInt(10);
+            sb.append(d);
+            soma += (i % 2 == 0) ? d : 3 * d;
+        }
+        int dv = (10 - (soma % 10)) % 10;
+        sb.append(dv);
+        return sb.toString();
+    }
 
-        Produto novo = new Produto(-1, nome, gtin, descricao);
+    public Produto cadastrarProduto(String nome, String descricao, int quantidade, String observacao) throws Exception {
+
+        String gtin;
+        do {
+            gtin = gerarGTIN13();
+
+        } while (arquivoProduto.read(gtin) != null);
+
+        Produto novo = new Produto(-1, nome, gtin, descricao, quantidade, observacao);
         int id = arquivoProduto.create(novo);
         novo.setId(id);
         return novo;
@@ -48,22 +70,37 @@ public class ControleProduto {
         if (!nome.isEmpty())
             produtoAntigo.setNome(nome);
 
-        System.out.print("Novo GTIN (deixe em branco para manter): ");
-        String gtin = sc.nextLine();
-        if (!gtin.isEmpty())
-            produtoAntigo.setGTIN(gtin);
 
         System.out.print("Nova descrição (deixe em branco para manter): ");
         String descricao = sc.nextLine();
         if (!descricao.isEmpty())
             produtoAntigo.setDescricao(descricao);
 
+        System.out.print("Nova quantidade (deixe em branco para manter): ");
+        int quantidade =  0;
+        quantidade = sc.nextInt();
+        if (quantidade != 0)
+            produtoAntigo.setQuantidade(quantidade);
+
+        System.out.println("Nova observação (deixe em branco para manter): ");
+        String observacao = sc.nextLine();
+        if (!observacao.isEmpty())
+            produtoAntigo.setObservacoes(observacao);
+
+
         return arquivoProduto.update(produtoAntigo);
     }
 
-    /*
-    public boolean removerProduto(int idProduto) throws Exception {
-        ArrayList<ListaProduto> relacoes = arquivoListaProduto.readByProduto(idProduto);
+/*
+    public boolean DesativarProduto(int idProduto) throws Exception {
+
+
+        //aqui eu quero pegar o produto e atualizar o valor "Status" pra 1 (desativado) mas não consegui
+        // fazendo um produto.Desativar(); mas não sei como acessar o produto DIRETAMENTE
+
+
+
+         ArrayList<ListaProduto> relacoes = arquivoListaProduto.readByProduto(idProduto);
         for (ListaProduto lp : relacoes) {
             if (lp.getIdLista() == listaAtual.getId()) {
                 arquivoListaProduto.delete(lp.getId());
@@ -72,8 +109,8 @@ public class ControleProduto {
 
         return arquivoProduto.delete(idProduto);
     }
+*/
 
-    */
 
     public void fechar() throws Exception {
         arquivoProduto.close();

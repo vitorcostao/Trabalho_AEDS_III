@@ -308,7 +308,7 @@ public class Painel {
                 pausar(sc);
             }
 
-            case "S" -> {
+            case "0" -> {
                 painelMinhasListas(sc);
             }
 
@@ -478,16 +478,6 @@ public class Painel {
         System.out.println("Presente Fácil 1.0\n-----------------");
         System.out.println("> Início > Produtos > Cadastrar novo produto\n");
 
-        System.out.print("GTIN-13: ");
-        String gtin = sc.nextLine();
-
-        Produto existente = controleUsuario.getControleProdutos().buscarProdutoPorGTIN(gtin);
-        if (existente != null) {
-            System.out.println("Produto com esse GTIN já existe!");
-            pausar(sc);
-            painelProdutos(sc);
-            return;
-        }
 
         System.out.print("Nome: ");
         String nome = sc.nextLine();
@@ -495,10 +485,17 @@ public class Painel {
         System.out.print("Descrição: ");
         String desc = sc.nextLine();
 
-        Produto novo = controleUsuario.getControleProdutos().cadastrarProduto(nome, gtin, desc);
+        System.out.print("Quantidade: ");
+        int quantidade = sc.nextInt();
+
+        System.out.print("Observações: (Deixe em branco para nenhuma)");
+        sc.nextLine();
+        String  observacoes = sc.nextLine();
+        Produto novo = controleUsuario.getControleProdutos().cadastrarProduto(nome, desc, quantidade, observacoes);
 
         if (novo != null) {
             System.out.println("Produto cadastrado com sucesso!");
+            System.out.print("GTIN-13: "+ novo.getGTIN());
         } else {
             System.out.println("Erro ao cadastrar produto.");
         }
@@ -515,7 +512,8 @@ public class Painel {
         System.out.println("NOME.......: " + p.getNome());
         System.out.println("GTIN-13....: " + p.getGTIN());
         System.out.println("DESCRIÇÃO..: " + p.getDescricao());
-
+        System.out.println("QUANTIDADE.: " + p.getQuantidade());
+        System.out.println("OBSERVAÇÔES: " + p.getObservacoes());
 
 
         System.out.println("\nAparece nas minhas listas:");
@@ -540,8 +538,13 @@ public class Painel {
                 .contarListasDeOutrosUsuariosQueContemProduto(p.getId());
         System.out.println("\nAparece também em mais " + countOutras + " listas de outras pessoas.\n");
 
+
         System.out.println("(1) Alterar os dados do produto");
-        System.out.println("(2) Remover produto da lista atual");
+        if(p.getStatus() == 0){
+            System.out.println("(2) Reativar produto");
+        }else {
+            System.out.println("(2) Desativar produto");
+        }
         System.out.println("(R) Retornar ao menu anterior");
         System.out.print("\nOpção: ");
         String op = sc.nextLine().toUpperCase();
@@ -553,7 +556,17 @@ public class Painel {
                 painelDetalhesProduto(novo, sc);
             }
             case "2" -> {
-                // controleUsuario.getControleProdutos().removerProduto(p.getId());
+
+                if(p.getStatus() == 0){
+                    //nao sei referenciar o produto corretamente (E sei que não é nesse arquivo, mas
+                    // o objetivo é selecionar o produto e usar o p.Reativar();
+                }else{
+                    //nao sei referenciar o produto corretamente (E sei que não é nesse arquivo, mas
+                    // o objetivo é selecionar o produto e usar o p.Desativar();
+
+                }
+
+                //controleUsuario.getControleProdutos().DesativarProduto(p.getId());
                 painelProdutos(sc);
             }
             case "R" -> painelProdutos(sc);
@@ -575,7 +588,8 @@ public class Painel {
         System.out.println("-----------------");
         System.out.println("> Início > Minhas listas > " + listaSelecionada.getNome() + " > Produtos\n");
 
-        System.out.println("(A) Acrescentar produtos");
+        System.out.println("(1) Acrescentar produtos");
+        System.out.println("(2) Remover produtos");
         System.out.println("(R) Retornar ao menu anterior\n\n");
         
         System.out.print("Opção: ");
@@ -583,9 +597,14 @@ public class Painel {
 
         switch(op){
 
-            case "A" -> {
+            case "1" -> {
 
                 painelAcrescentarProdutos(sc, listaSelecionada, escolha);    
+            }
+
+            case "2" -> {
+
+
             }
 
             case "R" -> {
@@ -689,7 +708,7 @@ public class Painel {
 
                 Produto p = controleUsuario.getControleProdutos().buscarProdutoPorGTIN(GTIN);
                 
-                if(p != null){
+                if(p != null && p.getStatus() != 1){
 
                     if(controleUsuario.getControleListaProduto().adicionarProdutoNaLista(p.getId(), listaSelecionada)){
                         
@@ -703,7 +722,7 @@ public class Painel {
                     
                 } else {
 
-                    System.out.println("Produto não cadastrado!");
+                    System.out.println("Produto desativado ou inexistente!");
                     pausar(sc);
                     painelAcrescentarProdutos(sc, listaSelecionada, escolha);
                 }
