@@ -1,3 +1,55 @@
+# Relatório TP2 - AEDS III
+
+**Participantes:**  
+- Felipe Gabriel de Carvalho  
+- Gustavo Henrique dos Santos Dias  
+- Raphael Oliveira de Araujo  
+- Vitor Costa Oliveira Rolla  
+
+---
+
+## Perguntas e Respostas II
+
+**Há um CRUD de produtos (que estende a classe ArquivoIndexado, acrescentando Tabelas Hash Extensíveis e Árvores B+ como índices diretos e indiretos conforme necessidade) que funciona corretamente?**  
+Resposta: Não, o CRUD cria exibe e edita produtos corretamente mas ao tentar desativar o produto enfrentamos dificuldades.
+
+---
+
+**Há um CRUD da entidade de associação ListaProduto (que estende a classe ArquivoIndexado, acrescentando Tabelas Hash Extensíveis e Árvores B+ como índices diretos e indiretos conforme necessidade) que funciona corretamente**  
+Resposta: Não, o CRUD existe e todos seus metodos existem/estão sendo chamados mas existe um problema entre a exibição ou criação que não conseguimos resolver,
+
+---
+
+**A visão de produtos está corretamente implementada e permite consultas as listas em que o produto aparece (apenas quantidade no caso de lista de outras pessoas)?**  
+Resposta: Não, a visão está implementada e a consulta funciona porem como tivemos problemas no CRUD de ListaProduto, não é exibida nenhuma lista, devido ao problema no CRUD ListaProduto
+
+---
+
+**A visão de listas funciona corretamente e permite a gestão dos produtos na lista**  
+Resposta: Não, a visão das listas funciona corretamente mas as opções de gerenciar os produtos da lista estão com problemas.
+
+---
+
+**A integridade do relacionamento entre listas e produtos está mantida em todas as operações?**  
+Resposta:Sim, devido ao erro na inserção de produtos nas listas, a exibição exibe que o item não esta presente em nenhuma lista.
+
+---
+
+**O trabalho compila corretamente?**  
+Resposta: Sim, basta clonar o repositório e rodar na IDE.  
+
+---
+
+**O trabalho está completo e funcionando sem erros de execução?**  
+Resposta: Não, nem todos os requisitos foram atendidos completamente, devido ao problema ao relacionar os diferentes CRUDs, mas as visões foram criadas e funcionam parcialmente, e o GTIN-13 foi implementado. 
+
+---
+
+**O trabalho é original e não a cópia de um trabalho de outro grupo?**  
+Resposta: O trabalho é original, foi utilizado como fonte apenas as classes passadas para CRUD e árvore as quais o professor disponibilizou.  
+
+
+
 # Relatório TP1 - AEDS III
 
 **Participantes:**  
@@ -14,7 +66,7 @@ Video demonstrativo no youtube: https://youtu.be/kpWDiY79LIk
 
 ## Usuários
 
-Nosso sistema, **“Presente Fácil 1.0”**, inicia com a implementação de um CRUD de usuários, estruturado segundo o padrão MVC.  
+Nosso sistema, **“Presente Fácil 2.0”**, inicia com a implementação de um CRUD de usuários, estruturado segundo o padrão MVC.  
 Para isso, utilizamos o model `Usuário.java`, a classe `ArquivoUsuario.java` — que estende uma classe genérica `Arquivo` — e a classe `ControleUsuario.java`, responsável por todas as operações de CRUD relacionadas ao usuário logado (criação, leitura, atualização e exclusão).
 
 Diferentemente do CRUD geral de usuários, o **ControleUsuario** gerencia as operações específicas do usuário autenticado.  
@@ -109,46 +161,6 @@ A existência de um “PesquisarPorCodigoB” implica que o mesmo é apenas um d
 ![Pesquisar por codigo](imagens/PesquisarPorCodigo.png) 
 
 --------------------------------------------------------------------------------
-
-## Perguntas e Respostas II
-
-**Há um CRUD de produtos (que estende a classe ArquivoIndexado, acrescentando Tabelas Hash Extensíveis e Árvores B+ como índices diretos e indiretos conforme necessidade) que funciona corretamente?**  
-Resposta: Não, o CRUD cria exibe e edita produtos corretamente mas ao tentar desativar o produto enfrentamos dificuldades.
-
----
-
-**Há um CRUD da entidade de associação ListaProduto (que estende a classe ArquivoIndexado, acrescentando Tabelas Hash Extensíveis e Árvores B+ como índices diretos e indiretos conforme necessidade) que funciona corretamente**  
-Resposta: Não, o CRUD existe e todos seus metodos existem/estão sendo chamados mas existe um problema entre a exibição ou criação que não conseguimos resolver,
-
----
-
-**A visão de produtos está corretamente implementada e permite consultas as listas em que o produto aparece (apenas quantidade no caso de lista de outras pessoas)?**  
-Resposta: Não, a visão está implementada e a consulta funciona porem como tivemos problemas no CRUD de ListaProduto, não é exibida nenhuma lista, devido ao problema no CRUD ListaProduto
-
----
-
-**A visão de listas funciona corretamente e permite a gestão dos produtos na lista**  
-Resposta: Não, a visão das listas funciona corretamente mas as opções de gerenciar os produtos da lista estão com problemas.
-
----
-
-**A integridade do relacionamento entre listas e produtos está mantida em todas as operações?**  
-Resposta:Sim, devido ao erro na inserção de produtos nas listas, a exibição exibe que o item não esta presente em nenhuma lista.
-
----
-
-**O trabalho compila corretamente?**  
-Resposta: Sim, basta clonar o repositório e rodar na IDE.  
-
----
-
-**O trabalho está completo e funcionando sem erros de execução?**  
-Resposta: Não, nem todos os requisitos foram atendidos completamente, devido ao problema ao relacionar os diferentes CRUDs, mas as visões foram criadas e funcionam parcialmente, e o GTIN-13 foi implementado. 
-
----
-
-**O trabalho é original e não a cópia de um trabalho de outro grupo?**  
-Resposta: O trabalho é original, foi utilizado como fonte apenas as classes passadas para CRUD e árvore as quais o professor disponibilizou.  
 
 ## Perguntas e Respostas
 
