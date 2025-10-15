@@ -76,6 +76,15 @@ public class ControleListaProduto {
         }
     }
 
+    public boolean removerProdutoDaLista(int idProduto, int idLista) throws Exception {
+        ArrayList<ListaProduto> relacoes = arquivoListaProduto.readByLista(idLista);
+        for (ListaProduto lp : relacoes) {
+            if (lp.getIdProduto() == idProduto) {
+                return arquivoListaProduto.delete(lp.getId());
+            }
+        }
+        return false;
+    }
     public int contarListasDeOutrosUsuariosQueContemProduto(int idProduto) throws Exception {
         int count = 0;
         ArrayList<ListaProduto> relacoes = arquivoListaProduto.readByProduto(idProduto);

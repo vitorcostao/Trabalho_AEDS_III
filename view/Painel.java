@@ -285,6 +285,21 @@ public class Painel {
 
         listaSelecionada.print();
 
+        System.out.println("\n--- Produtos na Lista ---");
+        try {
+            ArrayList<Produto> produtosNaLista = controleUsuario.getControleListaProduto().listarProdutosDaLista(listaSelecionada);
+
+            if (produtosNaLista.isEmpty()) {
+                System.out.println("Nenhum produto nesta lista.");
+            } else {
+                for (Produto p : produtosNaLista) {
+                    System.out.println("- " + p.getNome() + " (GTIN: " + p.getGTIN() + ")");
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Erro ao listar os produtos da lista: " + e.getMessage());
+        }
+
         System.out.println("\n(1) Gerenciar produtos da lista");
         System.out.println("(2) Alterar dados da lista");
         System.out.println("(3) Excluir Lista");
@@ -604,7 +619,7 @@ public class Painel {
 
             case "2" -> {
 
-
+                painelRemoverProdutos(sc, listaSelecionada, escolha);
             }
 
             case "R" -> {
@@ -612,6 +627,53 @@ public class Painel {
                 painelDetalhesLista(listaSelecionada, escolha, sc);
             }
         }
+    }
+
+    public static void painelRemoverProdutos(Scanner sc, Lista listaSelecionada, int escolha) throws Exception {
+        limparTelaWindows();
+        System.out.println("PresenteFácil 1.0");
+        System.out.println("-----------------");
+        System.out.println("> Início > Minhas listas > " + listaSelecionada.getNome() + " > Produtos > Remover Produtos\n");
+
+        ArrayList<Produto> produtos = controleUsuario.getControleListaProduto().listarProdutosDaLista(listaSelecionada);
+
+        if (produtos.isEmpty()) {
+            System.out.println("Nenhum produto para remover nesta lista.");
+            pausar(sc);
+            painelGerenciarProdutos(sc, listaSelecionada, escolha);
+            return;
+        }
+
+        for (int i = 0; i < produtos.size(); i++) {
+            System.out.println("(" + (i + 1) + ") " + produtos.get(i).getNome());
+        }
+
+        System.out.println("\n(R) Retornar");
+        System.out.print("\nEscolha o produto para remover: ");
+        String op = sc.nextLine().toUpperCase();
+
+        if (op.equals("R")) {
+            painelGerenciarProdutos(sc, listaSelecionada, escolha);
+            return;
+        }
+
+        try {
+            int index = Integer.parseInt(op) - 1;
+            if (index >= 0 && index < produtos.size()) {
+                Produto produtoParaRemover = produtos.get(index);
+                if (controleUsuario.getControleListaProduto().removerProdutoDaLista(produtoParaRemover.getId(), listaSelecionada.getId())) {
+                    System.out.println("Produto removido com sucesso!");
+                } else {
+                    System.out.println("Erro ao remover o produto.");
+                }
+            } else {
+                System.out.println("Seleção inválida.");
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Opção inválida.");
+        }
+        pausar(sc);
+        painelGerenciarProdutos(sc, listaSelecionada, escolha);
     }
 
     public static void painelListarProdutosAcrescentar(Scanner sc, int pagina, Lista listaSelecionada) throws Exception {
@@ -659,7 +721,7 @@ public class Painel {
                     int escolha = Integer.parseInt(op);
                     int index = inicio + escolha - 1;
                     if (escolha >= 1 && index < total) {
-                        
+
                         if(controleUsuario.getControleListaProduto().adicionarProdutoNaLista(todos.get(index).getId(), listaSelecionada)){
 
                             System.out.println("Produto associado a " + listaSelecionada.getNome() + "!");
@@ -669,7 +731,7 @@ public class Painel {
                             System.out.println("Produto já associado a " + listaSelecionada.getNome() + "!");
                             pausar(sc);
                         }
-                        
+
                         painelMinhasListas(sc);
                     } else {
                         System.out.println("Produto inválido.");
@@ -708,7 +770,7 @@ public class Painel {
 
                 Produto p = controleUsuario.getControleProdutos().buscarProdutoPorGTIN(GTIN);
                 
-                if(p != null && p.getStatus() != 1){
+                if(p != null && p.getStatus() == 1){
 
                     if(controleUsuario.getControleListaProduto().adicionarProdutoNaLista(p.getId(), listaSelecionada)){
                         

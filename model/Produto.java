@@ -39,7 +39,7 @@ public class Produto implements Entidade {
         this.descricao = descricao;
         this.quantidade = quantidade;
         this.observacoes = observacoes;
-        this.status = 0;
+        this.status = 1;
     }
 
     // Getters e Setters
