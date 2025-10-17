@@ -4,11 +4,8 @@ import controle.*;
 import java.io.IOException;
 import java.util.*;
 import model.Lista;
-import model.ListaProduto;
 import model.Produto;
 import model.Usuario;
-import service.ListaProduto.ArquivoListaProduto;
-import service.Produtos.ArquivoProduto;
 
 public class Painel {
 
@@ -248,13 +245,13 @@ public class Painel {
         ArrayList<Lista> listas = controleUsuario.getControleLista().exibirListas();
 
         System.out.println("\n(N) Nova lista");
-        System.out.println("(0) Retornar ao menu anterior");
+        System.out.println("(R) Retornar ao menu anterior");
         System.out.print("\nOpção: ");
         String opcao = sc.nextLine().toUpperCase();
 
         switch (opcao) {
             case "N" -> painelCadastroListas(sc);
-            case "0" -> painelInicio(sc);
+            case "R" -> painelInicio(sc);
             default -> {
                 limparTelaWindows();
                 int escolha = Integer.parseInt(opcao);
@@ -265,7 +262,7 @@ public class Painel {
     }
 
     public static void painelCadastroListas(Scanner sc) {
-
+        limparTelaWindows();
         System.out.println("Presente Fácil 1.0\n----------------------------------------->\n");
         System.out.println("> Início > Minhas listas > Cadastro Listas\n");
         try {
@@ -500,13 +497,7 @@ public class Painel {
         System.out.print("Descrição: ");
         String desc = sc.nextLine();
 
-        System.out.print("Quantidade: ");
-        int quantidade = sc.nextInt();
-
-        System.out.print("Observações: (Deixe em branco para nenhuma)");
-        sc.nextLine();
-        String  observacoes = sc.nextLine();
-        Produto novo = controleUsuario.getControleProdutos().cadastrarProduto(nome, desc, quantidade, observacoes);
+        Produto novo = controleUsuario.getControleProdutos().cadastrarProduto(nome, desc);
 
         if (novo != null) {
             System.out.println("Produto cadastrado com sucesso!");
@@ -527,10 +518,8 @@ public class Painel {
         System.out.println("NOME.......: " + p.getNome());
         System.out.println("GTIN-13....: " + p.getGTIN());
         System.out.println("DESCRIÇÃO..: " + p.getDescricao());
-        System.out.println("QUANTIDADE.: " + p.getQuantidade());
-        System.out.println("OBSERVAÇÔES: " + p.getObservacoes());
-
-
+        System.out.println("STATUS.....: " + (p.getStatus() ? "Ativo" : "Desativado"));
+   
         System.out.println("\nAparece nas minhas listas:");
 
         ArrayList<Lista> list = controleUsuario.getControleListaProduto().findListFromProducts(p.getId());
@@ -555,7 +544,7 @@ public class Painel {
 
 
         System.out.println("(1) Alterar os dados do produto");
-        if(p.getStatus() == 0){
+        if(p.getStatus() == false){
             System.out.println("(2) Reativar produto");
         }else {
             System.out.println("(2) Desativar produto");
@@ -572,15 +561,14 @@ public class Painel {
             }
             case "2" -> {
 
-                if(p.getStatus() == 0){
-                    //nao sei referenciar o produto corretamente (E sei que não é nesse arquivo, mas
-                    // o objetivo é selecionar o produto e usar o p.Reativar();
+                if(p.getStatus() == false){
+                    p.Reativar();
                 }else{
-                    //nao sei referenciar o produto corretamente (E sei que não é nesse arquivo, mas
-                    // o objetivo é selecionar o produto e usar o p.Desativar();
-
+                    p.Desativar();
                 }
-
+                System.out.println("Status alterado. " +  p.getStatus());
+                p.getStatus();
+                pausar(sc);
                 //controleUsuario.getControleProdutos().DesativarProduto(p.getId());
                 painelProdutos(sc);
             }
@@ -770,7 +758,7 @@ public class Painel {
 
                 Produto p = controleUsuario.getControleProdutos().buscarProdutoPorGTIN(GTIN);
                 
-                if(p != null && p.getStatus() == 1){
+                if(p != null && p.getStatus() == true){
 
                     if(controleUsuario.getControleListaProduto().adicionarProdutoNaLista(p.getId(), listaSelecionada)){
                         

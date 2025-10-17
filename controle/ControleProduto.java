@@ -2,13 +2,10 @@ package controle;
 
 import java.util.ArrayList;
 import java.util.Scanner;
-
-import model.ListaProduto;
+import java.util.concurrent.ThreadLocalRandom;
 import model.Produto;
 import model.Usuario;
 import service.ListaProduto.ArquivoListaProduto;
-import java.util.concurrent.ThreadLocalRandom;
-
 import service.Produtos.ArquivoProduto;
 
 public class ControleProduto {
@@ -44,7 +41,7 @@ public class ControleProduto {
         return sb.toString();
     }
 
-    public Produto cadastrarProduto(String nome, String descricao, int quantidade, String observacao) throws Exception {
+    public Produto cadastrarProduto(String nome, String descricao ) throws Exception {
 
         String gtin;
         do {
@@ -52,7 +49,7 @@ public class ControleProduto {
 
         } while (arquivoProduto.read(gtin) != null);
 
-        Produto novo = new Produto(-1, nome, gtin, descricao, quantidade, observacao);
+        Produto novo = new Produto(-1, nome, gtin, descricao);
         int id = arquivoProduto.create(novo);
         novo.setId(id);
         return novo;
@@ -76,29 +73,11 @@ public class ControleProduto {
         if (!descricao.isEmpty())
             produtoAntigo.setDescricao(descricao);
 
-        System.out.print("Nova quantidade (deixe em branco para manter): ");
-        int quantidade =  0;
-        quantidade = sc.nextInt();
-        if (quantidade != 0)
-            produtoAntigo.setQuantidade(quantidade);
-
-        System.out.println("Nova observação (deixe em branco para manter): ");
-        String observacao = sc.nextLine();
-        if (!observacao.isEmpty())
-            produtoAntigo.setObservacoes(observacao);
-
-
         return arquivoProduto.update(produtoAntigo);
     }
 
-/*
-    public boolean DesativarProduto(int idProduto) throws Exception {
 
-
-        //aqui eu quero pegar o produto e atualizar o valor "Status" pra 1 (desativado) mas não consegui
-        // fazendo um produto.Desativar(); mas não sei como acessar o produto DIRETAMENTE
-
-
+   /*/ public boolean DesativarProduto(int idProduto) throws Exception {
 
          ArrayList<ListaProduto> relacoes = arquivoListaProduto.readByProduto(idProduto);
         for (ListaProduto lp : relacoes) {
@@ -106,10 +85,9 @@ public class ControleProduto {
                 arquivoListaProduto.delete(lp.getId());
             }
         }
-
         return arquivoProduto.delete(idProduto);
-    }
-*/
+    }*/
+
 
 
     public void fechar() throws Exception {

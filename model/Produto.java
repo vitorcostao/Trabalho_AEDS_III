@@ -13,12 +13,10 @@ public class Produto implements Entidade {
 
     // Definir dados
     private int id;
+    private Boolean status; //true = ativo, false = inativo
     private String GTIN;
     private String nome;
     private String descricao;
-    private Byte status; // 1 para item ativo e 0 para item inativo
-    private int quantidade;
-    private String observacoes;
 
     // Construtor vazio
     public Produto() {
@@ -26,20 +24,16 @@ public class Produto implements Entidade {
         this.nome = " ";
         this.GTIN = " ";
         this.descricao = " ";
-        this.status = 1;//item ativo
-        this.quantidade = 0;
-        this.observacoes = " ";
+        this.status = true;//item ativo
     }
 
     // Construtor com id
-    public Produto(int id, String nome, String GTIN, String descricao, int quantidade, String observacoes) {
+    public Produto(int id, String nome, String GTIN, String descricao) {
         this.id = id;
         this.nome = nome;
         this.GTIN = GTIN;
         this.descricao = descricao;
-        this.quantidade = quantidade;
-        this.observacoes = observacoes;
-        this.status = 1;
+        this.status = true;
     }
 
     // Getters e Setters
@@ -71,19 +65,19 @@ public class Produto implements Entidade {
         this.descricao = descricao;
     }
 
-    public byte getStatus(){
+    public boolean getStatus(){
 
         return this.status;
     }
 
     public void Desativar(){
 
-        this.status = 0;
+        this.status = false;
     }
 
     public void Reativar(){
 
-        this.status = 1;
+        this.status = true;
     }
     @Override
     public int getId() {
@@ -95,22 +89,6 @@ public class Produto implements Entidade {
         this.id = id;
     }
 
-    public int getQuantidade(){
-        return this.quantidade;
-    }
-
-    public void setQuantidade(int quantidade){
-        this.quantidade = quantidade;
-    }
-    public String getObservacoes(){
-        return this.observacoes;
-    }
-
-    public void setObservacoes(String observacoes){
-        this.observacoes = observacoes;
-    }
-
-
 
     @Override
     public byte[] toByteArray() throws Exception {
@@ -118,6 +96,7 @@ public class Produto implements Entidade {
         DataOutputStream dos = new DataOutputStream(baos);
 
         dos.writeInt(this.id);
+        dos.writeBoolean(this.status);
         dos.writeUTF(this.GTIN);
         dos.writeUTF(this.nome);
         dos.writeUTF(this.descricao);
@@ -131,6 +110,7 @@ public class Produto implements Entidade {
         DataInputStream dis = new DataInputStream(bis);
 
         this.id = dis.readInt();
+        this.status = dis.readBoolean();
         this.GTIN = dis.readUTF();
         this.nome = dis.readUTF();
         this.descricao = dis.readUTF();
