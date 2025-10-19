@@ -76,6 +76,17 @@ public class ControleProduto {
         return arquivoProduto.update(produtoAntigo);
     }
 
+    public boolean desativar(Scanner sc, int idProduto) throws Exception {
+        Produto produtoAntigo = arquivoProduto.read(idProduto);
+        produtoAntigo.Desativar();
+        return arquivoProduto.update(produtoAntigo);
+    }
+
+    public boolean reativar(Scanner sc, int idProduto) throws Exception {
+        Produto produtoAntigo = arquivoProduto.read(idProduto);
+        produtoAntigo.Reativar();
+        return arquivoProduto.update(produtoAntigo);
+    }
 
    /*/ public boolean DesativarProduto(int idProduto) throws Exception {
 

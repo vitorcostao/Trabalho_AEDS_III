@@ -562,14 +562,16 @@ public class Painel {
             case "2" -> {
 
                 if(p.getStatus() == false){
-                    p.Reativar();
+                    controleUsuario.getControleProdutos().reativar(sc, p.getId());
                 }else{
-                    p.Desativar();
+                    controleUsuario.getControleProdutos().desativar(sc, p.getId());
                 }
-                System.out.println("Status alterado. " +  p.getStatus());
+                System.out.println("Status do produto alterado com sucesso para: " + (p.getStatus() ?  "Desativado" : "Ativo"));
                 p.getStatus();
                 pausar(sc);
-                //controleUsuario.getControleProdutos().DesativarProduto(p.getId());
+                Produto novo = controleUsuario.getControleProdutos().getArquivoProduto().read(p.getId());
+                painelDetalhesProduto(novo, sc);
+
                 painelProdutos(sc);
             }
             case "R" -> painelProdutos(sc);
