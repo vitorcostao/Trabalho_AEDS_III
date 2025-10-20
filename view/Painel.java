@@ -56,6 +56,7 @@ public class Painel {
         switch (op) {
             case "1" -> {
                 System.out.println("Login selecionado");
+                if(executando)
                 painelLogin(sc);
             }
 
@@ -219,7 +220,6 @@ public class Painel {
                 System.out.println("Acessar produtos");
                 painelProdutos(sc);
                 pausar(sc);
-                painelInicio(sc);
             }
             case "4" -> {
                 System.out.println("Buscar lista");
@@ -228,7 +228,7 @@ public class Painel {
 
             case "S" -> {
                 System.out.println("Saindo...");
-                executando = false;
+                executando = false;    
             }
 
             default -> System.out.println("Opção inválida!");
@@ -276,6 +276,8 @@ public class Painel {
     }
 
     public static void painelDetalhesLista(Lista listaSelecionada, int escolha, Scanner sc) throws Exception {
+
+        limparTelaWindows();
 
         System.out.println("Presente Fácil 1.0\n-----------------");
         System.out.println("> Início > Minhas listas > " + listaSelecionada.getNome());
@@ -394,7 +396,7 @@ public class Painel {
 
         System.out.print("\nOpção: ");
         String op = sc.nextLine().toUpperCase();
-
+        
         switch (op) {
             case "1" -> painelBuscarProduto(sc);
             case "2" -> painelListarProdutos(sc, 1);
