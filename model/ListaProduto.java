@@ -1,11 +1,10 @@
 package model;
 
+import interfaces.Entidade;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
-
-import interfaces.Entidade;
 import java.io.IOException;
 
 public class ListaProduto implements Entidade {
@@ -92,7 +91,7 @@ public class ListaProduto implements Entidade {
         dos.writeInt(this.idProduto);
         dos.writeInt(this.idLista);
         dos.writeInt(this.quantidade);
-        dos.writeUTF(observacao);
+        dos.writeUTF(this.observacao);
 
         return baos.toByteArray();
     }

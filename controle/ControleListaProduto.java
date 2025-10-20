@@ -1,14 +1,12 @@
 package controle;
 
 import java.util.ArrayList;
-
 import model.Lista;
 import model.ListaProduto;
 import model.Produto;
 import model.Usuario;
 import service.ListaProduto.ArquivoListaProduto;
 import service.Listas.ArquivoLista;
-import service.Pares.ParProdutoLp;
 import service.Produtos.ArquivoProduto;
 
 public class ControleListaProduto {
@@ -36,13 +34,25 @@ public class ControleListaProduto {
         ArrayList<ListaProduto> relacoes = arquivoListaProduto.readByLista(listaAtual.getId());
         for (ListaProduto lp : relacoes) {
             if (lp.getIdProduto() == idProduto) {
-                return false;
+                return false; //Produto já está na lista
             }
         }
     
         ListaProduto novaRelacao = new ListaProduto(listaAtual.getId(), idProduto, 0);
         arquivoListaProduto.create(novaRelacao);
+
+        System.out.println("Produto " + idProduto + " adicionado à lista " + listaAtual.getId());
+
+ relacoes = arquivoListaProduto.readByProduto(idProduto);
+
+for (ListaProduto lp : relacoes) {
+    System.out.println(" -> ListaProduto ID: " + lp.getId() + ", Lista ID: " + lp.getIdLista());
+}
+
         return true;
+
+        //TEste
+        
     }
 
     public ArrayList<Produto> listarProdutosDaLista(Lista listaAtual) throws Exception {

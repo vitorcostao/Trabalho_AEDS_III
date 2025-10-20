@@ -9,7 +9,7 @@ import java.io.IOException;
 
 public class ParProdutoLp implements arvore.aed3.RegistroArvoreBMais<ParProdutoLp> {
 
-  private int idLista;
+  private int idProduto;
   private int idListaProduto;
   private short TAMANHO = 8;
 
@@ -23,14 +23,14 @@ public class ParProdutoLp implements arvore.aed3.RegistroArvoreBMais<ParProdutoL
 
   public ParProdutoLp(int idProduto, int id) {
     try {
-      this.idLista = idProduto; 
+      this.idProduto = idProduto; 
       this.idListaProduto = id; 
     } catch (Exception ec) {
     } 
   }
 
   public int getIdLista() {
-    return idLista;
+    return idProduto;
   }
 
   public int getIdListaProduto() {
@@ -40,7 +40,7 @@ public class ParProdutoLp implements arvore.aed3.RegistroArvoreBMais<ParProdutoL
   @Override
   @SuppressWarnings("CloneDeclaresCloneNotSupported")
   public ParProdutoLp clone() {
-    return new ParProdutoLp(this.idLista, this.idListaProduto);
+    return new ParProdutoLp(this.idProduto, this.idListaProduto);
   }
 
   @Override
@@ -50,22 +50,22 @@ public class ParProdutoLp implements arvore.aed3.RegistroArvoreBMais<ParProdutoL
 
   @Override
   public int compareTo(ParProdutoLp a) {
-    if (this.idLista != a.idLista)
-      return this.idLista - a.idLista;
+    if (this.idProduto != a.idProduto)
+      return this.idProduto - a.idProduto;
     else
       return this.idListaProduto == -1 ? 0 : this.idListaProduto - a.idListaProduto;
   }
 
   @Override
   public String toString() {
-    return String.format("%3d", this.idLista) + ";" + String.format("%-3d", this.idListaProduto);
+    return String.format("%3d", this.idProduto) + ";" + String.format("%-3d", this.idListaProduto);
   }
 
   @Override
   public byte[] toByteArray() throws IOException {
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     DataOutputStream dos = new DataOutputStream(baos);
-    dos.writeInt(this.idLista);
+    dos.writeInt(this.idProduto);
     dos.writeInt(this.idListaProduto);
     return baos.toByteArray();
   }
@@ -74,7 +74,7 @@ public class ParProdutoLp implements arvore.aed3.RegistroArvoreBMais<ParProdutoL
   public void fromByteArray(byte[] ba) throws IOException {
     ByteArrayInputStream bais = new ByteArrayInputStream(ba);
     DataInputStream dis = new DataInputStream(bais);
-    this.idLista = dis.readInt();
+    this.idProduto = dis.readInt();
     this.idListaProduto = dis.readInt();
   }
 
