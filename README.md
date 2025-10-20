@@ -8,6 +8,10 @@
 
 ---
 
+Video demonstrativo no youtube: [upload pendente]
+
+---
+
 ## Perguntas e Respostas II
 
 **Há um CRUD de produtos (que estende a classe ArquivoIndexado, acrescentando Tabelas Hash Extensíveis e Árvores B+ como índices diretos e indiretos conforme necessidade) que funciona corretamente?**  
