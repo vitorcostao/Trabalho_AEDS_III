@@ -15,7 +15,7 @@ Resposta: Sim, o mesmo pode ser acessado no caminho "> Início > Produtos" onde 
 
 ---
 
-**Há um CRUD da entidade de associação ListaProduto (que estende a classe ArquivoIndexado, acrescentando Tabelas Hash Extensíveis e Árvores B+ como índices diretos e indiretos conforme necessidade) que funciona corretamente**  
+**Há um CRUD da entidade de associação ListaProduto (que estende a classe ArquivoIndexado, acrescentando Tabelas Hash Extensíveis e Árvores B+ como índices diretos e indiretos conforme necessidade) que funciona corretamente?**  
 Resposta: Sim, tal CRUD é acessado ao manipular os produtos em uma lista, onde voce pode adicionar remover e alterar a quantidade de produtos e a observação presente no mesmo. 
 
 ---
@@ -25,13 +25,14 @@ Resposta: sim, tal tela é acessada percorrendo o caminho "> Início > Produtos 
 
 ---
 
-**A visão de listas funciona corretamente e permite a gestão dos produtos na lista**  
+**A visão de listas funciona corretamente e permite a gestão dos produtos na lista?**  
 Resposta: Sim, conseguimos testar todas as funções relacionadas a gestão de produtos da lista com sucesso em suas execuções. 
 
 ---
 
 **A integridade do relacionamento entre listas e produtos está mantida em todas as operações?**  
-Resposta:Sim, existem verificações nas funções para garantir que apenas operações validas sejam executadas.
+Resposta: Sim, existem verificações nas funções para garantir que apenas operações validas sejam executadas. 
+
 ---
 
 **O trabalho compila corretamente?**  
