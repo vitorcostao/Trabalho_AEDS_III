@@ -11,27 +11,27 @@
 ## Perguntas e Respostas II
 
 **Há um CRUD de produtos (que estende a classe ArquivoIndexado, acrescentando Tabelas Hash Extensíveis e Árvores B+ como índices diretos e indiretos conforme necessidade) que funciona corretamente?**  
-Resposta: Não, o CRUD cria exibe e edita produtos corretamente mas ao tentar desativar o produto enfrentamos dificuldades.
+Resposta: Sim, o mesmo pode ser acessado no caminho "> Início > Produtos" onde as opções de listar produtos, buscar por GTIN, e cadastrar produtos se encontram, para desativar o produto é necessario listar (ou buscar por GTIN e ai sim será possivel editar os valores do produto e/ou o desativar.
 
 ---
 
-**Há um CRUD da entidade de associação ListaProduto (que estende a classe ArquivoIndexado, acrescentando Tabelas Hash Extensíveis e Árvores B+ como índices diretos e indiretos conforme necessidade) que funciona corretamente**  
-Resposta: Não, o CRUD existe e todos seus metodos existem/estão sendo chamados mas existe um problema entre a exibição ou criação que não conseguimos resolver,
+**Há um CRUD da entidade de associação ListaProduto (que estende a classe ArquivoIndexado, acrescentando Tabelas Hash Extensíveis e Árvores B+ como índices diretos e indiretos conforme necessidade) que funciona corretamente?**  
+Resposta: Sim, tal CRUD é acessado ao manipular os produtos em uma lista, onde voce pode adicionar remover e alterar a quantidade de produtos e a observação presente no mesmo. 
 
 ---
 
 **A visão de produtos está corretamente implementada e permite consultas as listas em que o produto aparece (apenas quantidade no caso de lista de outras pessoas)?**  
-Resposta: Não, a visão está implementada e a consulta funciona porem como tivemos problemas no CRUD de ListaProduto, não é exibida nenhuma lista, devido ao problema no CRUD ListaProduto
+Resposta: sim, tal tela é acessada percorrendo o caminho "> Início > Produtos > Listagem" e selecionando um produto.
 
 ---
 
-**A visão de listas funciona corretamente e permite a gestão dos produtos na lista**  
-Resposta: Não, a visão das listas funciona corretamente mas as opções de gerenciar os produtos da lista estão com problemas.
+**A visão de listas funciona corretamente e permite a gestão dos produtos na lista?**  
+Resposta: Sim, conseguimos testar todas as funções relacionadas a gestão de produtos da lista com sucesso em suas execuções. 
 
 ---
 
 **A integridade do relacionamento entre listas e produtos está mantida em todas as operações?**  
-Resposta:Sim, devido ao erro na inserção de produtos nas listas, a exibição exibe que o item não esta presente em nenhuma lista.
+Resposta: Sim, existem verificações nas funções para garantir que apenas operações validas sejam executadas. 
 
 ---
 
@@ -41,7 +41,7 @@ Resposta: Sim, basta clonar o repositório e rodar na IDE.
 ---
 
 **O trabalho está completo e funcionando sem erros de execução?**  
-Resposta: Não, nem todos os requisitos foram atendidos completamente, devido ao problema ao relacionar os diferentes CRUDs, mas as visões foram criadas e funcionam parcialmente, e o GTIN-13 foi implementado. 
+Resposta: Sim, dado nossos testes nosso programa não apresenta erros de execução, ao menos não conseguimos reproduzir nenhum.
 
 ---
 
