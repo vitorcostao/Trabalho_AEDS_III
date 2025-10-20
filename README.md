@@ -8,7 +8,7 @@
 
 ---
 
-Video demonstrativo no youtube: [upload pendente]
+Video demonstrativo no youtube: https://www.youtube.com/watch?v=6sD36VlP3rE
 
 ---
 
@@ -45,7 +45,7 @@ Resposta: Sim, basta clonar o repositório e rodar na IDE.
 ---
 
 **O trabalho está completo e funcionando sem erros de execução?**  
-Resposta: Sim, dado nossos testes nosso programa não apresenta erros de execução, ao menos não conseguimos reproduzir nenhum.
+Resposta: Não, o trabalho esta completo porem ao excluir todos os itens de uma lista, ao tentar adicionar algum item na mesma o programa congela.
 
 ---
 
