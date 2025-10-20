@@ -123,7 +123,7 @@ public class ControleLista {
                 if (idUser == idUsuario) {
                     Lista lista = arquivoLista.read(idLista);
                     listasUsuario.add(lista);
-                    System.out.printf("(%d) %s - %s\n", contador, lista.getNome(), lista.getDataLimite());
+                    System.out.printf("(%d) %s - %s - id: %d\n", contador, lista.getNome(), lista.getDataLimite(), lista.getId());
                     contador++;
                 }
 
@@ -226,37 +226,4 @@ public class ControleLista {
         arquivoLista.close();
     }
 
-    /*
-     * // Método main para testes rápidos
-     * public static void main(String[] args) {
-     * 
-     * Scanner sc = new Scanner(System.in);
-     * System.out.println("Presente Fácil 1.0\n-----------------\n>Cadastro\n");
-     * System.out.println("Digite o nome: ");
-     * String nome = sc.nextLine();
-     * System.out.println("Digite a descricao: ");
-     * String descricao = sc.nextLine();
-     * 
-     * LocalDate hoje = LocalDate.now();
-     * String dataCriacao = hoje.toString();
-     * 
-     * 
-     * System.out.println("Digite a data limite(dd/MM/yyyy): ");
-     * String dataLimite = sc.nextLine();
-     * 
-     * System.out.println("Codigo compartilhavel(Ja sera implementado)");
-     * String codigo = sc.nextLine();
-     * 
-     * try {
-     * ControleLista controleLista = new ControleLista();
-     * Lista novaLista = controleLista.cadastrarLista(usuarioLogado.getId(), nome,
-     * descricao, dataCriacao, dataLimite, codigo);
-     * System.out.println(novaLista.toString());
-     * controleLista.fechar();
-     * } catch (Exception e) {
-     * System.out.println("Erro ao cadastrar usuário: " + e.getMessage());
-     * }
-     * sc.close();
-     * }
-     */
 }

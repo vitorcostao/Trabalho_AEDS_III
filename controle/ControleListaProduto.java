@@ -25,7 +25,7 @@ public class ControleListaProduto {
     }
 
     public boolean adicionarProdutoNaLista(int idProduto, Lista listaAtual) throws Exception {
-        
+
         if (listaAtual == null) {
             System.out.println("Lista inválida.");
             return false;
@@ -34,25 +34,23 @@ public class ControleListaProduto {
         ArrayList<ListaProduto> relacoes = arquivoListaProduto.readByLista(listaAtual.getId());
         for (ListaProduto lp : relacoes) {
             if (lp.getIdProduto() == idProduto) {
-                return false; //Produto já está na lista
+                return false; 
             }
         }
-    
-        ListaProduto novaRelacao = new ListaProduto(listaAtual.getId(), idProduto, 0);
+
+        ListaProduto novaRelacao = new ListaProduto(idProduto, listaAtual.getId(), 0);
         arquivoListaProduto.create(novaRelacao);
 
         System.out.println("Produto " + idProduto + " adicionado à lista " + listaAtual.getId());
+        
+        //Debug
+        relacoes = arquivoListaProduto.readByProduto(idProduto);
 
- relacoes = arquivoListaProduto.readByProduto(idProduto);
-
-for (ListaProduto lp : relacoes) {
-    System.out.println(" -> ListaProduto ID: " + lp.getId() + ", Lista ID: " + lp.getIdLista());
-}
+        for (ListaProduto lp : relacoes) {
+            System.out.println(" -> ListaProduto ID: " + lp.getId() + ", Lista ID: " + lp.getIdLista() + arquivoProduto.read(idProduto));
+        }
 
         return true;
-
-        //TEste
-        
     }
 
     public ArrayList<Produto> listarProdutosDaLista(Lista listaAtual) throws Exception {
@@ -63,6 +61,7 @@ for (ListaProduto lp : relacoes) {
         ArrayList<ListaProduto> relacoes = arquivoListaProduto.readByLista(listaAtual.getId());
         for (ListaProduto lp : relacoes) {
             Produto p = arquivoProduto.read(lp.getIdProduto());
+
             if (p != null)
                 produtos.add(p);
         }
@@ -95,6 +94,7 @@ for (ListaProduto lp : relacoes) {
         }
         return false;
     }
+
     public int contarListasDeOutrosUsuariosQueContemProduto(int idProduto) throws Exception {
         int count = 0;
         ArrayList<ListaProduto> relacoes = arquivoListaProduto.readByProduto(idProduto);
@@ -109,17 +109,17 @@ for (ListaProduto lp : relacoes) {
         return count;
     }
 
-    public ArrayList<Lista> findListFromProducts(int idProduto) throws Exception{
+    public ArrayList<Lista> findListFromProducts(int idProduto) throws Exception {
 
         ArrayList<ListaProduto> idLista = arquivoListaProduto.readByProduto(idProduto);
         ArrayList<Lista> result = new ArrayList<>();
 
-        for(ListaProduto lp : idLista){
+        for (ListaProduto lp : idLista) {
 
             result.add(arquivoLista.read(lp.getIdLista()));
         }
 
         return result;
-    }  
+    }
 
 }
