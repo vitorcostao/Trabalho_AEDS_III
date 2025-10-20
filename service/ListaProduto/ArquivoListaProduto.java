@@ -65,6 +65,15 @@ public class ArquivoListaProduto extends service.Genérico.Arquivo<ListaProduto>
     }
 
 
+    public ListaProduto encontrarRelacao(int idProduto, int idLista) throws Exception {
+        ArrayList<ListaProduto> listasProdutos = readByProduto(idProduto);
+        for (ListaProduto lp : listasProdutos) {
+            if (lp.getIdLista() == idLista) {
+                return lp;
+            }
+        }
+        return null;
+    }
     @Override
     public boolean delete(int id) throws Exception {
         

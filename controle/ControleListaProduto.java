@@ -37,7 +37,7 @@ public class ControleListaProduto {
             }
         }
 
-        ListaProduto novaRelacao = new ListaProduto(idProduto, listaAtual.getId(), 0);
+        ListaProduto novaRelacao = new ListaProduto(idProduto, listaAtual.getId(), 1);
         arquivoListaProduto.create(novaRelacao);
         
 
@@ -59,6 +59,15 @@ public class ControleListaProduto {
         return produtos;
     }
 
+    public static ArquivoLista getArquivoLista() {
+        return arquivoLista;
+    }
+
+    public static ArquivoListaProduto getArquivoListaProduto() {
+        return arquivoListaProduto;
+    }
+
+    
     public void exibirProdutosDaLista(Lista listaAtual) throws Exception {
         System.out.println("Presente Fácil 1.0\n----------------------------------------->");
         System.out.println("> Início > Listas > " + listaAtual.getNome() + " > Produtos\n");

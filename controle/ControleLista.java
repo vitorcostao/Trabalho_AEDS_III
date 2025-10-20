@@ -123,7 +123,7 @@ public class ControleLista {
                 if (idUser == idUsuario) {
                     Lista lista = arquivoLista.read(idLista);
                     listasUsuario.add(lista);
-                    System.out.printf("(%d) %s - %s - id: %d\n", contador, lista.getNome(), lista.getDataLimite(), lista.getId());
+                    System.out.printf("(%d) %s - %s \n", contador, lista.getNome(), lista.getDataLimite());
                     contador++;
                 }
 

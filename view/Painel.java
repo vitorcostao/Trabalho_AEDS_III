@@ -4,6 +4,7 @@ import controle.*;
 import java.io.IOException;
 import java.util.*;
 import model.Lista;
+import model.ListaProduto;
 import model.Produto;
 import model.Usuario;
 
@@ -293,8 +294,13 @@ public class Painel {
                 System.out.println("Nenhum produto nesta lista.");
             } else {
                 for (Produto p : produtosNaLista) {
-                    System.out.println("- " + p.getNome() + " (GTIN: " + p.getGTIN() + ")");
+                    ListaProduto lp = ControleListaProduto.getArquivoListaProduto().encontrarRelacao(p.getId(), listaSelecionada.getId());   
+                     System.out.println("------------------------- "); 
+                    System.out.println( p.getNome() + " [" + lp.getQuantidade() + " unidades]");
+                    System.out.println( "OBS: " + lp.getObservacao());
+                    
                 }
+                    System.out.println("-------------------------- "); 
             }
         } catch (Exception e) {
             System.out.println("Erro ao listar os produtos da lista: " + e.getMessage());
@@ -378,6 +384,19 @@ public class Painel {
         ControleLista controleLista = new ControleLista(controleUsuario.getUser());
 
         controleLista.PesquisarPorCodigo(codigo);
+        //Abacate
+       System.out.println("\n--- Produtos na Lista ---");
+       
+            ArrayList<Produto> produtosNaLista = controleUsuario.getControleListaProduto().listarProdutosDaLista(controleLista.getArquivoLista().read(codigo));
+
+            if (produtosNaLista.isEmpty()) {
+                System.out.println("Nenhum produto nesta lista.");
+            } else {
+                for (Produto p : produtosNaLista) {
+                    System.out.println("- " + p.getNome() + " (GTIN: " + p.getGTIN() + ")");
+                }
+            }
+       
 
         pausar(sc);
         Painel.painelInicio(sc);
@@ -606,6 +625,7 @@ public class Painel {
 
         System.out.println("(1) Acrescentar produtos");
         System.out.println("(2) Remover produtos");
+        System.out.println("(3) Editar produtos");
         System.out.println("(R) Retornar ao menu anterior\n\n");
         
         System.out.print("Opção: ");
@@ -623,11 +643,79 @@ public class Painel {
                 painelRemoverProdutos(sc, listaSelecionada, escolha);
             }
 
+            case "3" -> {
+
+                painelEditarProdutos(sc, listaSelecionada, escolha);
+            }
+
             case "R" -> {
 
                 painelDetalhesLista(listaSelecionada, escolha, sc);
             }
         }
+    }
+
+      public static void painelEditarProdutos(Scanner sc, Lista listaSelecionada, int escolha) throws Exception {
+        limparTelaWindows();
+        System.out.println("PresenteFácil 1.0");
+        System.out.println("-----------------");
+        System.out.println("> Início > Minhas listas > " + listaSelecionada.getNome() + " > Produtos > Editar Produtos\n");
+
+        ArrayList<Produto> produtos = controleUsuario.getControleListaProduto().listarProdutosDaLista(listaSelecionada);
+
+        if (produtos.isEmpty()) {
+            System.out.println("Nenhum produto nesta lista.");
+            pausar(sc);
+            painelGerenciarProdutos(sc, listaSelecionada, escolha);
+            return;
+        }
+
+        for (int i = 0; i < produtos.size(); i++) {
+            System.out.println("(" + (i + 1) + ") " + produtos.get(i).getNome());
+        }
+
+        System.out.println("\n(R) Retornar");
+        System.out.print("\nEscolha o produto para editar: ");
+        String op = sc.nextLine().toUpperCase();
+
+        if (op.equals("R")) {
+            painelGerenciarProdutos(sc, listaSelecionada, escolha);
+            return;
+        }
+        
+        try {
+            int index = Integer.parseInt(op) - 1;
+            if (index >= 0 && index < produtos.size()) {
+                Produto produtoParaRemover = produtos.get(index);
+                ListaProduto lista = ControleListaProduto.getArquivoListaProduto().encontrarRelacao(produtoParaRemover.getId(), listaSelecionada.getId());
+            
+                
+            // Quantidade
+            System.out.print("Alterar quantiade(deixe em branco para manter \"" + lista.getQuantidade() + "\"): ");
+            String Quantidade = sc.nextLine();
+            if (!Quantidade.isBlank()) {
+
+                int quantidade = Integer.parseInt(Quantidade);
+                lista.setQuantidade(quantidade);
+            }    
+            
+
+                // Observações
+            System.out.print("Alterar observação (deixe em branco para manter \"" + lista.getObservacao() + "\"): ");
+            String OBS = sc.nextLine();
+            if (!OBS.isBlank()) {
+                lista.setObservacao(OBS);
+            }
+            ControleListaProduto.getArquivoListaProduto().update(lista);    
+
+            } else {
+                System.out.println("Seleção inválida.");
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Opção inválida.");
+        }
+        pausar(sc);
+        painelGerenciarProdutos(sc, listaSelecionada, escolha);
     }
 
     public static void painelRemoverProdutos(Scanner sc, Lista listaSelecionada, int escolha) throws Exception {
@@ -726,7 +814,7 @@ public class Painel {
                         if(controleUsuario.getControleListaProduto().adicionarProdutoNaLista(todos.get(index).getId(), listaSelecionada)){
 
                             System.out.println("Produto associado a " + listaSelecionada.getNome() + "!");
-                            pausar(sc);
+                            painelDetalhesListaProduto(sc, listaSelecionada, todos.get(index) , op);
                         } else {
 
                             System.out.println("Produto já associado a " + listaSelecionada.getNome() + "!");
@@ -762,7 +850,7 @@ public class Painel {
 
         System.out.print("Opção: ");
         String op = sc.nextLine();
-
+        op = op.toUpperCase();
         switch (op) {
             case "1" -> {
 
@@ -777,6 +865,9 @@ public class Painel {
                         
                         System.out.println("Produto associado a " + listaSelecionada.getNome() + "!");
                         pausar(sc);
+                        painelDetalhesListaProduto(sc, listaSelecionada, p, op);
+                       
+
                     } else {
 
                         System.out.println("Produto já associado a " + listaSelecionada.getNome() + "!");
@@ -810,6 +901,31 @@ public class Painel {
                 painelAcrescentarProdutos(sc, listaSelecionada, escolha);
             }   
         }
+    }
+    public static void painelDetalhesListaProduto(Scanner sc, Lista listaSelecionada, Produto produto, String op) throws Exception {
+       
+                ListaProduto lista = ControleListaProduto.getArquivoListaProduto().encontrarRelacao(produto.getId(), listaSelecionada.getId());
+            
+                
+            // Quantidade
+            System.out.print("Alterar quantiade(deixe em branco para manter \"" + lista.getQuantidade() + "\"): ");
+            String Quantidade = sc.nextLine();
+            if (!Quantidade.isBlank()) {
+
+                int quantidade = Integer.parseInt(Quantidade);
+                lista.setQuantidade(quantidade);
+            }    
+            
+
+                // Observações
+            System.out.print("Alterar observação (deixe em branco para manter \"" + lista.getObservacao() + "\"): ");
+            String OBS = sc.nextLine();
+            if (!OBS.isBlank()) {
+                lista.setObservacao(OBS);
+            }
+            ControleListaProduto.getArquivoListaProduto().update(lista);  
+            pausar(sc);  
+        
     }
 
 }
