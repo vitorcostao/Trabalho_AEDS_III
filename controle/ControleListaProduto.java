@@ -43,12 +43,6 @@ public class ControleListaProduto {
 
         System.out.println("Produto " + idProduto + " adicionado à lista " + listaAtual.getId());
         
-        //Debug
-        relacoes = arquivoListaProduto.readByProduto(idProduto);
-
-        for (ListaProduto lp : relacoes) {
-            System.out.println(" -> ListaProduto ID: " + lp.getId() + ", Lista ID: " + lp.getIdLista() + arquivoProduto.read(idProduto));
-        }
 
         return true;
     }

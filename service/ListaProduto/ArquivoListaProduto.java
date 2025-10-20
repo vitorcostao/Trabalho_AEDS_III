@@ -40,8 +40,6 @@ public class ArquivoListaProduto extends service.Genérico.Arquivo<ListaProduto>
 
             ListaProduto lp = super.read(par.getIdListaProduto());
 
-            System.out.println(lp.getIdLista());
-
             if (lp != null && lp.getId() != -1) {
 
                 resultado.add(lp);
