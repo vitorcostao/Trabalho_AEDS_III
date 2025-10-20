@@ -27,7 +27,6 @@ public class ControleListaProduto {
     public boolean adicionarProdutoNaLista(int idProduto, Lista listaAtual) throws Exception {
 
         if (listaAtual == null) {
-            System.out.println("Lista inválida.");
             return false;
         }
 
@@ -40,8 +39,6 @@ public class ControleListaProduto {
 
         ListaProduto novaRelacao = new ListaProduto(idProduto, listaAtual.getId(), 0);
         arquivoListaProduto.create(novaRelacao);
-
-        System.out.println("Produto " + idProduto + " adicionado à lista " + listaAtual.getId());
         
 
         return true;

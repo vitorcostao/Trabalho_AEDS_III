@@ -136,8 +136,9 @@ public class Painel {
 
         System.out.println("\n(1) Alterar meus dados");
         System.out.println("(2) Excluir minha conta");
-        System.out.println("(0) Retornar ao menu anterior");
+        System.out.println("(R) Retornar ao menu anterior");
         String op = sc.nextLine();
+        op = op.toUpperCase();
         switch (op) {
             case "1" -> {
                 limparTelaWindows();
@@ -146,7 +147,7 @@ public class Painel {
             }
             case "2" -> excluirUsuario(sc);
             case "3" -> painelInicio(sc);
-            case "0" -> painelInicio(sc);
+            case "R" -> painelInicio(sc);
             default -> {
                 System.out.print("Opção inválida!");
                 pausar(sc);
@@ -302,10 +303,11 @@ public class Painel {
         System.out.println("\n(1) Gerenciar produtos da lista");
         System.out.println("(2) Alterar dados da lista");
         System.out.println("(3) Excluir Lista");
-        System.out.println("(0) Retornar ao menu anterior\n\n");
+        System.out.println("(R) Retornar ao menu anterior\n\n");
 
         System.out.print("Opção: ");
         String op = sc.nextLine();
+        op = op.toUpperCase();
 
         switch (op) {
             case "1" -> {
@@ -322,7 +324,7 @@ public class Painel {
                 pausar(sc);
             }
 
-            case "0" -> {
+            case "R" -> {
                 painelMinhasListas(sc);
             }
 
@@ -528,16 +530,23 @@ public class Painel {
 
         if (list.isEmpty()){
 
-            System.out.println("- (nenhuma)");
+            System.out.println(" (nenhuma)");
         } else {
 
             int i = 0;
-
+            boolean encontrou = false;
             for(Lista L : list){
 
-                System.out.println( "- " + list.get(i).getNome());
+                if(list.get(i).getIdUsuario() == controleUsuario.getUser().getId()){
+                    encontrou = true;
+                    System.out.println( "- " + list.get(i).getNome());
+                }
+
                 i++;
             }
+            if(!encontrou){
+                System.out.println(" (nenhuma)");
+            }   
         }
 
         int countOutras = controleUsuario.getControleListaProduto()
