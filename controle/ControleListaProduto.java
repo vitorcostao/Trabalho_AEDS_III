@@ -18,9 +18,9 @@ public class ControleListaProduto {
 
     public ControleListaProduto(Usuario usuarioLogado) throws Exception {
 
-        this.arquivoLista = new ArquivoLista();
-        this.arquivoProduto = new ArquivoProduto();
-        this.arquivoListaProduto = new ArquivoListaProduto();
+        arquivoLista = new ArquivoLista();
+        arquivoProduto = new ArquivoProduto();
+        arquivoListaProduto = new ArquivoListaProduto();
         this.usuarioLogado = usuarioLogado;
     }
 

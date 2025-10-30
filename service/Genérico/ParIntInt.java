@@ -1,4 +1,4 @@
-package arvore;
+package service.Genérico;
 /*
 Esta classe representa um objeto para uma entidade
 que será armazenado em uma árvore B+
@@ -17,7 +17,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-public class ParIntInt implements arvore.aed3.RegistroArvoreBMais<ParIntInt> {
+public class ParIntInt implements RegistroArvoreBMais<ParIntInt> {
 
   private int num1;
   private int num2;

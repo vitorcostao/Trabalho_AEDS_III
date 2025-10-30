@@ -7,7 +7,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-public class ParProdutoLp implements arvore.aed3.RegistroArvoreBMais<ParProdutoLp> {
+public class ParProdutoLp implements service.Genérico.RegistroArvoreBMais<ParProdutoLp> {
 
   private int idProduto;
   private int idListaProduto;

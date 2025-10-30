@@ -1,4 +1,4 @@
-package arvore.aed3;
+package service.Genérico;
 
 import java.io.IOException;
 

@@ -1,7 +1,7 @@
 package controle;
 
-import arvore.ParIntInt;
-import arvore.aed3.ArvoreBMais;
+import service.Genérico.ParIntInt;
+import service.Genérico.ArvoreBMais;
 
 import java.io.File;
 import java.time.LocalDate;

@@ -1,13 +1,12 @@
 package service.ListaProduto;
 
-import arvore.aed3.ArvoreBMais;
+import service.Genérico.ArvoreBMais;
 
 import java.io.File;
 import java.util.ArrayList;
 import model.ListaProduto;
 import service.Pares.ParListaLp;
 import service.Pares.ParProdutoLp;
-import service.Produtos.ArquivoProduto;
 
 public class ArquivoListaProduto extends service.Genérico.Arquivo<ListaProduto> {
 
