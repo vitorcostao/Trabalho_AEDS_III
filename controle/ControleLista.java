@@ -2,13 +2,14 @@ package controle;
 
 import arvore.ParIntInt;
 import arvore.aed3.ArvoreBMais;
+
+import java.io.File;
 import java.time.LocalDate;
 import java.util.*;
 import model.Lista;
 import model.Usuario;
 import service.Listas.ArquivoLista;
 import service.Listas.NanoID;
-
 
 public class ControleLista {
 
@@ -18,13 +19,19 @@ public class ControleLista {
 
     public ControleLista() throws Exception {
         arquivoLista = new ArquivoLista();
-        tree = new ArvoreBMais<>(ParIntInt.class.getConstructor(), 5, "arvoreBmais.db");
+        File pastaArvore = new File("dados\\listas");
+        if (!pastaArvore.exists())
+            pastaArvore.mkdirs();
+        tree = new ArvoreBMais<>(ParIntInt.class.getConstructor(), 5, "dados\\listas\\arvoreBmais.db");
     }
 
     public ControleLista(Usuario usuarioLogado) throws Exception {
         arquivoLista = new ArquivoLista();
         this.usuarioLogado = usuarioLogado;
-        tree = new ArvoreBMais<>(ParIntInt.class.getConstructor(), 5, "arvoreBmais.db");
+        File pastaArvore = new File("dados\\listas");
+        if (!pastaArvore.exists())
+            pastaArvore.mkdirs();
+        tree = new ArvoreBMais<>(ParIntInt.class.getConstructor(), 5, "dados\\listas\\arvoreBmais.db");
     }
 
     @SuppressWarnings("static-access")

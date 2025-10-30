@@ -1,7 +1,6 @@
 package service.Listas;
 
 import model.Lista;
-import service.Genérico.Arquivo;
 import service.Genérico.HashExtensivel;
 import service.Pares.ParCodigoId;
 

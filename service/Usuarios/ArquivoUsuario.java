@@ -1,7 +1,6 @@
 package service.Usuarios;
 
 import model.Usuario;
-import service.Genérico.Arquivo;
 import service.Genérico.HashExtensivel;
 import service.Pares.ParEmailID;
 

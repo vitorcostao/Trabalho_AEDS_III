@@ -33,13 +33,12 @@ public class ControleListaProduto {
         ArrayList<ListaProduto> relacoes = arquivoListaProduto.readByLista(listaAtual.getId());
         for (ListaProduto lp : relacoes) {
             if (lp.getIdProduto() == idProduto) {
-                return false; 
+                return false;
             }
         }
 
         ListaProduto novaRelacao = new ListaProduto(idProduto, listaAtual.getId(), 1);
         arquivoListaProduto.create(novaRelacao);
-        
 
         return true;
     }
@@ -53,7 +52,7 @@ public class ControleListaProduto {
         for (ListaProduto lp : relacoes) {
             Produto p = arquivoProduto.read(lp.getIdProduto());
 
-            if (p != null)
+            if (p != null && p.getStatus())
                 produtos.add(p);
         }
         return produtos;
@@ -67,7 +66,6 @@ public class ControleListaProduto {
         return arquivoListaProduto;
     }
 
-    
     public void exibirProdutosDaLista(Lista listaAtual) throws Exception {
         System.out.println("Presente Fácil 1.0\n----------------------------------------->");
         System.out.println("> Início > Listas > " + listaAtual.getNome() + " > Produtos\n");
@@ -79,9 +77,13 @@ public class ControleListaProduto {
         }
 
         for (Produto p : produtos) {
-            System.out.println("ID: " + p.getId() + " | Nome: " + p.getNome() +
-                    " | GTIN: " + p.getGTIN() +
-                    " | Descrição: " + p.getDescricao());
+
+            if (p.getStatus()) {
+
+                System.out.println("ID: " + p.getId() + " | Nome: " + p.getNome() +
+                        " | GTIN: " + p.getGTIN() +
+                        " | Descrição: " + p.getDescricao());
+            }
         }
     }
 
@@ -98,11 +100,15 @@ public class ControleListaProduto {
     public int contarListasDeOutrosUsuariosQueContemProduto(int idProduto) throws Exception {
         int count = 0;
         ArrayList<ListaProduto> relacoes = arquivoListaProduto.readByProduto(idProduto);
+        Produto p = arquivoProduto.read(idProduto);
 
-        for (ListaProduto lp : relacoes) {
-            Lista lista = new ArquivoLista().read(lp.getIdLista());
-            if (lista != null && lista.getIdUsuario() != usuarioLogado.getId()) {
-                count++;
+        if (p.getStatus()) {
+           
+            for (ListaProduto lp : relacoes) {
+                Lista lista = new ArquivoLista().read(lp.getIdLista());
+                if (lista != null && lista.getIdUsuario() != usuarioLogado.getId()) {
+                    count++;
+                }
             }
         }
 
@@ -113,10 +119,14 @@ public class ControleListaProduto {
 
         ArrayList<ListaProduto> idLista = arquivoListaProduto.readByProduto(idProduto);
         ArrayList<Lista> result = new ArrayList<>();
+        Produto p = arquivoProduto.read(idProduto);
 
-        for (ListaProduto lp : idLista) {
+        if (p.getStatus()) {
 
-            result.add(arquivoLista.read(lp.getIdLista()));
+            for (ListaProduto lp : idLista) {
+
+                result.add(arquivoLista.read(lp.getIdLista()));
+            }
         }
 
         return result;

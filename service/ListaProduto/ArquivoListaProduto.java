@@ -1,10 +1,13 @@
 package service.ListaProduto;
 
 import arvore.aed3.ArvoreBMais;
+
+import java.io.File;
 import java.util.ArrayList;
 import model.ListaProduto;
 import service.Pares.ParListaLp;
 import service.Pares.ParProdutoLp;
+import service.Produtos.ArquivoProduto;
 
 public class ArquivoListaProduto extends service.Genérico.Arquivo<ListaProduto> {
 
@@ -13,12 +16,31 @@ public class ArquivoListaProduto extends service.Genérico.Arquivo<ListaProduto>
 
     public ArquivoListaProduto() throws Exception {
         super("listasProdutos", ListaProduto.class.getConstructor());
-        treeListaListaProduto = new ArvoreBMais<>(ParListaLp.class.getConstructor(), 5, "arvoreListaListaProdutos.db");
-        treeProdutoListaProduto = new ArvoreBMais<>(ParProdutoLp.class.getConstructor(), 5,
-                "arvoreProdutoListaProdutos.db");
+
+        File pastaBase = new File("dados\\listasProdutos");
+        if (!pastaBase.exists())
+            pastaBase.mkdirs();
+
+        File pastaLpLista = new File("dados\\listasProdutos\\LpLista");
+        if (!pastaLpLista.exists())
+            pastaLpLista.mkdirs();
+
+        File pastaLpProduto = new File("dados\\listasProdutos\\LpProduto");
+        if (!pastaLpProduto.exists())
+            pastaLpProduto.mkdirs();
+
+        treeListaListaProduto = new ArvoreBMais<>(
+                ParListaLp.class.getConstructor(),
+                5,
+                "dados\\listasProdutos\\LpLista\\treeLpLista.d.db");
+
+        treeProdutoListaProduto = new ArvoreBMais<>(
+                ParProdutoLp.class.getConstructor(),
+                5,
+                "dados\\listasProdutos\\LpProduto\\treeLpProduto.d.db");
     }
 
-    @Override    
+    @Override
     public int create(ListaProduto lp) throws Exception {
         int id = super.create(lp);
         treeListaListaProduto.create(new ParListaLp(lp.getIdLista(), id));
@@ -26,7 +48,7 @@ public class ArquivoListaProduto extends service.Genérico.Arquivo<ListaProduto>
         return id;
     }
 
-    @Override  
+    @Override
     public ListaProduto read(int id) throws Exception {
         return super.read(id);
     }
@@ -64,7 +86,6 @@ public class ArquivoListaProduto extends service.Genérico.Arquivo<ListaProduto>
         return resultado;
     }
 
-
     public ListaProduto encontrarRelacao(int idProduto, int idLista) throws Exception {
         ArrayList<ListaProduto> listasProdutos = readByProduto(idProduto);
         for (ListaProduto lp : listasProdutos) {
@@ -74,16 +95,17 @@ public class ArquivoListaProduto extends service.Genérico.Arquivo<ListaProduto>
         }
         return null;
     }
+
     @Override
     public boolean delete(int id) throws Exception {
-        
+
         ListaProduto lp = super.read(id);
         if (lp == null) {
             return false;
         }
 
         if (!super.delete(id)) {
-            return false; 
+            return false;
         }
 
         treeListaListaProduto.delete(new ParListaLp(lp.getIdLista(), id));
@@ -94,10 +116,10 @@ public class ArquivoListaProduto extends service.Genérico.Arquivo<ListaProduto>
 
     @Override
     public boolean update(ListaProduto novaListaProduto) throws Exception {
-   
+
         ListaProduto listaProdutoVelha = super.read(novaListaProduto.getId());
         if (listaProdutoVelha == null) {
-            return false;    
+            return false;
         }
 
         if (!super.update(novaListaProduto)) {
@@ -110,7 +132,8 @@ public class ArquivoListaProduto extends service.Genérico.Arquivo<ListaProduto>
         }
 
         if (novaListaProduto.getIdProduto() != listaProdutoVelha.getIdProduto()) {
-            treeProdutoListaProduto.delete(new ParProdutoLp(listaProdutoVelha.getIdProduto(), listaProdutoVelha.getId()));
+            treeProdutoListaProduto
+                    .delete(new ParProdutoLp(listaProdutoVelha.getIdProduto(), listaProdutoVelha.getId()));
             treeProdutoListaProduto.create(new ParProdutoLp(novaListaProduto.getIdProduto(), novaListaProduto.getId()));
         }
 
