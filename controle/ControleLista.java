@@ -1,7 +1,7 @@
 package controle;
 
-import service.Genérico.ParIntInt;
-import service.Genérico.ArvoreBMais;
+import service.Genérico.Árvore.ArvoreBMais;
+import service.Genérico.Árvore.ParIntInt;
 
 import java.io.File;
 import java.time.LocalDate;

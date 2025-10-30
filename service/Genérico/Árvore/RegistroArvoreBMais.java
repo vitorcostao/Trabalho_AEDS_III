@@ -1,4 +1,4 @@
-package service.Genérico;
+package service.Genérico.Árvore;
 
 import java.io.IOException;
 

@@ -2,10 +2,10 @@ package service.Produtos;
 
 import java.util.ArrayList;
 import model.Produto;
-import service.Genérico.HashExtensivel;
+import service.Genérico.Arquivo.HashExtensivel;
 import service.Pares.ParCodigoId;
 
-public class ArquivoProduto extends service.Genérico.Arquivo<Produto> {
+public class ArquivoProduto extends service.Genérico.Arquivo.Arquivo<Produto> {
 
     HashExtensivel<ParCodigoId> indiceIndireto;
 

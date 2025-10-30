@@ -1,4 +1,4 @@
-package service.Genérico;
+package service.Genérico.Arquivo;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

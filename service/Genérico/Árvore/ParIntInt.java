@@ -1,4 +1,4 @@
-package service.Genérico;
+package service.Genérico.Árvore;
 /*
 Esta classe representa um objeto para uma entidade
 que será armazenado em uma árvore B+

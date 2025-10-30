@@ -1,14 +1,13 @@
 package service.ListaProduto;
 
-import service.Genérico.ArvoreBMais;
-
 import java.io.File;
 import java.util.ArrayList;
 import model.ListaProduto;
+import service.Genérico.Árvore.ArvoreBMais;
 import service.Pares.ParListaLp;
 import service.Pares.ParProdutoLp;
 
-public class ArquivoListaProduto extends service.Genérico.Arquivo<ListaProduto> {
+public class ArquivoListaProduto extends service.Genérico.Arquivo.Arquivo<ListaProduto> {
 
     ArvoreBMais<ParListaLp> treeListaListaProduto;
     ArvoreBMais<ParProdutoLp> treeProdutoListaProduto;

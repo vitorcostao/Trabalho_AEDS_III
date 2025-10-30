@@ -1,10 +1,10 @@
 package service.Usuarios;
 
 import model.Usuario;
-import service.Genérico.HashExtensivel;
+import service.Genérico.Arquivo.HashExtensivel;
 import service.Pares.ParEmailID;
 
-public class ArquivoUsuario extends service.Genérico.Arquivo<Usuario> {
+public class ArquivoUsuario extends service.Genérico.Arquivo.Arquivo<Usuario> {
 
     HashExtensivel<ParEmailID> indiceIndiretoEmail;
 
