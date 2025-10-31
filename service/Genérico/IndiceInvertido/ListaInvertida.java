@@ -12,8 +12,9 @@
  * Implementado pelo Prof. Marcos Kutova
  * v1.0 - 2020
  */
-package service.Genérico.ÍndiceInvertido;
+package service.Genérico.IndiceInvertido;
 
+import interfaces.Entidade;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;

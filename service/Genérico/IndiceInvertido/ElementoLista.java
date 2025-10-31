@@ -1,4 +1,4 @@
-package service.Genérico.ÍndiceInvertido;
+package service.Genérico.IndiceInvertido;
 
 public class ElementoLista implements Comparable<ElementoLista>, Cloneable {
     
