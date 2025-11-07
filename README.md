@@ -132,7 +132,7 @@ O arquivo do índice está armazenado no diretório:
 
 ### CRUD Usuários
 
-![Arquivo Usuario](imagens/ArquivoUsuario.png)  
+![Arquivo Usuario](Extras//imagens/ArquivoUsuario.png)  
 
 Após o login, o usuário pode visualizar seus dados (**READ**), atualizar suas informações (**UPDATE**) ou excluir sua conta (**DELETE**), além de ter acesso ao CRUD de Listas.
 
@@ -150,7 +150,7 @@ No model `Lista`, o **ID do usuário** que a criou é utilizado como chave estra
 
 ### CRUD Lista
 
-![Arquivo Lista](imagens/ArquivoLista.png)  
+![Arquivo Lista](Extras//imagens/ArquivoLista.png)  
 
 ---
 
@@ -196,19 +196,19 @@ pausar() → Aguarda o usuário pressionar ENTER <br>
 
 Essa é a função responsavel por gerar o **NanoID**, ela define uma string com todos os caracteres validos para a construção do código, e seleciona aleatoriamente posições da string para inserir no código compartilhável, retornando o mesmo.
 
-![NanoID](imagens/NanoID.png) 
+![NanoID](Extras//imagens/NanoID.png) 
 
 Ele é utilizado na nossa função de cadastro de listas, onde é gerado inicialmente dentro de um laço do while, pois é necessário verificar possíveis colisões, e caso encontre, um novo código é gerado.
 
-![CadastrarLista](imagens/cadastrarLista.png) 
+![CadastrarLista](Extras//imagens/cadastrarLista.png) 
 
  a função que verifica as colisões através da função booleana “PesquisarPorCodigoB(String Código)” que le o arquivo contendo o par de codigo compartilhável e ID, caso não encontre retorna false, e o código é utilizado para gerar a nova lista, caso contrário, o loop continua devido ao retorno true da função.
 
- ![Pesquisar por codigoB](imagens/PesquisarPorCodigoB.png) 
+ ![Pesquisar por codigoB](Extras//imagens/PesquisarPorCodigoB.png) 
  
 A existência de um “PesquisarPorCodigoB” implica que o mesmo é apenas um derivado de outra função, que seria a “PesquisarPorCodigo”, que não apenas verifica se o código é válido, mas exibe a lista encontrada através da função da classe lista de exibir os dados, sendo a função utilizada quando o usuário realiza a pesquisa.
 
-![Pesquisar por codigo](imagens/PesquisarPorCodigo.png) 
+![Pesquisar por codigo](Extras//imagens/PesquisarPorCodigo.png) 
 
 --------------------------------------------------------------------------------
 
