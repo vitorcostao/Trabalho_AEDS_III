@@ -1,3 +1,49 @@
+# Relatório TP3 - AEDS III
+
+**Participantes:**  
+- Felipe Gabriel de Carvalho  
+- Gustavo Henrique dos Santos Dias  
+- Raphael Oliveira de Araujo  
+- Vitor Costa Oliveira Rolla  
+
+---
+
+Video demonstrativo no youtube: <upload pendente>
+
+---
+
+## Perguntas e Respostas III
+
+**O índice invertido com os termos dos nomes dos produts foi criado usando a classe ListaInvertida?**  
+Resposta: 
+
+---
+
+**É possível buscar produtos por palavras no menu de manutenção de produtos?**  
+Resposta: 
+
+---
+
+**É possível buscar produtos por palavras na hora de acrescentá-los às listas dos usuários?**  
+Resposta: 
+
+---
+
+**O trabalho compila corretamente?**  
+Resposta: 
+
+---
+
+**O trabalho está completo e funcionando sem erros de execução?**  
+Resposta: 
+
+---
+
+**O trabalho é original e não a cópia de um trabalho de outro grupo?**  
+Resposta: O trabalho é e se mantem original.  
+
+
+
 # Relatório TP2 - AEDS III
 
 **Participantes:**  
