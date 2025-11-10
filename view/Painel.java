@@ -988,6 +988,7 @@ public class Painel {
         switch (op) {
             case "A" -> {
                 if (pagina > 1)
+
                     painelBuscaPorNome(sc, pagina - 1, termoBusca);
                 else
                     painelBuscaPorNome(sc, pagina, termoBusca);
@@ -1004,7 +1005,7 @@ public class Painel {
                     int escolha = Integer.parseInt(op);
                     int index = inicio + escolha - 1;
                     if (escolha >= 1 && index < total) {
-
+                        painelDetalhesProduto(todos.get(index), sc);
                     } else {
                         System.out.println("Produto inválido.");
                         pausar(sc);
@@ -1074,11 +1075,9 @@ public class Painel {
 
                         if (controleUsuario.getControleListaProduto().adicionarProdutoNaLista(todos.get(index).getId(),
                                 listaSelecionada)) {
-
                             System.out.println("Produto associado a " + listaSelecionada.getNome() + "!");
                             painelDetalhesListaProduto(sc, listaSelecionada, todos.get(index), op);
                         } else {
-
                             System.out.println("Produto já associado a " + listaSelecionada.getNome() + "!");
                             pausar(sc);
                         }
