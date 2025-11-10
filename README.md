@@ -12,30 +12,41 @@ Video demonstrativo no youtube: <upload pendente>
 
 ---
 
+### Busca TFxIDF
+
+Nessa Sprint foi implementado o sistema de busca por palavra oferecendo respostas ordenadas pelo valor TFxIDF, o codigo responsavel por fazer essa relação está presente na função buscarProdutoPorNome
+
+![Arquivo Usuario](Extras//imagens/BuscarProdutoPorNome.png)  
+
+a função é chamada no painel de produtos e no de listas ao selecionar uma lista.
+
+![Arquivo Usuario](Extras//imagens/PainelBusca.png)  
+---
+
 ## Perguntas e Respostas III
 
 **O índice invertido com os termos dos nomes dos produts foi criado usando a classe ListaInvertida?**  
-Resposta: 
+Resposta: sim foi utilizadada a classe, porem com um nome diferente (IndiceInvertido)
 
 ---
 
 **É possível buscar produtos por palavras no menu de manutenção de produtos?**  
-Resposta: 
+Resposta: sim é possivel, seguindo o caminho > Início > Produtos > Buscar por Nome
 
 ---
 
 **É possível buscar produtos por palavras na hora de acrescentá-los às listas dos usuários?**  
-Resposta: 
+Resposta: sim é possivel, seguindo o caminho Início > Minhas listas > (nome da lista) > Produtos > Acrescentar Produtos e pressionando 1 para utilizar a busca.
 
 ---
 
 **O trabalho compila corretamente?**  
-Resposta: 
+Resposta: sim, compila, como exemplificado no video.
 
 ---
 
 **O trabalho está completo e funcionando sem erros de execução?**  
-Resposta: 
+Resposta: nos nossos testes não foram encontrados erros, incluimos o teste de incluir um item na listar, buscar o mesmo e verificar em que lista ele aparece, nenhum erro foi de execução foi registrado, demonstração presente no video
 
 ---
 
