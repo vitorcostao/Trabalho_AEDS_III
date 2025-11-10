@@ -8,7 +8,7 @@
 
 ---
 
-Video demonstrativo no youtube: <upload pendente>
+Video demonstrativo no youtube: [Demonstração TP3](https://youtu.be/7dOrGeXGW_4)
 
 ---
 
