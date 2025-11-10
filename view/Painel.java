@@ -386,7 +386,6 @@ public class Painel {
         ControleLista controleLista = new ControleLista(controleUsuario.getUser());
 
         controleLista.PesquisarPorCodigo(codigo);
-        // Abacate
         System.out.println("\n--- Produtos na Lista ---");
 
         ArrayList<Produto> produtosNaLista = controleUsuario.getControleListaProduto()
@@ -402,7 +401,6 @@ public class Painel {
 
         pausar(sc);
         Painel.painelInicio(sc);
-
     }
 
     /*-+-+-+-+-  Os códigos abaixos tratam da visualização dos produtos -+-+-+-+- */
@@ -421,20 +419,18 @@ public class Painel {
         System.out.print("\nOpção: ");
         String op = sc.nextLine().toUpperCase();
 
-//BataFrita
         switch (op) {
             case "1" -> painelBuscarProduto(sc);
-            case "2" ->
-            {   
+            case "2" -> {
                 limparTelaWindows();
                 System.out.println("Presente Fácil 1.0\n-----------------");
                 System.out.println("> Início > Produtos > Buscar por Nome\n");
                 System.out.print("Pesquisando por : ");
                 String termo = sc.nextLine();
 
-                painelBuscaPorNome(sc, 1, termo);    
+                painelBuscaPorNome(sc, 1, termo);
             }
-            
+
             case "3" -> painelListarProdutos(sc, 1);
             case "4" -> painelCadastrarProduto(sc);
             case "R" -> painelInicio(sc);
@@ -864,15 +860,27 @@ public class Painel {
         System.out.println("> Início > Minhas listas > " + listaSelecionada.getNome() + " > Produtos"
                 + " > Acrescentar Produtos\n");
 
-        System.out.println("(1) Buscar produtos por GTIN");
-        System.out.println("(2) Listar todos os produtos\n");
+        System.out.println("(1) Buscar produtos por nome");
+        System.out.println("(2) Buscar produtos por GTIN");
+        System.out.println("(3) Listar todos os produtos\n");
         System.out.println("(R) Retornar ao menu anterior\n");
 
         System.out.print("Opção: ");
         String op = sc.nextLine();
         op = op.toUpperCase();
         switch (op) {
+
             case "1" -> {
+
+                System.out.print("Digite o nome do produto: ");
+                String nome = sc.nextLine();
+
+                ArrayList<Produto> p = controleUsuario.getControleProdutos().buscarProdutoPorNome(nome);
+
+                painelBuscaPorNomeAdd(sc, 1, listaSelecionada, nome);
+            }
+
+            case "2" -> {
 
                 System.out.print("Digite o GTIN do produto: ");
                 String GTIN = sc.nextLine();
@@ -904,7 +912,7 @@ public class Painel {
                 painelGerenciarProdutos(sc, listaSelecionada, escolha);
             }
 
-            case "2" -> {
+            case "3" -> {
 
                 painelListarProdutosAcrescentar(sc, escolha, listaSelecionada);
             }
@@ -949,18 +957,11 @@ public class Painel {
 
     }
 
-    //Banana
-    public static void ListaPorNome(Scanner sc, int pagina) {
-
-        
-    }
- 
     public static void painelBuscaPorNome(Scanner sc, int pagina, String termoBusca) throws Exception {
         limparTelaWindows();
         System.out.println("Presente Fácil 1.0\n-----------------");
         System.out.println("> Início > Produtos > Buscar por Nome\n");
         System.out.println("\n\nPesquisando por : " + termoBusca);
-    
 
         controleUsuario.getControleProdutos().buscarProdutoPorNome("");
         ArrayList<Produto> todos = controleUsuario.getControleProdutos().buscarProdutoPorNome(termoBusca);
@@ -1003,7 +1004,7 @@ public class Painel {
                     int escolha = Integer.parseInt(op);
                     int index = inicio + escolha - 1;
                     if (escolha >= 1 && index < total) {
-                        painelDetalhesProduto(todos.get(index), sc);
+
                     } else {
                         System.out.println("Produto inválido.");
                         pausar(sc);
@@ -1018,5 +1019,82 @@ public class Painel {
         }
     }
 
-    
+    public static void painelBuscaPorNomeAdd(Scanner sc, int pagina, Lista listaSelecionada, String termoBusca)
+            throws Exception {
+        limparTelaWindows();
+        System.out.println("Presente Fácil 1.0\n-----------------");
+        System.out.println("> Início > Minhas listas > " + listaSelecionada.getNome() + " > Produtos"
+                + " > Acrescentar Produtos\n");
+
+        System.out.println("\n\nPesquisando por : " + termoBusca);
+
+        controleUsuario.getControleProdutos().buscarProdutoPorNome("");
+        ArrayList<Produto> todos = controleUsuario.getControleProdutos().buscarProdutoPorNome(termoBusca);
+
+        int total = todos.size();
+        int porPagina = 10;
+        int totalPaginas = (int) Math.ceil((double) total / porPagina);
+        int inicio = (pagina - 1) * porPagina;
+
+        System.out.println("\n\nPágina " + pagina + " de " + totalPaginas + "\n");
+
+        for (int i = 0; i < porPagina && (inicio + i) < total; i++) {
+            Produto p = todos.get(inicio + i);
+            System.out.println("(" + (i + 1) + ") " + p.getNome());
+        }
+
+        System.out.println("\n(A) Página anterior");
+        System.out.println("(P) Próxima página");
+        System.out.println("(R) Retornar ao menu anterior");
+
+        System.out.print("\nOpção: ");
+        String op = sc.nextLine().toUpperCase();
+
+        switch (op) {
+            case "A" -> {
+                if (pagina > 1)
+                    painelBuscaPorNomeAdd(sc, pagina - 1, listaSelecionada, termoBusca);
+                else
+                    painelBuscaPorNomeAdd(sc, pagina, listaSelecionada, termoBusca);
+
+            }
+            case "P" -> {
+                if (pagina < totalPaginas)
+                    painelBuscaPorNomeAdd(sc, pagina + 1, listaSelecionada, termoBusca);
+                else
+                    painelBuscaPorNomeAdd(sc, pagina, listaSelecionada, termoBusca);
+
+            }
+            case "R" -> painelProdutos(sc);
+            default -> {
+                try {
+                    int escolha = Integer.parseInt(op);
+                    int index = inicio + escolha - 1;
+                    if (escolha >= 1 && index < total) {
+
+                        if (controleUsuario.getControleListaProduto().adicionarProdutoNaLista(todos.get(index).getId(),
+                                listaSelecionada)) {
+
+                            System.out.println("Produto associado a " + listaSelecionada.getNome() + "!");
+                            painelDetalhesListaProduto(sc, listaSelecionada, todos.get(index), op);
+                        } else {
+
+                            System.out.println("Produto já associado a " + listaSelecionada.getNome() + "!");
+                            pausar(sc);
+                        }
+
+                        painelMinhasListas(sc);
+                    } else {
+                        System.out.println("Produto inválido.");
+                        pausar(sc);
+                        painelMinhasListas(sc);
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("Opção inválida.");
+                    pausar(sc);
+                    painelListarProdutos(sc, pagina);
+                }
+            }
+        }
+    }
 }
