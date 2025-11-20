@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>CRUD Simples</title>
+<link rel="stylesheet" href="style.css">
+<script src="script.js" defer></script>
+</head>
+
+<body>
+<div class="container">
+    <h1>CRUD</h1>
+
+    <form id="formulario">
+        Nome
+        <input type="text" id="nome" placeholder="Digite um nome">
+        Data de nascimento
+        <input type="date" id="data" placeholder="Seu nascimento">
+        Telefone
+        <input type="number" id="telefone" placeholder="Seu telefone">
+        Email
+        <input type="email" id="email" placeholder="Seu email">
+
+        <button id="add" type="submit">Adicionar</button>
+    </form>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Email</th>
+                <th>Telefone</th>
+                <th>Nascimento</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
