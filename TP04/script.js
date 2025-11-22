@@ -1,18 +1,34 @@
 let editIndex = null;
 
+function mostrarSucesso(msg) {
+    Swal.fire("Sucesso!", msg, "success");
+}
+
+function mostrarErro(msg) {
+    Swal.fire("Erro!", msg, "error");
+}
+
 document.getElementById("add").addEventListener("click", function(e) {
     e.preventDefault();
-    
+
     const person = Array.from(
         document.querySelectorAll('#formulario input')
     ).reduce((acc, input) => ({ ...acc, [input.id]: input.value }), {});
+
+    // validação
+    if (!person.nome || !person.email || !person.telefone || !person.data) {
+        mostrarErro("Preencha todos os campos!");
+        return;
+    }
 
     let pessoas = JSON.parse(localStorage.getItem('pessoas')) || [];
 
     if (editIndex === null) {
         pessoas.push(person);
+        mostrarSucesso("Pessoa cadastrada com sucesso!");
     } else {
         pessoas[editIndex] = person;
+        mostrarSucesso("Dados atualizados com sucesso!");
         editIndex = null;
         document.getElementById("add").textContent = "Adicionar";
     }
@@ -46,11 +62,12 @@ function mostrarPessoas() {
         tbody.appendChild(tr);
     });
 
+    // editar
     document.querySelectorAll(".btn-edit").forEach(btn => {
         btn.addEventListener("click", function() {
-            let i = this.getAttribute("data-i");
-            let pessoas = JSON.parse(localStorage.getItem('pessoas')) || [];
-            let p = pessoas[i];
+            const i = this.getAttribute("data-i");
+            const pessoas = JSON.parse(localStorage.getItem('pessoas')) || [];
+            const p = pessoas[i];
 
             document.getElementById("nome").value = p.nome;
             document.getElementById("email").value = p.email;
@@ -62,15 +79,30 @@ function mostrarPessoas() {
         });
     });
 
+    // excluir
     document.querySelectorAll(".btn-delete").forEach(btn => {
         btn.addEventListener("click", function() {
             let i = this.getAttribute("data-i");
-            let pessoas = JSON.parse(localStorage.getItem('pessoas')) || [];
-            pessoas.splice(i, 1);
 
-            localStorage.setItem('pessoas', JSON.stringify(pessoas));
-            mostrarPessoas();
-            document.getElementById("formulario").reset();
+            Swal.fire({
+                title: "Tem certeza?",
+                text: "Essa ação não poderá ser desfeita.",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Sim, excluir!",
+                cancelButtonText: "Cancelar"
+            }).then(result => {
+                if (result.isConfirmed) {
+                    let pessoas = JSON.parse(localStorage.getItem('pessoas')) || [];
+                    pessoas.splice(i, 1);
+
+                    localStorage.setItem('pessoas', JSON.stringify(pessoas));
+
+                    mostrarSucesso("Registro excluído!");
+                    mostrarPessoas();
+                    document.getElementById("formulario").reset();
+                }
+            });
         });
     });
 }
