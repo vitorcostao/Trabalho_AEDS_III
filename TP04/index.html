@@ -10,34 +10,38 @@
 
 <body>
 <div class="container">
-    <h1>CRUD</h1>
+    <h1>CRUD de Produtos</h1>
 
     <form id="formulario">
         Nome
-        <input type="text" id="nome" placeholder="Digite um nome">
-        Data de nascimento
-        <input type="date" id="data" placeholder="Seu nascimento">
-        Telefone
-        <input type="number" id="telefone" placeholder="Seu telefone">
-        Email
-        <input type="email" id="email" placeholder="Seu email">
+        <input type="text" id="nome" placeholder="Digite o nome de um produto">
+        Descrição
+        <input type="text" id="desc" placeholder="Digite a descrição do produto">
+        GTIN
+        <input type="number" id="GTIN" placeholder="Digite o GTIN">
 
         <button id="add" type="submit">Adicionar</button>
     </form>
+
+    <input type="text" id="buscar" placeholder="Buscar produto por nome...">
 
     <table>
         <thead>
             <tr>
                 <th>Nome</th>
-                <th>Email</th>
-                <th>Telefone</th>
-                <th>Nascimento</th>
+                <th>Descrição</th>
+                <th>GTIN</th>
                 <th>Ações</th>
             </tr>
         </thead>
-        <tbody>
-        </tbody>
+        <tbody></tbody>
     </table>
+
+    <button onclick="window.location.href='listas.html'">
+        Ir para o CRUD de listas
+    </button>
 </div>
+
+    
 </body>
 </html>

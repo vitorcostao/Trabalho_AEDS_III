@@ -11,48 +11,53 @@ function mostrarErro(msg) {
 document.getElementById("add").addEventListener("click", function(e) {
     e.preventDefault();
 
-    const person = Array.from(
-        document.querySelectorAll('#formulario input')
-    ).reduce((acc, input) => ({ ...acc, [input.id]: input.value }), {});
+    const produto = {
+        nome: document.getElementById("nome").value.trim(),
+        descricao: document.getElementById("desc").value.trim(),
+        GTIN: document.getElementById("GTIN").value.trim()
+    };
 
-    // validação
-    if (!person.nome || !person.email || !person.telefone || !person.data) {
+    if (!produto.nome || !produto.descricao || !produto.GTIN) {
         mostrarErro("Preencha todos os campos!");
         return;
     }
 
-    let pessoas = JSON.parse(localStorage.getItem('pessoas')) || [];
+    let produtos = JSON.parse(localStorage.getItem('produtos')) || [];
 
     if (editIndex === null) {
-        pessoas.push(person);
-        mostrarSucesso("Pessoa cadastrada com sucesso!");
+        produtos.push(produto);
+        mostrarSucesso("Produto cadastrado com sucesso!");
     } else {
-        pessoas[editIndex] = person;
-        mostrarSucesso("Dados atualizados com sucesso!");
+        produtos[editIndex] = produto;
+        mostrarSucesso("Produto atualizado com sucesso!");
         editIndex = null;
         document.getElementById("add").textContent = "Adicionar";
     }
 
-    localStorage.setItem('pessoas', JSON.stringify(pessoas));
+    localStorage.setItem('produtos', JSON.stringify(produtos));
 
-    mostrarPessoas();
+    mostrarProdutos();
     document.getElementById("formulario").reset();
 });
 
-function mostrarPessoas() {
+function mostrarProdutos(filtro = "") {
     const tbody = document.querySelector("tbody");
     tbody.innerHTML = "";
 
-    let pessoas = JSON.parse(localStorage.getItem('pessoas')) || [];
+    let produtos = JSON.parse(localStorage.getItem('produtos')) || [];
 
-    pessoas.forEach((p, index) => {
+
+    produtos = produtos.filter(p => 
+        p.nome.toLowerCase().includes(filtro.toLowerCase())
+    );
+
+    produtos.forEach((p, index) => {
         const tr = document.createElement("tr");
 
         tr.innerHTML = `
             <td>${p.nome}</td>
-            <td>${p.email}</td>
-            <td>${p.telefone}</td>
-            <td>${p.data}</td>
+            <td>${p.descricao}</td>
+            <td>${p.GTIN}</td>
             <td class="actions">
                 <button class="btn-edit" data-i="${index}">Editar</button>
                 <button class="btn-delete" data-i="${index}">Excluir</button>
@@ -66,13 +71,12 @@ function mostrarPessoas() {
     document.querySelectorAll(".btn-edit").forEach(btn => {
         btn.addEventListener("click", function() {
             const i = this.getAttribute("data-i");
-            const pessoas = JSON.parse(localStorage.getItem('pessoas')) || [];
-            const p = pessoas[i];
+            const produtos = JSON.parse(localStorage.getItem('produtos')) || [];
+            const p = produtos[i];
 
             document.getElementById("nome").value = p.nome;
-            document.getElementById("email").value = p.email;
-            document.getElementById("telefone").value = p.telefone;
-            document.getElementById("data").value = p.data;
+            document.getElementById("desc").value = p.descricao;
+            document.getElementById("GTIN").value = p.GTIN;
 
             editIndex = i;
             document.getElementById("add").textContent = "Salvar";
@@ -93,13 +97,13 @@ function mostrarPessoas() {
                 cancelButtonText: "Cancelar"
             }).then(result => {
                 if (result.isConfirmed) {
-                    let pessoas = JSON.parse(localStorage.getItem('pessoas')) || [];
-                    pessoas.splice(i, 1);
+                    let produtos = JSON.parse(localStorage.getItem('produtos')) || [];
+                    produtos.splice(i, 1);
 
-                    localStorage.setItem('pessoas', JSON.stringify(pessoas));
+                    localStorage.setItem('produtos', JSON.stringify(produtos));
 
-                    mostrarSucesso("Registro excluído!");
-                    mostrarPessoas();
+                    mostrarSucesso("Produto excluído!");
+                    mostrarProdutos();
                     document.getElementById("formulario").reset();
                 }
             });
@@ -107,4 +111,8 @@ function mostrarPessoas() {
     });
 }
 
-mostrarPessoas();
+document.getElementById("buscar").addEventListener("input", function() {
+    mostrarProdutos(this.value);
+});
+
+mostrarProdutos();

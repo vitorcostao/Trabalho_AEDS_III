@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Listas de Produtos</title>
+<link rel="stylesheet" href="style.css">
+<script src="listas.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>Listas de Produtos</h1>
+
+    <form id="formLista">
+        Nome da Lista:
+        <input type="text" id="nomeLista" placeholder="Ex: Lista Mercado">
+
+        <button type="submit">Criar Lista</button>
+    </form>
+
+    <hr>
+
+    <h2>Listas Criadas</h2>
+
+    <div id="areaListas"></div>
+
+    <button onclick="window.location.href='index.html'">
+        Voltar para CRUD Produtos
+    </button>
+</div>
+
+</body>
+</html>
