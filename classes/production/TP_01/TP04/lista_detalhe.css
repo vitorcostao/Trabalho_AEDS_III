@@ -1,0 +1,69 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #f2f2f2;
+    padding: 20px;
+}
+
+h1, h2, h3 {
+    text-align: center;
+}
+
+/* CAIXA CENTRAL IGUAL AO SEU CSS ORIGINAL */
+.container {
+    max-width: 600px;
+    margin: auto;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+select, input, textarea, button {
+    padding: 10px;
+    margin: 5px 0;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+textarea {
+    resize: vertical;
+}
+
+button {
+    cursor: pointer;
+    background: #007bff;
+    border: none;
+    color: white;
+    font-weight: bold;
+    border-radius: 4px;
+}
+
+button:hover {
+    background: #0056b3;
+}
+
+/* BOTÃO VOLTAR */
+.btn-voltar {
+    background: #6c757d;
+}
+
+.btn-voltar:hover {
+    background: #565e64;
+}
+
+/* PRODUTO DA LISTA */
+.prod-box {
+    background: white;
+    border: 1px solid #ccc;
+    padding: 15px;
+    margin-top: 15px;
+    border-radius: 8px;
+}
+
+.btnRem {
+    background: #dc3545;
+}
+
+.btnRem:hover {
+    background: #b52a37;
+}

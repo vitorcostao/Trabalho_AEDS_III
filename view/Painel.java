@@ -781,7 +781,19 @@ public class Painel {
             throws Exception {
 
         limparTelaWindows();
-        ArrayList<Produto> todos = controleUsuario.getControleProdutos().listarProdutosOrdenados();
+        ArrayList<Produto> todos = new ArrayList<>();
+
+        for (Produto produto : controleUsuario.getControleProdutos().listarProdutosOrdenados()) {
+            if (produto.getStatus()) {
+                todos.add(produto);
+            }
+        }
+
+        if (todos.isEmpty()) {
+            System.out.println("Nenhum produto disponível para adicionar.");
+            pausar(sc);
+            return;
+        }
 
         int total = todos.size();
         int porPagina = 10;

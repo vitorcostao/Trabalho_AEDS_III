@@ -29,6 +29,12 @@ public class ControleListaProduto {
         if (listaAtual == null) {
             return false;
         }
+        Produto produto = arquivoProduto.read(idProduto);
+
+        if (produto == null || !produto.getStatus()) {
+            return false;
+        }
+
 
         ArrayList<ListaProduto> relacoes = arquivoListaProduto.readByLista(listaAtual.getId());
         for (ListaProduto lp : relacoes) {
