@@ -8,7 +8,6 @@ h1, h2, h3 {
     text-align: center;
 }
 
-/* CAIXA CENTRAL IGUAL AO SEU CSS ORIGINAL */
 .container {
     max-width: 600px;
     margin: auto;
@@ -18,7 +17,6 @@ h1, h2, h3 {
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
-/* INPUTS E BOTÕES */
 input, button {
     padding: 10px;
     margin: 5px 0;
@@ -39,7 +37,14 @@ button:hover {
     background: #0056b3;
 }
 
-/* BOX DAS LISTAS */
+.btn-voltar {
+    background: #6c757d;
+}
+
+.btn-voltar:hover {
+    background: #565e64;
+}
+
 .lista-box {
     background: white;
     border: 1px solid #ccc;
@@ -48,7 +53,6 @@ button:hover {
     border-radius: 8px;
 }
 
-/* BOTÕES */
 .btn-ver {
     background: #28a745;
 }

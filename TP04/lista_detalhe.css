@@ -8,7 +8,6 @@ h1, h2, h3 {
     text-align: center;
 }
 
-/* CAIXA CENTRAL IGUAL AO SEU CSS ORIGINAL */
 .container {
     max-width: 600px;
     margin: auto;
@@ -42,7 +41,6 @@ button:hover {
     background: #0056b3;
 }
 
-/* BOTÃO VOLTAR */
 .btn-voltar {
     background: #6c757d;
 }
@@ -51,7 +49,6 @@ button:hover {
     background: #565e64;
 }
 
-/* PRODUTO DA LISTA */
 .prod-box {
     background: white;
     border: 1px solid #ccc;

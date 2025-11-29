@@ -10,7 +10,7 @@
 
 <div class="container">
 
-    <button class="btn-voltar" onclick="window.location.href='listas.html'">⬅ Voltar</button>
+    <button class="btn-voltar" onclick="window.location.href='listas.html'">⬅ Voltar para CRUD de Listas</button>
 
     <h2 id="tituloLista"></h2>
 
@@ -20,7 +20,7 @@
         <option value="">Selecione...</option>
     </select>
 
-    <input id="quantidade" type="number" placeholder="Quantidade">
+    <input id="quantidade" type="number" placeholder="Quantidade" step="1" min="1">
 
     <textarea id="obs" placeholder="Observação"></textarea>
 
@@ -95,12 +95,14 @@ document.getElementById("btnAdd").addEventListener("click", () => {
     const prodIndex = document.getElementById("selProduto").value;
     const qtd = document.getElementById("quantidade").value;
     const obs = document.getElementById("obs").value;
+    const qtdNum = Number(qtd);
 
     if (!prodIndex) {
         Swal.fire("Erro!", "Selecione um produto!", "error");
         return;
     }
-    if (!qtd || qtd <= 0) {
+    
+    if (Number.isNaN(qtdNum) || qtdNum <= 0 || !Number.isInteger(qtdNum)) {
         Swal.fire("Erro!", "Quantidade inválida!", "error");
         return;
     }
