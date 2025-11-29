@@ -1,4 +1,4 @@
-# Relatório TP3 - AEDS III
+# Relatório TP4 - AEDS III
 
 **Participantes:**  
 - Felipe Gabriel de Carvalho  
@@ -8,46 +8,73 @@
 
 ---
 
-Video demonstrativo no youtube: [Demonstração TP3](https://youtu.be/7dOrGeXGW_4)
+Video demonstrativo no youtube: [Demonstração TP3]()
 
 ---
 
-### Busca TFxIDF
+### Front End
 
-Nessa Sprint foi implementado o sistema de busca por palavra oferecendo respostas ordenadas pelo valor TFxIDF, o codigo responsavel por fazer essa relação está presente na função buscarProdutoPorNome
+Nessa Sprint foi implementado o sistema de vizualização de cadastros
 
-![Arquivo Usuario](Extras//imagens/BuscarProdutoPorNome.png)  
+![front_End](Extras//imagens/frontEnd.png)  
 
-a função é chamada no painel de produtos e no de listas ao selecionar uma lista.
+O mesmo funciona apenas com HTML, CSS, e JS, o mesmo pode ser encontrado na pasta TP4 do repositorio, podendo ser emulado ao abrir o arquivo index.html como a extensão do VS Code chamada live Server
 
-![Arquivo Usuario](Extras//imagens/PainelBusca.png)  
----
+![frontEnd_Onde_Abrir](Extras//imagens/frontEnd_ondeAbrir.png)  
 
-## Perguntas e Respostas III
 
-**O índice invertido com os termos dos nomes dos produts foi criado usando a classe ListaInvertida?**  
-Resposta: sim foi utilizadada a classe, porem com um nome diferente (IndiceInvertido)
+## Correções
 
----
+*"Estão aparecendo os produtos inativados para o usuário incluir na sua lista. Não deveria ser possível."*
 
-**É possível buscar produtos por palavras no menu de manutenção de produtos?**  
-Resposta: sim é possivel, seguindo o caminho > Início > Produtos > Buscar por Nome
+Agora quando um produto está desativado ao tentar incluir o produto, ele não é exibido, observe o item Copo de vinho para vinho tinto, ele se contra ativo no momento
 
----
+![copo_Ativo](Extras//imagens/addCopoAtivo.png)  
 
-**É possível buscar produtos por palavras na hora de acrescentá-los às listas dos usuários?**  
-Resposta: sim é possivel, seguindo o caminho Início > Minhas listas > (nome da lista) > Produtos > Acrescentar Produtos e pressionando 1 para utilizar a busca.
+Agora o item Copo de vinho para vinho tinto foi desativado, ao tentar adiciona-lo a uma lista ele não é exibido como demonstrado abaixo:
+
+![Copo_Inativo](Extras//imagens/addCopoinativo.png) 
 
 ---
 
-**O trabalho compila corretamente?**  
-Resposta: sim, compila, como exemplificado no video.
+*"Quando cadastrei a banana na minha lista e fui buscar visualizar em que listas banana aparecia, recebi o seguinte erro:"*
+
+Não conseguimos replicar o erro, podemos ter corrigido em meio as iterações do projeto, mas agora funciona.
+
+![Listas_do_Produto](Extras//imagens/AparicoesItem.png) 
+
+---
+
+*"Na lista de outro usuário, mostrem o nome desse usuário."*
+
+Agora ao selecionar um produto na listagem, é exibido o nome do usuario que possui a lista, e não o nome da mesma.
+
+![lista_Alheia](Extras//imagens/listaAlheia.png) 
+---
+
+## Perguntas e Respostas IV
+
+**A página web com a visualização interativa do CRUD de produtos foi criada?**  
+Resposta: sim, a instrução de como vizualizar a mesma está descrita acima do questionario
+
+---
+
+**Há um vídeo de até 3 minutos demonstrando o uso da visualização?**  
+Resposta: sim, o link para vizualizar o mesmo está no link abaixo dos integrantes do grupo
+
+---
+
+**O trabalho foi criado apenas com HTML, CSS e JS?**  
+Resposta: sim, foram utilizados 5 arquivos, 2 HTML (index.html e listas.html), 2 JS (script.js e listas.js) e um CSS 
+---
+
+**O relatório do trabalho foi entregue no APC**  
+Resposta: Não ------------------------------------------------------------------------------------------------------------------------------------EDITAR.
 
 ---
 
 **O trabalho está completo e funcionando sem erros de execução?**  
-Resposta: nos nossos testes não foram encontrados erros, incluimos o teste de incluir um item na listar, buscar o mesmo e verificar em que lista ele aparece, nenhum erro foi de execução foi registrado, demonstração presente no video
-
+Resposta: nos nossos testes não foram encontrados erros referentes a iteração desse TP que consistiu em implementar o front end e corrigir os erros apontados anteriormente.
 ---
 
 **O trabalho é original e não a cópia de um trabalho de outro grupo?**  
