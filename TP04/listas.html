@@ -1,35 +1,112 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
 <meta charset="UTF-8">
-<title>Listas de Produtos</title>
-<link rel="stylesheet" href="style.css">
-<script src="listas.js" defer></script>
+<title>Listas</title>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
 <div class="container">
-    <h1>Listas de Produtos</h1>
+
+    <h2>Criar nova lista</h2>
 
     <form id="formLista">
-        Nome da Lista:
-        <input type="text" id="nomeLista" placeholder="Ex: Lista Mercado">
-
-        <button type="submit">Criar Lista</button>
+        <input type="text" id="nomeLista" placeholder="Nome da lista">
+        <button type="submit">Criar</button>
     </form>
 
-    <hr>
-
-    <h2>Listas Criadas</h2>
-
+    <h2>Listas cadastradas</h2>
     <div id="areaListas"></div>
 
-    <button onclick="window.location.href='index.html'">
-        Voltar para CRUD Produtos
-    </button>
 </div>
+
+<script>
+
+document.getElementById("formLista").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const nomeLista = document.getElementById("nomeLista").value.trim();
+    if (!nomeLista) {
+        Swal.fire("Erro!", "Digite o nome da lista!", "error");
+        return;
+    }
+
+    let listas = JSON.parse(localStorage.getItem("listas")) || [];
+
+    if (listas.some(l => l.nome.toLowerCase() === nomeLista.toLowerCase())) {
+        Swal.fire("Erro!", "Já existe uma lista com esse nome!", "error");
+        return;
+    }
+
+    listas.push({ nome: nomeLista, produtos: [] });
+    localStorage.setItem("listas", JSON.stringify(listas));
+
+    Swal.fire("Sucesso!", "Lista criada!", "success");
+
+    document.getElementById("formLista").reset();
+    mostrarListas();
+});
+
+function mostrarListas() {
+    let listas = JSON.parse(localStorage.getItem("listas")) || [];
+
+    const area = document.getElementById("areaListas");
+    area.innerHTML = "";
+
+    listas.forEach((lista, index) => {
+        const div = document.createElement("div");
+        div.classList.add("lista-box");
+
+        div.innerHTML = `
+            <h3>${lista.nome}</h3>
+            <button class="btn-ver" data-i="${index}">Ver Lista</button>
+            <button class="btn-delete" data-i="${index}">Excluir Lista</button>
+        `;
+
+        area.appendChild(div);
+    });
+
+    ativarBotoes();
+}
+
+function ativarBotoes() {
+
+    document.querySelectorAll(".btn-ver").forEach(btn => {
+        btn.addEventListener("click", function() {
+            const id = this.getAttribute("data-i");
+            localStorage.setItem("lista_atual", id);
+            window.location.href = "lista_detalhe.html";
+        });
+    });
+
+    document.querySelectorAll(".btn-delete").forEach(btn => {
+        btn.addEventListener("click", function() {
+            const i = this.getAttribute("data-i");
+
+            Swal.fire({
+                title: "Excluir lista?",
+                text: "Essa ação não poderá ser desfeita.",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Sim, excluir!",
+                cancelButtonText: "Cancelar"
+            }).then((res) => {
+                if (res.isConfirmed) {
+                    let listas = JSON.parse(localStorage.getItem("listas")) || [];
+                    listas.splice(i, 1);
+                    localStorage.setItem("listas", JSON.stringify(listas));
+                    mostrarListas();
+                    Swal.fire("Excluída!", "A lista foi removida.", "success");
+                }
+            });
+        });
+    });
+}
+
+mostrarListas();
+</script>
 
 </body>
 </html>

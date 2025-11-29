@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Lista Detalhada</title>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<link rel="stylesheet" href="lista_detalhe.css">
+</head>
+<body>
+
+<div class="container">
+
+    <button class="btn-voltar" onclick="window.location.href='listas.html'">⬅ Voltar</button>
+
+    <h2 id="tituloLista"></h2>
+
+    <h3>Adicionar Produto</h3>
+
+    <select id="selProduto">
+        <option value="">Selecione...</option>
+    </select>
+
+    <input id="quantidade" type="number" placeholder="Quantidade">
+
+    <textarea id="obs" placeholder="Observação"></textarea>
+
+    <button id="btnAdd">Adicionar</button>
+
+    <h3>Produtos da Lista</h3>
+    <div id="areaProdutos"></div>
+
+</div>
+
+<script>
+
+const listaIndex = localStorage.getItem("lista_atual");
+let listas = JSON.parse(localStorage.getItem("listas")) || [];
+let produtos = JSON.parse(localStorage.getItem("produtos")) || [];
+
+if (!listaIndex || !listas[listaIndex]) {
+    alert("Lista não encontrada.");
+    window.location.href = "listas.html";
+}
+
+document.getElementById("tituloLista").textContent = "Lista: " + listas[listaIndex].nome;
+
+produtos.forEach((p, i) => {
+    let opt = document.createElement("option");
+    opt.value = i;
+    opt.textContent = p.nome;
+    document.getElementById("selProduto").appendChild(opt);
+});
+
+function mostrarProdutos() {
+    let area = document.getElementById("areaProdutos");
+    area.innerHTML = "";
+
+    let lista = listas[listaIndex];
+
+    lista.produtos.forEach(item => {
+        let p = produtos[item.prodIndex];
+
+        const div = document.createElement("div");
+        div.classList.add("prod-box");
+
+        if (p) {
+            div.innerHTML = `
+                <strong>${p.nome}</strong><br>
+                Quantidade: ${item.qtd}<br>
+                Obs: ${item.obs || "—"}<br>
+                <small>${p.descricao}</small><br>
+                <small>GTIN: ${p.GTIN}</small><br><br>
+
+                <button class="btnEdit" data-id="${item.prodIndex}">Editar</button>
+                <button class="btnRem" data-id="${item.prodIndex}">Remover</button>
+            `;
+        } else {
+            div.innerHTML = `
+                <strong style="color:red">Produto excluído do cadastro</strong><br>
+                Quantidade: ${item.qtd}<br>
+                Obs: ${item.obs || "—"}<br><br>
+
+                <button class="btnEdit" data-id="${item.prodIndex}">Editar</button>
+                <button class="btnRem" data-id="${item.prodIndex}">Remover</button>
+            `;
+        }
+
+        area.appendChild(div);
+    });
+
+    ativarBotoes();
+}
+
+document.getElementById("btnAdd").addEventListener("click", () => {
+    const prodIndex = document.getElementById("selProduto").value;
+    const qtd = document.getElementById("quantidade").value;
+    const obs = document.getElementById("obs").value;
+
+    if (!prodIndex) {
+        Swal.fire("Erro!", "Selecione um produto!", "error");
+        return;
+    }
+    if (!qtd || qtd <= 0) {
+        Swal.fire("Erro!", "Quantidade inválida!", "error");
+        return;
+    }
+
+    let lista = listas[listaIndex];
+
+    if (lista.produtos.some(x => x.prodIndex == prodIndex)) {
+        Swal.fire("Erro!", "Esse produto já está na lista!", "error");
+        return;
+    }
+
+    lista.produtos.push({
+        prodIndex: Number(prodIndex),
+        qtd: Number(qtd),
+        obs: obs.trim()
+    });
+
+    localStorage.setItem("listas", JSON.stringify(listas));
+
+    document.getElementById("quantidade").value = "";
+    document.getElementById("obs").value = "";
+
+    mostrarProdutos();
+});
+
+function ativarBotoes() {
+
+    document.querySelectorAll(".btnRem").forEach(btn => {
+        btn.addEventListener("click", function() {
+            const id = this.getAttribute("data-id");
+
+            let lista = listas[listaIndex];
+            lista.produtos = lista.produtos.filter(p => p.prodIndex != id);
+
+            localStorage.setItem("listas", JSON.stringify(listas));
+            mostrarProdutos();
+        });
+    });
+
+    document.querySelectorAll(".btnEdit").forEach(btn => {
+        btn.addEventListener("click", function() {
+            const id = this.getAttribute("data-id");
+            let lista = listas[listaIndex];
+            let item = lista.produtos.find(p => p.prodIndex == id);
+
+            Swal.fire({
+                title: "Editar Produto",
+                html: `
+                    <input id="editQtd" class="swal2-input" type="number" value="${item.qtd}">
+                    <textarea id="editObs" class="swal2-textarea" placeholder="Observação">${item.obs || ""}</textarea>
+                `,
+                confirmButtonText: "Salvar",
+                showCancelButton: true
+            }).then(res => {
+                if (res.isConfirmed) {
+                    item.qtd = Number(document.getElementById("editQtd").value);
+                    item.obs = document.getElementById("editObs").value.trim();
+
+                    localStorage.setItem("listas", JSON.stringify(listas));
+                    mostrarProdutos();
+                }
+            });
+        });
+    });
+
+}
+
+mostrarProdutos();
+</script>
+
+</body>
+</html>
