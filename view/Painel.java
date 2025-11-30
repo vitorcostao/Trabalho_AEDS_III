@@ -578,9 +578,19 @@ public class Painel {
             }
         }
 
-        int countOutras = controleUsuario.getControleListaProduto()
-                .contarListasDeOutrosUsuariosQueContemProduto(p.getId());
-        System.out.println("\nAparece também em mais " + countOutras + " listas de outras pessoas.\n");
+        ArrayList<Usuario> outras = controleUsuario.getControleListaProduto().PesquisarListasAlheias(p.getId());
+
+        System.out.println("\nAparece em listas de outras pessoas:");
+
+        if (outras.isEmpty()) {
+            System.out.println(" (nenhuma)");
+        } else {
+            for (Usuario usuario : outras) {
+                System.out.println("- " + usuario.getNome());
+            }
+        }
+
+        System.out.println();
 
         System.out.println("(1) Alterar os dados do produto");
         if (p.getStatus() == false) {

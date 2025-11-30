@@ -8,12 +8,14 @@ import model.Usuario;
 import service.ListaProduto.ArquivoListaProduto;
 import service.Listas.ArquivoLista;
 import service.Produtos.ArquivoProduto;
+import service.Usuarios.ArquivoUsuario;
 
 public class ControleListaProduto {
 
     private static ArquivoLista arquivoLista;
     private static ArquivoProduto arquivoProduto;
     private static ArquivoListaProduto arquivoListaProduto;
+    private static ArquivoUsuario arquivoUsuario;
     private static Usuario usuarioLogado;
 
     public ControleListaProduto(Usuario usuarioLogado) throws Exception {
@@ -21,6 +23,7 @@ public class ControleListaProduto {
         arquivoLista = new ArquivoLista();
         arquivoProduto = new ArquivoProduto();
         arquivoListaProduto = new ArquivoListaProduto();
+        arquivoUsuario = new ArquivoUsuario();
         this.usuarioLogado = usuarioLogado;
     }
 
@@ -137,5 +140,36 @@ public class ControleListaProduto {
 
         return result;
     }
+
+    public ArrayList<Usuario> PesquisarListasAlheias(int idProduto) throws Exception {
+
+        ArrayList<ListaProduto> idLista = arquivoListaProduto.readByProduto(idProduto);
+        ArrayList<Usuario> result = new ArrayList<>();
+        Produto p = arquivoProduto.read(idProduto);
+
+        if (p.getStatus()) {
+
+            for (ListaProduto lp : idLista) {
+
+                Lista lista = arquivoLista.read(lp.getIdLista());
+                if (lista != null && lista.getIdUsuario() != usuarioLogado.getId()) {
+                    Usuario dono = arquivoUsuario.read(lista.getIdUsuario());
+                    boolean jaIncluido = false;
+                    for (Usuario usuario : result) {
+                        if (usuario.getId() == dono.getId()) {
+                            jaIncluido = true;
+                            break;
+                        }
+                    }
+                    if (!jaIncluido) {
+                        result.add(dono);
+                    }
+                }
+            }
+        }
+
+        return result;
+    }
+
 
 }
