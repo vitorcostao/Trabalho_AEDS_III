@@ -8,7 +8,7 @@
 
 ---
 
-Video demonstrativo no youtube: [Demonstração TP3]()
+Video demonstrativo no youtube: [Demonstração TP4]()
 
 ---
 
@@ -16,14 +16,19 @@ Video demonstrativo no youtube: [Demonstração TP3]()
 
 Nessa Sprint foi implementado o sistema de vizualização de cadastros
 
-![front_End](Extras//imagens/frontEnd.png)  
+![front_End](Extras//imagens/FrontEnd.png)  
 
 O mesmo funciona apenas com HTML, CSS, e JS, o mesmo pode ser encontrado na pasta TP4 do repositorio, podendo ser emulado ao abrir o arquivo index.html como a extensão do VS Code chamada live Server
 
-![frontEnd_Onde_Abrir](Extras//imagens/frontEnd_ondeAbrir.png)  
+![frontEnd_Onde_Abrir](Extras//imagens/FrontEndOndeAbrir.png)  
 
+---
 
-## Correções
+### Correções
+
+Foram implementadas as correções apontadas nos Trabalhos Praticos anteriores, segue abaixo os problemas relatados e as devidas correções.
+
+---
 
 *"Estão aparecendo os produtos inativados para o usuário incluir na sua lista. Não deveria ser possível."*
 
@@ -33,7 +38,7 @@ Agora quando um produto está desativado ao tentar incluir o produto, ele não �
 
 Agora o item Copo de vinho para vinho tinto foi desativado, ao tentar adiciona-lo a uma lista ele não é exibido como demonstrado abaixo:
 
-![Copo_Inativo](Extras//imagens/addCopoinativo.png) 
+![Copo_Inativo](Extras//imagens/addCopoInativo.png) 
 
 ---
 
@@ -55,31 +60,34 @@ Agora ao selecionar um produto na listagem, é exibido o nome do usuario que pos
 ## Perguntas e Respostas IV
 
 **A página web com a visualização interativa do CRUD de produtos foi criada?**  
-Resposta: sim, a instrução de como vizualizar a mesma está descrita acima do questionario
+Resposta: sim, a instrução de como vizualizar a mesma está descrita acima do questionario.
 
 ---
 
 **Há um vídeo de até 3 minutos demonstrando o uso da visualização?**  
-Resposta: sim, o link para vizualizar o mesmo está no link abaixo dos integrantes do grupo
+Resposta: sim, o link para vizualizar o mesmo está no link abaixo dos integrantes do grupo.
 
 ---
 
 **O trabalho foi criado apenas com HTML, CSS e JS?**  
-Resposta: sim, foram utilizados 5 arquivos, 2 HTML (index.html e listas.html), 2 JS (script.js e listas.js) e um CSS 
+Resposta: sim, foram utilizados 3 arquivos de HTML e CSS respectivamente para as 3 paginas, e 2 arquivos de JS.
+
 ---
 
 **O relatório do trabalho foi entregue no APC**  
-Resposta: Não ------------------------------------------------------------------------------------------------------------------------------------EDITAR.
+Resposta: Não.
 
 ---
 
 **O trabalho está completo e funcionando sem erros de execução?**  
 Resposta: nos nossos testes não foram encontrados erros referentes a iteração desse TP que consistiu em implementar o front end e corrigir os erros apontados anteriormente.
+
 ---
 
 **O trabalho é original e não a cópia de um trabalho de outro grupo?**  
 Resposta: O trabalho é e se mantem original.  
 
+---
 
 
 # Relatório TP2 - AEDS III
@@ -136,7 +144,7 @@ Resposta: Não, o trabalho esta completo porem ao excluir todos os itens de uma 
 **O trabalho é original e não a cópia de um trabalho de outro grupo?**  
 Resposta: O trabalho é original, foi utilizado como fonte apenas as classes passadas para CRUD e árvore as quais o professor disponibilizou.  
 
-
+---
 
 # Relatório TP1 - AEDS III
 
