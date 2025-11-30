@@ -77,7 +77,13 @@ Resposta: sim, foram utilizados 3 arquivos de HTML e CSS respectivamente para as
 ---
 
 **O relatório do trabalho foi entregue no APC**  
-Resposta: Sim foi entregue o relatório.
+Resposta: Foi realizada a tentativa de entrega no dia 30/11/2025 as 15:30, porem recebemos um erro ao prosseguir.
+
+segue imagems referente ao erro:
+
+![TentativaAPC](Extras//imagens/TentativaAPC.png) 
+
+![TentativaAPC](Extras//imagens/ErroAPC.png) 
 
 ---
 
