@@ -75,7 +75,7 @@ Resposta: sim, foram utilizados 3 arquivos de HTML e CSS respectivamente para as
 ---
 
 **O relatório do trabalho foi entregue no APC**  
-Resposta: Não.
+Resposta: Sim foi entregue o relatório.
 
 ---
 
